@@ -13,7 +13,7 @@
 ## 1. Clone
 
 ```bash
-git clone <repo-url>
+git clone <https://github.com/propirate99/HM26-85FB.git>
 cd <repo>
 ```
 

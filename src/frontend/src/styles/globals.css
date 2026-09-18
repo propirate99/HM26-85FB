@@ -1,0 +1,8 @@
+@import "./theme.css";
+@import "leaflet/dist/leaflet.css";
+
+.empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--muted);
+}

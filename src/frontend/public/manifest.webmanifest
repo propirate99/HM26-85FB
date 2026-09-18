@@ -1,0 +1,9 @@
+{
+  "name": "Mysuru CivicVerify",
+  "short_name": "CivicVerify",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F1E3",
+  "theme_color": "#7A1F2B",
+  "description": "Evidence-first civic complaints for Mysuru"
+}

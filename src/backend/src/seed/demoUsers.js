@@ -1,0 +1,56 @@
+export const demoAccounts = [
+  {
+    email: "ravi.citizen@mysuru.demo",
+    name: "Ravi Kumar",
+    role: "CITIZEN",
+    phone: "+91 98450 12345",
+    address: "14th Main, Saraswathipuram, Mysuru",
+  },
+  {
+    email: "ananya.officer@mysuru.gov.in",
+    name: "Ananya Rao",
+    role: "ZONE_OFFICER",
+    zoneCode: "NORTH",
+    phone: "+91 821 2418001",
+    address: "MCC North Zonal Office, Bannimantap",
+  },
+  {
+    email: "karthik.officer@mysuru.gov.in",
+    name: "Karthik Swamy",
+    role: "ZONE_OFFICER",
+    zoneCode: "SOUTH",
+    phone: "+91 821 2418002",
+    address: "MCC South Zonal Office, Vidyaranyapuram",
+  },
+  {
+    email: "commissioner@mysuru.gov.in",
+    name: "MCC Commissioner",
+    role: "MAIN_AUTHORITY",
+    phone: "+91 821 2418000",
+    address: "Mysuru City Corporation Main HQ, Sayyaji Rao Road",
+  },
+  // Backward compatibility alias for existing tests/references
+  {
+    email: "citizen@demo.civicverify",
+    name: "Ravi Kumar (Alt)",
+    role: "CITIZEN",
+    address: "Saraswathipuram, Mysuru",
+  },
+  {
+    email: "north.officer@demo.civicverify",
+    name: "Ananya Rao (Alt)",
+    role: "ZONE_OFFICER",
+    zoneCode: "NORTH",
+  },
+  {
+    email: "south.officer@demo.civicverify",
+    name: "Karthik Swamy (Alt)",
+    role: "ZONE_OFFICER",
+    zoneCode: "SOUTH",
+  },
+  {
+    email: "authority@demo.civicverify",
+    name: "MCC Commissioner (Alt)",
+    role: "MAIN_AUTHORITY",
+  },
+];

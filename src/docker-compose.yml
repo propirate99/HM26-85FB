@@ -1,0 +1,9 @@
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - civicverify_mongo:/data/db
+volumes:
+  civicverify_mongo:
