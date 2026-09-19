@@ -16,3 +16,5 @@ adminRoutes.patch("/zones/:zoneId", c.patchZone);
 adminRoutes.patch("/config/slas", c.patchSlas);
 adminRoutes.get("/audit", c.audit);
 adminRoutes.post("/reviews/:reportId/decision", c.reviewDecision);
+adminRoutes.get("/ai/status", c.getAiStatus);
+adminRoutes.post("/ai/config", c.updateAiConfiguration);

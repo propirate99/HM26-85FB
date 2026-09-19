@@ -54,6 +54,8 @@ export async function createIssueFromReport(report, { actor }) {
     report.description?.slice(0, 80) ||
     `${cat.name} report`;
 
+  const priority = report.aiTriage?.severity === "CRITICAL" ? "CRITICAL" : cat.defaultPriority;
+
   const issue = await CivicIssue.create({
     publicId: await nextId(CivicIssue, "publicId", "CV"),
     categoryId: cat._id,
@@ -63,17 +65,18 @@ export async function createIssueFromReport(report, { actor }) {
     location: { type: "Point", coordinates: coords },
     approximateLocationLabel: mapsProvider.approximateLabel(coords[0], coords[1]),
     zoneId: report.gpsDerivedZoneId || report.citizenSelectedZoneId,
-    priority: cat.defaultPriority,
+    priority,
     status: "VERIFYING",
     verificationStatus: report.verification?.overallStatus || "PENDING",
     verificationScore: report.verification?.score || 0,
+    aiTriage: report.aiTriage || undefined,
   });
 
   await applySla(issue);
   const officer = issue.zoneId ? await assignOfficer(issue.zoneId) : null;
   if (officer) issue.assignedOfficerId = officer._id;
 
-  if (report.verification?.requiresManualReview) {
+  if (report.verification?.requiresManualReview || report.aiTriage?.isFake) {
     issue.status = "NEEDS_REVIEW";
   } else if ((report.verification?.score || 0) >= 60) {
     issue.status = officer ? "ASSIGNED" : "VERIFIED";
@@ -203,6 +206,7 @@ export function sanitizeIssue(issue, { publicView = false } = {}) {
     createdAt: issue.createdAt,
     updatedAt: issue.updatedAt,
     resolvedAt: issue.resolvedAt,
+    aiTriage: issue.aiTriage || null,
   };
   if (publicView) return base;
   return {

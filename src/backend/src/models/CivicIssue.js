@@ -1,5 +1,29 @@
 import mongoose from "mongoose";
 
+const aiTriageSchema = new mongoose.Schema(
+  {
+    analyzed: { type: Boolean, default: false },
+    provider: { type: String, default: "mock" },
+    model: { type: String, default: "" },
+    isFake: { type: Boolean, default: false },
+    fakeReason: { type: String, default: "" },
+    suggestedCategory: { type: String, default: "" },
+    categoryAgrees: { type: Boolean, default: true },
+    confidence: { type: Number, default: 0 },
+    extractedTags: { type: [String], default: [] },
+    severity: { type: String, default: "MEDIUM" },
+    duplicateScore: { type: Number, default: 0 },
+    duplicateDecision: { type: String, default: "CREATE" },
+    duplicateCandidateId: { type: mongoose.Schema.Types.ObjectId, ref: "CivicIssue", default: null },
+    duplicateCandidatePublicId: { type: String, default: "" },
+    summary: { type: String, default: "" },
+    reasoning: { type: String, default: "" },
+    analyzedAt: { type: Date, default: null },
+    durationMs: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
 const issueSchema = new mongoose.Schema(
   {
     publicId: { type: String, required: true, unique: true },
@@ -46,6 +70,7 @@ const issueSchema = new mongoose.Schema(
     escalationReason: { type: String, default: "" },
     resolvedAt: { type: Date, default: null },
     supporters: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    aiTriage: { type: aiTriageSchema, default: undefined },
   },
   { timestamps: true }
 );

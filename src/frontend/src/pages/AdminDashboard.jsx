@@ -13,6 +13,10 @@ export function AdminDashboard() {
   const [officers, setOfficers] = useState([]);
   const [audit, setAudit] = useState([]);
   const [toastMessage, setToastMessage] = useState("");
+  const [aiInfo, setAiInfo] = useState(null);
+  const [customKey, setCustomKey] = useState("");
+  const [updatingAi, setUpdatingAi] = useState(false);
+  const [showKeyInput, setShowKeyInput] = useState(false);
 
   const staticData = useMemo(() => swmApi.getStaticData(), []);
   const stats = useMemo(() => grievanceStore.getStats(), []);
@@ -24,6 +28,7 @@ export function AdminDashboard() {
     adminApi.escalated().then((d) => setEscalated(d.issues || [])).catch(() => {});
     adminApi.officers().then((d) => setOfficers(d.officers || [])).catch(() => {});
     adminApi.audit().then((d) => setAudit(d.events || [])).catch(() => {});
+    adminApi.aiStatus().then(setAiInfo).catch(() => {});
   }, []);
 
   const showToast = (msg) => {
@@ -39,6 +44,28 @@ export function AdminDashboard() {
       showToast(`Report ${reportId} marked ${decision}!`);
     } catch (err) {
       showToast(err.message);
+    }
+  }
+
+  async function handleSaveAiKey(e) {
+    e.preventDefault();
+    if (!customKey.trim()) return;
+    setUpdatingAi(true);
+    try {
+      await adminApi.updateAiConfig({
+        apiKey: customKey.trim(),
+        provider: "gemini",
+        model: "gemini-2.5-flash",
+      });
+      const updated = await adminApi.aiStatus();
+      setAiInfo(updated);
+      setShowKeyInput(false);
+      setCustomKey("");
+      showToast("Gemini API Key activated! Live multimodal vision & triage active.");
+    } catch (err) {
+      showToast(err.message);
+    } finally {
+      setUpdatingAi(false);
     }
   }
 
@@ -104,6 +131,114 @@ export function AdminDashboard() {
           </Link>
         </div>
       </div>
+
+      {/* AI Complaint Management & System Configuration Console */}
+      <section
+        className="card"
+        style={{
+          background: "linear-gradient(180deg, rgba(26, 38, 34, 0.9) 0%, rgba(15, 23, 21, 0.95) 100%)",
+          border: "1px solid rgba(55, 211, 155, 0.3)",
+          borderRadius: 16,
+          padding: 24,
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 14 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 24 }}>🤖</span>
+              <h3 style={{ margin: 0, fontSize: 18 }}>AI Complaint Management &amp; Triage Engine</h3>
+              <span
+                className="pill"
+                style={{
+                  background: aiInfo?.hasKey ? "rgba(55, 211, 155, 0.2)" : "rgba(251, 191, 36, 0.15)",
+                  color: aiInfo?.hasKey ? "#37d39b" : "#fbbf24",
+                  fontWeight: 700,
+                }}
+              >
+                {aiInfo?.hasKey ? "● Google Gemini Live" : "● Heuristic Zero-Downtime Mode"}
+              </span>
+            </div>
+            <p className="muted" style={{ margin: "8px 0 0", maxWidth: 640 }}>
+              Autonomous complaint triage pipeline with multimodal evidence inspection, synthetic/fake
+              entry detection, duplicate screening, and civic category auto-classification.
+            </p>
+          </div>
+
+          <button
+            className="btn btn-ghost"
+            type="button"
+            onClick={() => setShowKeyInput(!showKeyInput)}
+          >
+            ⚙️ {showKeyInput ? "Close Config" : "Configure Gemini API Key"}
+          </button>
+        </div>
+
+        {showKeyInput && (
+          <form
+            onSubmit={handleSaveAiKey}
+            style={{
+              marginTop: 18,
+              padding: 16,
+              background: "var(--bg-2)",
+              borderRadius: 12,
+              border: "1px solid var(--line-soft)",
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+            }}
+          >
+            <label style={{ margin: 0, fontSize: 13 }}>Google Gemini API Key</label>
+            <div style={{ display: "flex", gap: 10 }}>
+              <input
+                type="password"
+                placeholder="AIzaSy... (Enter Gemini API Key)"
+                value={customKey}
+                onChange={(e) => setCustomKey(e.target.value)}
+                style={{ flex: 1 }}
+              />
+              <button className="btn btn-primary" type="submit" disabled={updatingAi || !customKey.trim()}>
+                {updatingAi ? "Activating…" : "Activate API Key"}
+              </button>
+            </div>
+            <p style={{ fontSize: 11.5, color: "var(--fg-3)", margin: 0 }}>
+              Key is securely stored in backend environment. You can also configure <code>GEMINI_API_KEY</code> in <code>.env</code>.
+            </p>
+          </form>
+        )}
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: 12,
+            marginTop: 18,
+            paddingTop: 16,
+            borderTop: "1px solid var(--line-soft)",
+          }}
+        >
+          <div>
+            <span style={{ fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)" }}>Active Model</span>
+            <div style={{ fontWeight: 700, marginTop: 4, color: "#37d39b" }}>
+              {aiInfo?.model || "gemini-2.5-flash"}
+            </div>
+          </div>
+          <div>
+            <span style={{ fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)" }}>Auth Status</span>
+            <div style={{ fontWeight: 600, marginTop: 4 }}>
+              {aiInfo?.keyMasked || "Heuristic fallback"}
+            </div>
+          </div>
+          <div>
+            <span style={{ fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)" }}>Duplicate Algorithm</span>
+            <div style={{ fontWeight: 600, marginTop: 4 }}>Spatial + Jaccard + Perceptual Hash</div>
+          </div>
+          <div>
+            <span style={{ fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)" }}>Integrity Pipeline</span>
+            <div style={{ fontWeight: 600, marginTop: 4, color: "#37d39b" }}>7-Signal Score + Fake Detection</div>
+          </div>
+        </div>
+      </section>
+
 
       {/* Evidence Verification Reviews */}
       <section className="card">

@@ -515,6 +515,168 @@
       "_id": "6aadb05b00000bd1",
       "createdAt": "2026-09-18T21:42:51.320Z",
       "updatedAt": "2026-09-18T21:42:51.320Z"
+    },
+    {
+      "publicId": "CV-1028",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Severe blocked drainage overflow flooding street",
+      "normalizedTitle": "severe blocked drainage overflow flooding street",
+      "description": "Severe blocked drainage overflow flooding street",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "approximateLocationLabel": "Near 12.295°N, 76.640°E (approximate)",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "PENDING",
+      "verificationScore": 0,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aae6b270000be14",
+      "createdAt": "2026-09-19T10:59:51.662Z",
+      "updatedAt": "2026-09-19T10:59:51.663Z",
+      "deadline": "2026-09-20T10:59:51.663Z",
+      "escalationAt": "2026-09-20T10:59:51.663Z"
+    },
+    {
+      "publicId": "CV-1029",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Severe blocked drainage overflow flooding street",
+      "normalizedTitle": "severe blocked drainage overflow flooding street",
+      "description": "Severe blocked drainage overflow flooding street",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "approximateLocationLabel": "Near 12.295°N, 76.640°E (approximate)",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "PENDING",
+      "verificationScore": 0,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aae7284000007ae",
+      "createdAt": "2026-09-19T11:31:16.197Z",
+      "updatedAt": "2026-09-19T11:31:16.202Z",
+      "deadline": "2026-09-20T11:31:16.202Z",
+      "escalationAt": "2026-09-20T11:31:16.202Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "normalizedTitle": "massive open garbage dump and overflowing bin on vidyaranyapuram main road causing foul smell",
+      "description": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "approximateLocationLabel": "Near 12.290°N, 76.645°E (approximate)",
+      "zoneId": "6aadb05b00000196",
+      "priority": "HIGH",
+      "status": "ASSIGNED",
+      "verificationStatus": "VERIFIED_WITH_LOW_RISK",
+      "verificationScore": 100,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": false,
+        "fakeReason": "",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.89,
+        "extractedTags": [
+          "solid_waste",
+          "overflowing_bin",
+          "black_spot_dump"
+        ],
+        "severity": "HIGH",
+        "duplicateScore": 0,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": null,
+        "duplicateCandidatePublicId": "",
+        "summary": "Garbage issue identified with 89% confidence.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T11:38:28.129Z",
+        "durationMs": 0
+      },
+      "_id": "6aae743400007f7a",
+      "createdAt": "2026-09-19T11:38:28.130Z",
+      "updatedAt": "2026-09-19T11:38:28.130Z",
+      "deadline": "2026-09-20T11:38:28.130Z",
+      "escalationAt": "2026-09-20T11:38:28.130Z",
+      "assignedOfficerId": "6aadb05b000011d6"
+    },
+    {
+      "publicId": "CV-1031",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "qwerty asdfghjkl 123456",
+      "normalizedTitle": "qwerty asdfghjkl 123456",
+      "description": "qwerty asdfghjkl 123456",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "approximateLocationLabel": "Near 12.290°N, 76.645°E (approximate)",
+      "zoneId": "6aadb05b00000196",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 45,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 60,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aae743400007f7a",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T11:38:46.904Z",
+        "durationMs": 0
+      },
+      "_id": "6aae7446000005e2",
+      "createdAt": "2026-09-19T11:38:46.906Z",
+      "updatedAt": "2026-09-19T11:38:46.906Z",
+      "deadline": "2026-09-20T11:38:46.906Z",
+      "escalationAt": "2026-09-20T11:38:46.906Z",
+      "assignedOfficerId": "6aadb05b000011d6"
     }
   ],
   "Report": [
@@ -697,6 +859,356 @@
       "_id": "6aadb05b00001b89",
       "createdAt": "2026-09-18T21:42:51.320Z",
       "updatedAt": "2026-09-18T21:42:51.320Z"
+    },
+    {
+      "reportId": "R-TEST-1789815552738",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00007fc7",
+      "description": "Severe blocked drainage overflow flooding street",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "zoneMatchStatus": "MATCH",
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aae6b000000af22",
+      "createdAt": "2026-09-19T10:59:12.739Z",
+      "updatedAt": "2026-09-19T10:59:12.739Z"
+    },
+    {
+      "reportId": "R-TEST-1789815591654",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "description": "Severe blocked drainage overflow flooding street",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "zoneMatchStatus": "MATCH",
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aae6b2700004828",
+      "createdAt": "2026-09-19T10:59:51.654Z",
+      "updatedAt": "2026-09-19T10:59:51.664Z",
+      "issueId": "6aae6b270000be14",
+      "duplicateDecision": "NEW_ISSUE",
+      "reportStatus": "ATTACHED"
+    },
+    {
+      "reportId": "R-TEST-1789817476189",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "description": "Severe blocked drainage overflow flooding street",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "zoneMatchStatus": "MATCH",
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aae728400008a19",
+      "createdAt": "2026-09-19T11:31:16.189Z",
+      "updatedAt": "2026-09-19T11:31:16.202Z",
+      "issueId": "6aae7284000007ae",
+      "duplicateDecision": "NEW_ISSUE",
+      "reportStatus": "ATTACHED"
+    },
+    {
+      "reportId": "R-NaN",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00007fc7",
+      "citizenSelectedZoneId": null,
+      "description": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 12
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T11:37:44.093Z",
+      "reportStatus": "OPEN",
+      "duplicateDecision": "PENDING",
+      "_id": "6aae7408000018ea",
+      "createdAt": "2026-09-19T11:37:44.093Z",
+      "updatedAt": "2026-09-19T11:37:44.093Z"
+    },
+    {
+      "reportId": "R-1001",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": null,
+      "description": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 12
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T11:38:28.125Z",
+      "reportStatus": "ATTACHED",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aae743400006cfb",
+      "createdAt": "2026-09-19T11:38:28.125Z",
+      "updatedAt": "2026-09-19T11:38:28.131Z",
+      "verification": {
+        "imageRelevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.85
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.75
+        },
+        "captureProvenance": "APP_CAPTURE",
+        "locationConsistency": "MATCH",
+        "timestampPresent": true,
+        "duplicateEvidence": "NO_STRONG_MATCH",
+        "zoneConsistency": "MATCH",
+        "overallStatus": "VERIFIED_WITH_LOW_RISK",
+        "score": 100,
+        "requiresManualReview": false,
+        "flags": [],
+        "aiTriage": {
+          "analyzed": true,
+          "provider": "mock",
+          "model": "heuristic-triage-v1",
+          "isFake": false,
+          "fakeReason": "",
+          "suggestedCategory": "GARBAGE",
+          "categoryAgrees": true,
+          "confidence": 0.89,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump"
+          ],
+          "severity": "HIGH",
+          "duplicateScore": 0,
+          "duplicateDecision": "CREATE",
+          "duplicateCandidateId": null,
+          "duplicateCandidatePublicId": "",
+          "summary": "Garbage issue identified with 89% confidence.",
+          "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+          "analyzedAt": "2026-09-19T11:38:28.129Z",
+          "durationMs": 0
+        },
+        "provider": "mock",
+        "analyzedAt": "2026-09-19T11:38:28.129Z"
+      },
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": false,
+        "fakeReason": "",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.89,
+        "extractedTags": [
+          "solid_waste",
+          "overflowing_bin",
+          "black_spot_dump"
+        ],
+        "severity": "HIGH",
+        "duplicateScore": 0,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": null,
+        "duplicateCandidatePublicId": "",
+        "summary": "Garbage issue identified with 89% confidence.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T11:38:28.129Z",
+        "durationMs": 0
+      },
+      "issueId": "6aae743400007f7a"
+    },
+    {
+      "reportId": "R-1002",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": null,
+      "description": "qwerty asdfghjkl 123456",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 10
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T11:38:46.898Z",
+      "reportStatus": "PENDING_REVIEW",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aae744600006dfb",
+      "createdAt": "2026-09-19T11:38:46.898Z",
+      "updatedAt": "2026-09-19T11:38:46.907Z",
+      "verification": {
+        "imageRelevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.85
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.75
+        },
+        "captureProvenance": "APP_CAPTURE",
+        "locationConsistency": "MATCH",
+        "timestampPresent": true,
+        "duplicateEvidence": "NO_STRONG_MATCH",
+        "zoneConsistency": "MATCH",
+        "overallStatus": "NEEDS_REVIEW",
+        "score": 45,
+        "requiresManualReview": true,
+        "flags": [
+          "LOW_LOCATION_ACCURACY",
+          "LOW_IMAGE_RELEVANCE",
+          "AI_FLAGGED_FAKE",
+          "FAKE_REASON_GIBBERISH_OR_SPAM"
+        ],
+        "aiTriage": {
+          "analyzed": true,
+          "provider": "mock",
+          "model": "heuristic-triage-v1",
+          "isFake": true,
+          "fakeReason": "GIBBERISH_OR_SPAM",
+          "suggestedCategory": "GARBAGE",
+          "categoryAgrees": true,
+          "confidence": 0.95,
+          "extractedTags": [],
+          "severity": "MEDIUM",
+          "duplicateScore": 60,
+          "duplicateDecision": "POSSIBLE",
+          "duplicateCandidateId": "6aae743400007f7a",
+          "duplicateCandidatePublicId": "CV-1030",
+          "summary": "AI flagged complaint as non-civic or spam entry.",
+          "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+          "analyzedAt": "2026-09-19T11:38:46.904Z",
+          "durationMs": 0
+        },
+        "provider": "mock",
+        "analyzedAt": "2026-09-19T11:38:46.905Z"
+      },
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 60,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aae743400007f7a",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T11:38:46.904Z",
+        "durationMs": 0
+      },
+      "issueId": "6aae7446000005e2"
     }
   ],
   "Evidence": [
@@ -860,6 +1372,75 @@
       "_id": "6aadb05b00005d92",
       "createdAt": "2026-09-18T21:42:51.320Z",
       "updatedAt": "2026-09-18T21:42:51.320Z"
+    },
+    {
+      "evidenceId": "E-1001",
+      "reportId": "6aae743400006cfb",
+      "type": "BEFORE",
+      "storageKey": "E-1001.jpg",
+      "publicUrl": "/uploads/E-1001.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 37,
+      "sha256": "ff22b84ed98dcfe6eb1221a614d3125bfa3ddcc589d1112b10bd2831ee42d66d",
+      "perceptualHash": "ff22b84ed98dcfe6eb1221a614d3125bfa3ddcc589d1112b10bd2831ee42d66d",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T11:38:28.126Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "locationAccuracyMeters": 12,
+      "_id": "6aae74340000d867",
+      "createdAt": "2026-09-19T11:38:28.128Z",
+      "updatedAt": "2026-09-19T11:38:28.129Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.85
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.75
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1002",
+      "reportId": "6aae744600006dfb",
+      "type": "BEFORE",
+      "storageKey": "E-1002.jpg",
+      "publicUrl": "/uploads/E-1002.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 16,
+      "sha256": "66d0b159cc805363274ae25b68fe1bd65a038e39c82171b77b26167c3fe5b283",
+      "perceptualHash": "66d0b159cc805363274ae25b68fe1bd65a038e39c82171b77b26167c3fe5b283",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T11:38:46.900Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "_id": "6aae744600004299",
+      "createdAt": "2026-09-19T11:38:46.903Z",
+      "updatedAt": "2026-09-19T11:38:46.905Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.85
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.75
+        },
+        "provider": "mock"
+      }
     }
   ],
   "IssueEvent": [
@@ -1054,9 +1635,84 @@
       "_id": "6aadb05b0000f7df",
       "createdAt": "2026-09-18T21:42:51.321Z",
       "updatedAt": "2026-09-18T21:42:51.321Z"
+    },
+    {
+      "issueId": "6aae6b270000be14",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-TEST-1789815591654"
+      },
+      "_id": "6aae6b2700005872",
+      "createdAt": "2026-09-19T10:59:51.664Z",
+      "updatedAt": "2026-09-19T10:59:51.664Z"
+    },
+    {
+      "issueId": "6aae7284000007ae",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-TEST-1789817476189"
+      },
+      "_id": "6aae72840000757c",
+      "createdAt": "2026-09-19T11:31:16.203Z",
+      "updatedAt": "2026-09-19T11:31:16.203Z"
+    },
+    {
+      "issueId": "6aae743400007f7a",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "ASSIGNED",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aae743400004195",
+      "createdAt": "2026-09-19T11:38:28.131Z",
+      "updatedAt": "2026-09-19T11:38:28.131Z"
+    },
+    {
+      "issueId": "6aae7446000005e2",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1002"
+      },
+      "_id": "6aae74460000b0d4",
+      "createdAt": "2026-09-19T11:38:46.907Z",
+      "updatedAt": "2026-09-19T11:38:46.907Z"
     }
   ],
-  "Notification": [],
+  "Notification": [
+    {
+      "userId": "6aadb05b000011d6",
+      "title": "New issue CV-1030",
+      "body": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "issueId": "6aae743400007f7a",
+      "_id": "6aae74340000a786",
+      "createdAt": "2026-09-19T11:38:28.131Z",
+      "updatedAt": "2026-09-19T11:38:28.131Z"
+    },
+    {
+      "userId": "6aadb05b000011d6",
+      "title": "New issue CV-1031",
+      "body": "qwerty asdfghjkl 123456",
+      "issueId": "6aae7446000005e2",
+      "_id": "6aae744600004c56",
+      "createdAt": "2026-09-19T11:38:46.907Z",
+      "updatedAt": "2026-09-19T11:38:46.907Z"
+    }
+  ],
   "SystemConfig": [
     {
       "key": "slas",

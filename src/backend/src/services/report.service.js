@@ -86,6 +86,9 @@ export async function addEvidence(user, report, file, meta) {
   const duplicateResult = await scoreDuplicates({ report, evidence, category });
   const verification = await verifyReport({ report, evidence, duplicateResult });
   report.verification = verification;
+  if (verification.aiTriage) {
+    report.aiTriage = verification.aiTriage;
+  }
   await report.save();
   evidence.aiAssessment = {
     relevance: verification.imageRelevance,

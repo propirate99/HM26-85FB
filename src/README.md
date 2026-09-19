@@ -143,3 +143,87 @@ npm run build -w frontend
 - **`/operations`**: MCC Swachha Grid 65-ward operations dashboard.
 - **`/simulator`**: 600 TPD solid waste logistics scenario simulator.
 - **`/public`**: Privacy-sanitized public complaint feed.
+
+---
+
+## Camera Evidence: Architecture & Standard Operating Procedure (SOP)
+
+### Root Cause Analysis & Solutions
+When users experienced a black screen on `/app/report` Step 3, the underlying causes were:
+1. **Overconstrained Hardware Constraints**: Requesting `{ facingMode: { ideal: "environment" } }` on devices without an outward-facing camera (e.g. MacBooks, desktop webcams) caused browser `OverconstrainedError` or empty streams.
+2. **Autoplay Policy & Playback Suspension**: Mobile and modern desktop browsers require explicit `video.play()` invocation inside `onloadedmetadata` on unmuted/muted video elements after setting `srcObject`.
+3. **Missing Fallback Modality**: Inability to select or upload a device image when camera permissions were denied or hardware was busy.
+
+### Engineering Safeguards Implemented
+- **Relaxed Multi-Tier Media Negotiation** (`useCamera.js`): Automatically falls back to `{ video: true }` if environment-facing camera constraints fail.
+- **Live State Detection**: Real-time visual feedback for `loading`, `live` (emerald pulse), and `denied` (actionable recovery instructions).
+- **File Upload Fallback** (`CameraCapture.jsx`): Allows citizens to pick a photo from device storage or native camera app with in-app provenance tracking.
+- **One-Click Field Evidence Presets**: Instant simulation of verified Mysuru civic evidence (Vidyaranyapuram Black Spot, KRS Road Pothole, Sayyaji Rao Streetlight) for zero-friction desktop testing.
+
+### Standard Procedure for Reporting Camera Evidence Issues
+When logging camera/media capture defects:
+1. **Collect Diagnostics**: Note client browser, operating system, and hardware type (mobile, desktop, external webcam).
+2. **Permission Check**: Inspect `navigator.permissions.query({ name: 'camera' })` status (`granted`, `prompt`, `denied`).
+3. **Inspect Media Devices**: Verify `navigator.mediaDevices.enumerateDevices()` returns at least one `videoinput`.
+4. **Ticket Template**:
+   - **Title**: `[Camera/MediaCapture] <Specific Failure>`
+   - **Environment**: OS, browser version, camera device type.
+   - **Reproducible Steps**: Navigation path, permission grant prompt response, console errors (`NotAllowedError`, `NotFoundError`, `NotReadableError`).
+   - **Fallback Verification**: Confirm whether file upload fallback or sample generator operated as intended.
+
+---
+
+## AI Complaint Management & Triage System
+
+### API Key Authentication & Configuration
+CivicVerify integrates with **Google Gemini 2.5 Flash** for multimodal complaint analysis:
+- **Environment Setup** (`HM26-85FB/src/.env`):
+  ```bash
+  # Google Gemini AI Configuration
+  GEMINI_API_KEY=AIzaSy...your_gemini_api_key_here
+  GEMINI_MODEL=gemini-2.5-flash
+  AI_PROVIDER=gemini   # Automatically defaults to 'gemini' when key is detected
+  ```
+- **Zero-Downtime Heuristic Engine**: If no external API key is configured, the system automatically runs the embedded heuristic AI engine so development, testing, and offline deployments remain 100% operational.
+- **Live Admin Key Management**: Executives can view connectivity status (`GET /api/admin/ai/status`) and dynamically activate API keys via the `/admin` Operations Console without restarting the server.
+
+### AI Triage Pipeline & Features
+Every submitted complaint undergoes automated AI review:
+1. **Fake & Gibberish Screening**:
+   - Detects spam, keyboard smash (e.g. `asdf`, `qwerty`), selfies, memes, indoor photos, and non-civic content.
+   - Flags entries with `isFake: true` and categorizes the reason (`GIBBERISH_OR_SPAM`, `NOT_CIVIC_RELATED`, `SYNTHETIC_GENERATED`).
+   - Reduces verification score and forces automatic routing to `NEEDS_REVIEW`.
+2. **Multimodal Auto-Categorization**:
+   - Inspects complaint narrative and visual evidence to infer standard municipal categories: `GARBAGE`, `POTHOLE`, `STREETLIGHT`, `DRAIN`.
+   - Produces a confidence score (0.0 to 1.0) and extracts municipal tags (e.g. `#solid_waste`, `#overflowing_bin`, `#road_hazard`).
+   - Flags category mismatches between citizen selection and AI prediction.
+3. **Severity & SLA Urgency Estimation**:
+   - Identifies public hazards (`hazard`, `accident`, `danger`, `sparking`, `flooding`) and assigns severity (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`).
+   - Elevates SLA urgency for high-impact civic threats.
+4. **Integrated Duplicate Screening**:
+   - Correlates spatial distance, category alignment, text Jaccard similarity, and perceptual image hash (`pHash`) with AI semantic overlap.
+   - Produces duplicate match confidence (`STRONG`, `POSSIBLE`, `CREATE`) and links duplicate candidate IDs.
+
+### Database Schema Enhancement (`aiTriage`)
+Both `Report` and `CivicIssue` schemas persist structured AI triage metadata:
+```json
+{
+  "analyzed": true,
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "isFake": false,
+  "fakeReason": "",
+  "suggestedCategory": "GARBAGE",
+  "categoryAgrees": true,
+  "confidence": 0.94,
+  "extractedTags": ["solid_waste", "overflowing_bin"],
+  "severity": "MEDIUM",
+  "duplicateScore": 0,
+  "duplicateDecision": "CREATE",
+  "duplicateCandidateId": null,
+  "summary": "Overflowing waste bin requiring immediate clearance",
+  "analyzedAt": "2026-09-19T11:00:00.000Z",
+  "durationMs": 340
+}
+```
+Officers and administrators can inspect the AI Triage card on `/app/issues/:id` and `/admin`.

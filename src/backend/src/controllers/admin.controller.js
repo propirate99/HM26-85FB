@@ -6,6 +6,7 @@ import { IssueEvent } from "../models/IssueEvent.js";
 import { SystemConfig } from "../models/SystemConfig.js";
 import * as issues from "../services/issue.service.js";
 import { recordEvent } from "../services/audit.service.js";
+import { env, updateAiConfig } from "../config/env.js";
 
 export async function analytics(_req, res, next) {
   try {
@@ -152,6 +153,43 @@ export async function reviewDecision(req, res, next) {
       });
     }
     res.json({ report });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getAiStatus(_req, res, next) {
+  try {
+    const hasKey = Boolean(env.aiApiKey);
+    const keyMasked = hasKey
+      ? `${env.aiApiKey.slice(0, 6)}...${env.aiApiKey.slice(-4)}`
+      : "None configured (Zero-downtime heuristic engine active)";
+    res.json({
+      provider: env.aiProvider,
+      model: env.geminiModel,
+      hasKey,
+      keyMasked,
+      features: [
+        "Automated Fake & Gibberish Screening",
+        "Multimodal Civic Taxonomy Auto-Categorization",
+        "Probabilistic Synthetic / Manipulation Risk Scoring",
+        "Two-Stage Spatial & Semantic Duplicate Screening",
+        "Severity & SLA Urgency Estimation",
+        "Before/After Resolution Verification",
+      ],
+      quotaStatus: hasKey ? "Active External API Key" : "Heuristic Standalone Engine",
+      uptimeSeconds: Math.floor(process.uptime()),
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateAiConfiguration(req, res, next) {
+  try {
+    const { apiKey, provider, model } = req.body || {};
+    const updated = updateAiConfig({ apiKey, provider, model });
+    res.json({ success: true, config: updated });
   } catch (err) {
     next(err);
   }

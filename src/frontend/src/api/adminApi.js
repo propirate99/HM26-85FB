@@ -14,4 +14,7 @@ export const adminApi = {
   officers: () => api.get("/admin/officers"),
   audit: () => api.get("/admin/audit"),
   review: (reportId, body) => api.post(`/admin/reviews/${reportId}/decision`, body),
+  aiStatus: () => api.get("/admin/ai/status"),
+  updateAiConfig: (body) => api.post("/admin/ai/config", body),
 };
+

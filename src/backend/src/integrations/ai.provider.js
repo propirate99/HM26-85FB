@@ -2,6 +2,26 @@ import fs from "fs";
 import path from "path";
 
 class AIProvider {
+  async triageComplaint(_args) {
+    return {
+      analyzed: true,
+      provider: "base",
+      model: "none",
+      isFake: false,
+      fakeReason: "",
+      suggestedCategory: "GARBAGE",
+      categoryAgrees: true,
+      confidence: 0.5,
+      extractedTags: [],
+      severity: "MEDIUM",
+      duplicateScore: 0,
+      duplicateDecision: "CREATE",
+      duplicateCandidateId: null,
+      summary: "",
+      analyzedAt: new Date(),
+      durationMs: 0,
+    };
+  }
   async classifyComplaint({ text, image: _image }) {
     return { categoryCode: null, relevant: true, agreesWithCitizen: true, confidence: 0.5 };
   }
@@ -20,28 +40,125 @@ class AIProvider {
 }
 
 export class MockAIProvider extends AIProvider {
-  async classifyComplaint({ text = "", categoryCode }) {
-    const blob = String(text).toLowerCase();
-    const guesses = [
-      ["GARBAGE", ["garbage", "dump", "waste", "trash", "litter", "debris", "kachra"]],
-      ["STREETLIGHT", ["light", "lamp", "dark", "streetlight", "bulb", "illumination"]],
-      ["POTHOLE", ["pothole", "road", "asphalt", "crater", "tarmac", "hole", "ditch"]],
-      ["DRAIN", ["drain", "sewage", "blocked", "flood", "overflow", "gutter", "waterlogged"]],
+  async triageComplaint({ text = "", categoryCode = "", image: _image = null, duplicateResult = null }) {
+    const start = Date.now();
+    const blob = String(text || "").trim().toLowerCase();
+
+    // 1. Fake & Gibberish Screening
+    const spamPatterns = ["asdf", "qwerty", "12345", "test test", "blah", "lorem ipsum"];
+    const isVeryShort = blob.length < 5;
+    const isSpammy = spamPatterns.some((p) => blob.includes(p));
+    const isGibberish = !blob || isVeryShort || isSpammy;
+
+    let isFake = false;
+    let fakeReason = "";
+    if (isGibberish) {
+      isFake = true;
+      fakeReason = "GIBBERISH_OR_SPAM";
+    }
+
+    // 2. AI Categorization Rules & Keywords
+    const taxonomy = [
+      {
+        code: "GARBAGE",
+        words: ["garbage", "dump", "waste", "trash", "litter", "debris", "kachra", "bin", "plastic", "black spot", "cleaning", "foul", "solid waste", "stench"],
+        tags: ["solid_waste", "overflowing_bin", "black_spot_dump"],
+      },
+      {
+        code: "POTHOLE",
+        words: ["pothole", "road", "asphalt", "crater", "tarmac", "hole", "ditch", "bitumen", "patch", "bump", "speedbreaker", "road repair"],
+        tags: ["road_hazard", "crater_pothole", "damaged_asphalt"],
+      },
+      {
+        code: "STREETLIGHT",
+        words: ["light", "lamp", "dark", "streetlight", "bulb", "illumination", "pole", "wire", "fixture", "non-functional", "dark corridor"],
+        tags: ["electrical_fixture", "dark_stretch", "safety_lighting"],
+      },
+      {
+        code: "DRAIN",
+        words: ["drain", "sewage", "blocked", "flood", "overflow", "gutter", "waterlogged", "drainage", "clogged", "manhole", "culvert"],
+        tags: ["blocked_drainage", "sewage_overflow", "stormwater_culvert"],
+      },
     ];
-    let inferred = categoryCode;
-    for (const [code, words] of guesses) {
-      if (words.some((w) => blob.includes(w))) {
-        inferred = code;
+
+    let suggestedCategory = categoryCode || "GARBAGE";
+    let matchedTags = [];
+    let matchFound = false;
+
+    for (const item of taxonomy) {
+      const hits = item.words.filter((w) => blob.includes(w));
+      if (hits.length > 0) {
+        suggestedCategory = item.code;
+        matchedTags = [...item.tags];
+        matchFound = true;
         break;
       }
     }
-    const agrees = !categoryCode || inferred === categoryCode;
+
+    const categoryAgrees = !categoryCode || suggestedCategory === categoryCode;
+    const confidence = isFake ? 0.95 : matchFound ? 0.89 : 0.72;
+
+    // 3. Predicted Severity
+    let severity = "MEDIUM";
+    const criticalWords = ["hazard", "accident", "danger", "sparking", "fire", "emergency", "flooding", "hospital", "school"];
+    const highWords = ["blocked", "large", "overflowing", "deep", "main road", "traffic", "stagnant"];
+    const lowWords = ["minor", "small", "cleaning needed", "mild"];
+
+    if (criticalWords.some((w) => blob.includes(w))) {
+      severity = "CRITICAL";
+    } else if (highWords.some((w) => blob.includes(w))) {
+      severity = "HIGH";
+    } else if (lowWords.some((w) => blob.includes(w))) {
+      severity = "LOW";
+    }
+
+    // 4. Duplicate Screening Integration
+    let duplicateScore = 0;
+    let duplicateDecision = "CREATE";
+    let duplicateCandidateId = null;
+    let duplicateCandidatePublicId = "";
+
+    if (duplicateResult?.best) {
+      duplicateScore = duplicateResult.best.duplicateScore || 0;
+      duplicateDecision = duplicateResult.best.decision || "CREATE";
+      duplicateCandidateId = duplicateResult.best.issueId || null;
+      duplicateCandidatePublicId = duplicateResult.best.publicId || "";
+    }
+
+    const summary = isFake
+      ? "AI flagged complaint as non-civic or spam entry."
+      : `${suggestedCategory.charAt(0) + suggestedCategory.slice(1).toLowerCase()} issue identified with ${Math.round(confidence * 100)}% confidence.`;
+
     return {
-      categoryCode: inferred,
-      relevant: true,
-      agreesWithCitizen: agrees,
-      confidence: agrees ? 0.88 : 0.6,
-      summary: blob.slice(0, 180),
+      analyzed: true,
+      provider: "mock",
+      model: "heuristic-triage-v1",
+      isFake,
+      fakeReason,
+      suggestedCategory,
+      categoryAgrees,
+      confidence,
+      extractedTags: matchedTags,
+      severity,
+      duplicateScore,
+      duplicateDecision,
+      duplicateCandidateId,
+      duplicateCandidatePublicId,
+      summary,
+      reasoning: `Heuristic rule match based on municipal taxonomy keywords (${suggestedCategory}).`,
+      analyzedAt: new Date(),
+      durationMs: Date.now() - start,
+    };
+  }
+
+  async classifyComplaint({ text = "", categoryCode }) {
+    const triage = await this.triageComplaint({ text, categoryCode });
+    return {
+      categoryCode: triage.suggestedCategory,
+      relevant: !triage.isFake,
+      agreesWithCitizen: triage.categoryAgrees,
+      confidence: triage.confidence,
+      summary: String(text).slice(0, 180),
       provider: "mock",
       version: "mock-1",
     };
@@ -90,9 +207,22 @@ function extractJson(text) {
 function tryReadImageBase64(imagePathOrUrl) {
   if (!imagePathOrUrl) return null;
   try {
-    // If it's a relative uploads path, read from disk
-    if (imagePathOrUrl.startsWith("/uploads/")) {
-      const fullPath = path.resolve(process.cwd(), "." + imagePathOrUrl);
+    // 1. Data URL
+    if (typeof imagePathOrUrl === "string" && imagePathOrUrl.startsWith("data:image/")) {
+      const parts = imagePathOrUrl.split(",");
+      const mime = parts[0].split(":")[1].split(";")[0];
+      return { mimeType: mime, data: parts[1] };
+    }
+
+    // 2. Buffer
+    if (Buffer.isBuffer(imagePathOrUrl)) {
+      return { mimeType: "image/jpeg", data: imagePathOrUrl.toString("base64") };
+    }
+
+    // 3. Local filesystem path
+    if (typeof imagePathOrUrl === "string" && (imagePathOrUrl.startsWith("/uploads/") || imagePathOrUrl.startsWith("./uploads/"))) {
+      const relPath = imagePathOrUrl.startsWith(".") ? imagePathOrUrl : "." + imagePathOrUrl;
+      const fullPath = path.resolve(process.cwd(), relPath);
       if (fs.existsSync(fullPath)) {
         const buf = fs.readFileSync(fullPath);
         const ext = path.extname(fullPath).toLowerCase().replace(".", "");
@@ -107,11 +237,25 @@ function tryReadImageBase64(imagePathOrUrl) {
 }
 
 export class GeminiAIProvider extends MockAIProvider {
-  constructor({ apiKey, apiKeyBackup, model = "gemini-3.6-flash" }) {
+  constructor({ apiKey, apiKeyBackup, model = "gemini-2.5-flash" }) {
     super();
     this.keys = [apiKey, apiKeyBackup].filter(Boolean);
-    this.model = model || "gemini-3.6-flash";
+    this.model = model || "gemini-2.5-flash";
     this.baseUrl = "https://generativelanguage.googleapis.com/v1beta/models";
+  }
+
+  async testConnection() {
+    if (!this.keys.length) {
+      return { ok: false, error: "No API key configured" };
+    }
+    try {
+      const res = await this.generateJson({
+        prompt: "Respond with JSON: {\"status\": \"ok\", \"message\": \"Mysuru Swachha Grid AI connected\"}",
+      });
+      return { ok: Boolean(res?.status === "ok"), data: res };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
   }
 
   async generateJson({ prompt, image }) {
@@ -128,7 +272,7 @@ export class GeminiAIProvider extends MockAIProvider {
       });
     }
 
-    const candidateModels = [this.model, "gemini-flash-latest"].filter(
+    const candidateModels = [this.model, "gemini-2.5-flash", "gemini-1.5-flash"].filter(
       (m, idx, arr) => arr.indexOf(m) === idx
     );
 
@@ -137,7 +281,7 @@ export class GeminiAIProvider extends MockAIProvider {
       for (const model of candidateModels) {
         try {
           const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 4500);
+          const timeout = setTimeout(() => controller.abort(), 7000);
 
           const url = `${this.baseUrl}/${model}:generateContent?key=${key}`;
           const res = await fetch(url, {
@@ -156,7 +300,7 @@ export class GeminiAIProvider extends MockAIProvider {
 
           if (!res.ok) {
             const errText = await res.text().catch(() => "");
-            lastError = new Error(`Gemini (${model}) HTTP ${res.status}: ${errText.slice(0, 80)}`);
+            lastError = new Error(`Gemini (${model}) HTTP ${res.status}: ${errText.slice(0, 100)}`);
             continue;
           }
 
@@ -171,46 +315,95 @@ export class GeminiAIProvider extends MockAIProvider {
     }
 
     if (lastError) {
-      console.warn(`[GeminiAIProvider] Gemini request failed, using circuit breaker:`, lastError.message);
+      console.warn(`[GeminiAIProvider] Gemini request failed, using circuit breaker fallback:`, lastError.message);
     }
     return null;
   }
 
-  async classifyComplaint(args) {
+  async triageComplaint(args) {
+    const start = Date.now();
     try {
-      const prompt = `You are the AI verification engine for Mysuru CivicVerify (MCC).
-Analyze this civic complaint text and determine:
-1. Which category it best belongs to ("GARBAGE", "STREETLIGHT", "POTHOLE", "DRAIN").
-2. Does it appear relevant to a legitimate municipal civic issue? (relevant: boolean)
-3. Does it agree with the citizen's selected category? (agreesWithCitizen: boolean)
-4. Confidence score from 0.0 to 1.0.
-5. A concise English title summary (under 80 characters).
+      const prompt = `You are the Lead Municipal Complaint AI Triage Inspector for Mysuru City Corporation (MCC) Swachha Grid.
+Analyze this incoming civic complaint (description text and optional attached field evidence photo).
 
-Citizen selected category: ${args.categoryCode || "unknown"}
-Citizen complaint text: "${args.text || ""}"
+Citizen Selected Category: "${args.categoryCode || "unknown"}"
+Citizen Complaint Description: "${args.text || ""}"
 
-Respond ONLY with this JSON schema:
-{"categoryCode":"GARBAGE"|"STREETLIGHT"|"POTHOLE"|"DRAIN","relevant":true,"agreesWithCitizen":true,"confidence":0.9,"summary":"..."}`;
+Perform automated complaint triage and return ONLY a valid JSON object matching this schema:
+{
+  "isFake": false,
+  "fakeReason": "",
+  "suggestedCategory": "GARBAGE",
+  "categoryAgrees": true,
+  "confidence": 0.94,
+  "extractedTags": ["solid_waste", "overflowing_bin"],
+  "severity": "MEDIUM",
+  "summary": "Overflowing waste bin requiring immediate clearance",
+  "reasoning": "Clear municipal waste visible requiring Zonal Sanitary Inspector intervention."
+}
+
+Rules:
+1. "isFake": set to true if the evidence or text is a selfie, animal, meme, indoor furniture, test gibberish, spam, or completely unrelated to city infrastructure.
+2. "fakeReason": if fake, choose from: "NOT_CIVIC_RELATED", "SYNTHETIC_GENERATED", "INDOOR_OR_IRRELEVANT", "GIBBERISH_OR_SPAM", "STOCK_OR_DUPLICATE". If legitimate, use "".
+3. "suggestedCategory": must be one of "GARBAGE", "POTHOLE", "STREETLIGHT", "DRAIN".
+4. "severity": must be one of "LOW", "MEDIUM", "HIGH", "CRITICAL".`;
 
       const json = await this.generateJson({ prompt, image: args.image });
-      if (!json || !json.categoryCode) {
-        const fallback = await super.classifyComplaint(args);
-        return { ...fallback, provider: "mock-fallback" };
+      if (json && json.suggestedCategory) {
+        let duplicateScore = 0;
+        let duplicateDecision = "CREATE";
+        let duplicateCandidateId = null;
+        let duplicateCandidatePublicId = "";
+
+        if (args.duplicateResult?.best) {
+          duplicateScore = args.duplicateResult.best.duplicateScore || 0;
+          duplicateDecision = args.duplicateResult.best.decision || "CREATE";
+          duplicateCandidateId = args.duplicateResult.best.issueId || null;
+          duplicateCandidatePublicId = args.duplicateResult.best.publicId || "";
+        }
+
+        return {
+          analyzed: true,
+          provider: "gemini",
+          model: this.model,
+          isFake: Boolean(json.isFake),
+          fakeReason: json.fakeReason || "",
+          suggestedCategory: json.suggestedCategory,
+          categoryAgrees: json.categoryAgrees !== false,
+          confidence: Number(json.confidence) || 0.88,
+          extractedTags: Array.isArray(json.extractedTags) ? json.extractedTags : [],
+          severity: json.severity || "MEDIUM",
+          duplicateScore,
+          duplicateDecision,
+          duplicateCandidateId,
+          duplicateCandidatePublicId,
+          summary: json.summary || String(args.text || "").slice(0, 80),
+          reasoning: json.reasoning || "Analyzed by Google Gemini Vision multimodal engine.",
+          analyzedAt: new Date(),
+          durationMs: Date.now() - start,
+        };
       }
 
-      return {
-        categoryCode: json.categoryCode,
-        relevant: json.relevant !== false,
-        agreesWithCitizen: json.agreesWithCitizen !== false,
-        confidence: Number(json.confidence) || 0.85,
-        summary: json.summary || String(args.text || "").slice(0, 80),
-        provider: "gemini",
-        version: this.model,
-      };
+      // Circuit breaker fallback to heuristic engine
+      const fallback = await super.triageComplaint(args);
+      return { ...fallback, provider: "mock-circuit-fallback" };
     } catch {
-      const fallback = await super.classifyComplaint(args);
-      return { ...fallback, provider: "mock-fallback" };
+      const fallback = await super.triageComplaint(args);
+      return { ...fallback, provider: "mock-circuit-fallback" };
     }
+  }
+
+  async classifyComplaint(args) {
+    const triage = await this.triageComplaint(args);
+    return {
+      categoryCode: triage.suggestedCategory,
+      relevant: !triage.isFake,
+      agreesWithCitizen: triage.categoryAgrees,
+      confidence: triage.confidence,
+      summary: triage.summary,
+      provider: triage.provider,
+      version: this.model,
+    };
   }
 
   async assessImageRelevance(args) {
@@ -297,11 +490,11 @@ Respond ONLY with this JSON schema:
 }
 
 export function createAIProvider(env) {
-  if (env.aiProvider === "gemini" || env.aiProvider === "external") {
+  if (env.aiProvider === "gemini" || env.aiProvider === "external" || (env.aiApiKey && env.aiProvider !== "mock")) {
     return new GeminiAIProvider({
       apiKey: env.aiApiKey,
       apiKeyBackup: env.aiApiKeyBackup,
-      model: env.geminiModel || "gemini-3.6-flash",
+      model: env.geminiModel || "gemini-2.5-flash",
     });
   }
   return new MockAIProvider();

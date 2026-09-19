@@ -47,7 +47,14 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
   let categoryResult;
   let syntheticResult;
   let relevance;
+  let triageResult;
   try {
+    triageResult = await ai.triageComplaint({
+      text: report.description,
+      categoryCode: category?.code,
+      image: evidence?.publicUrl,
+      duplicateResult,
+    });
     categoryResult = await ai.classifyComplaint({
       text: report.description,
       categoryCode: category?.code,
@@ -55,18 +62,33 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
     relevance = await ai.assessImageRelevance({ category, image: evidence?.publicUrl });
     syntheticResult = await ai.assessSyntheticRisk({ image: evidence?.publicUrl });
   } catch {
+    triageResult = {
+      analyzed: false,
+      isFake: false,
+      fakeReason: "",
+      suggestedCategory: category?.code || "GARBAGE",
+      confidence: 0.5,
+    };
     categoryResult = { relevant: true, agreesWithCitizen: true, provider: "UNAVAILABLE" };
     relevance = { status: "UNAVAILABLE", confidence: 0 };
     syntheticResult = { status: "UNAVAILABLE", confidence: 0 };
     flags.push("AI_UNAVAILABLE");
   }
 
-  if (categoryResult.relevant !== false && relevance?.status !== "UNLIKELY") {
+  if (categoryResult.relevant !== false && relevance?.status !== "UNLIKELY" && !triageResult.isFake) {
     score += 25;
-  } else flags.push("LOW_IMAGE_RELEVANCE");
+  } else {
+    flags.push("LOW_IMAGE_RELEVANCE");
+  }
 
-  if (categoryResult.agreesWithCitizen) score += 10;
-  else flags.push("CATEGORY_TEXT_MISMATCH");
+  if (categoryResult.agreesWithCitizen && triageResult.categoryAgrees) {
+    score += 10;
+  } else {
+    flags.push("CATEGORY_TEXT_MISMATCH");
+    if (!triageResult.categoryAgrees && triageResult.suggestedCategory) {
+      flags.push(`AI_SUGGESTED_${triageResult.suggestedCategory}`);
+    }
+  }
 
   const strongDup =
     duplicateResult?.best &&
@@ -98,6 +120,15 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
     requiresManualReview = true;
   }
 
+  if (triageResult.isFake) {
+    flags.push("AI_FLAGGED_FAKE");
+    if (triageResult.fakeReason) {
+      flags.push(`FAKE_REASON_${triageResult.fakeReason}`);
+    }
+    score = Math.max(0, score - 25);
+    requiresManualReview = true;
+  }
+
   const overallStatus = band(score);
   if (overallStatus === "NEEDS_REVIEW" || overallStatus === "INSUFFICIENT_OR_SUSPICIOUS") {
     requiresManualReview = true;
@@ -121,6 +152,7 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
     score,
     requiresManualReview,
     flags,
+    aiTriage: triageResult,
     provider: categoryResult.provider || "RULES_AND_AI",
     analyzedAt: new Date(),
   };

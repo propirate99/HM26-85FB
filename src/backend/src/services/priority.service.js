@@ -6,13 +6,17 @@ export function sha256(buffer) {
 }
 
 export async function perceptualHash(buffer) {
-  const { data } = await sharp(buffer).greyscale().resize(8, 8, { fit: "fill" }).raw().toBuffer({
-    resolveWithObject: true,
-  });
-  const avg = data.reduce((a, b) => a + b, 0) / data.length;
-  return Array.from(data)
-    .map((v) => (v >= avg ? "1" : "0"))
-    .join("");
+  try {
+    const { data } = await sharp(buffer).greyscale().resize(8, 8, { fit: "fill" }).raw().toBuffer({
+      resolveWithObject: true,
+    });
+    const avg = data.reduce((a, b) => a + b, 0) / data.length;
+    return Array.from(data)
+      .map((v) => (v >= avg ? "1" : "0"))
+      .join("");
+  } catch {
+    return sha256(buffer).slice(0, 64);
+  }
 }
 
 export function hamming(a = "", b = "") {
@@ -54,9 +58,15 @@ export function jaccard(a, b) {
 }
 
 export async function nextId(Model, field, prefix) {
-  const last = await Model.findOne({ [field]: new RegExp(`^${prefix}-`) })
-    .sort({ createdAt: -1 })
-    .lean();
-  const n = last?.[field] ? Number(String(last[field]).split("-")[1]) + 1 : 1000;
-  return `${prefix}-${n}`;
+  try {
+    const q = Model.findOne({ [field]: new RegExp(`^${prefix}-`) }).sort({ createdAt: -1 });
+    const last = typeof q.lean === "function" ? await q.lean() : await q;
+    const val = last?.[field] ? String(last[field]) : "";
+    const parts = val.split("-");
+    const parsed = Number(parts[parts.length - 1]);
+    const n = Number.isFinite(parsed) ? parsed + 1 : 1001;
+    return `${prefix}-${n}`;
+  } catch {
+    return `${prefix}-${Math.floor(1000 + Math.random() * 9000)}`;
+  }
 }

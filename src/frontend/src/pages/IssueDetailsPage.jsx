@@ -8,6 +8,7 @@ import { EvidenceCard } from "../components/EvidenceCard.jsx";
 import { Timeline } from "../components/Timeline.jsx";
 import { MapPreview } from "../components/MapPreview.jsx";
 import { BeforeAfterSlider } from "../components/BeforeAfterSlider.jsx";
+import { AITriageCard } from "../components/AITriageCard.jsx";
 import { formatDate } from "../utils/formatDate.js";
 import { useAuth } from "../auth/AuthProvider.jsx";
 
@@ -95,11 +96,14 @@ export function IssueDetailsPage({ publicView, officer }) {
       </div>
 
       <section className="card">
-      <div className="row">
+      <div className="row" style={{ marginBottom: 16 }}>
         <StatusBadge status={issue.status} />
         <VerificationBadge status={issue.verificationStatus} score={issue.verificationScore} />
         {issue.escalated ? <span className="badge badge-risk">SLA / escalated</span> : null}
       </div>
+
+      <AITriageCard triage={issue.aiTriage} categoryName={issue.category?.name} />
+
       <p>{issue.description}</p>
       <p className="muted">{issue.approximateLocationLabel}</p>
       <MapPreview lng={loc?.[0]} lat={loc?.[1]} label={publicView ? "Approximate public location" : ""} />

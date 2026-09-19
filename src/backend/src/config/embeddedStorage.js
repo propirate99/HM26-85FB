@@ -247,6 +247,9 @@ export class EmbeddedStorageEngine {
       select() {
         return query;
       },
+      lean() {
+        return query;
+      },
       async exec() {
         let docs = Array.from(col.values());
 
