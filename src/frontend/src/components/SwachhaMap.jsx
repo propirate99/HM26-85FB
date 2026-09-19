@@ -28,11 +28,12 @@ export function SwachhaMap({
       }).setView([12.305, 76.645], 12);
 
       L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-        {
-          maxZoom: 19,
-          subdomains: "abcd",
-        }
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        { maxZoom: 16 }
+      ).addTo(map);
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+        { maxZoom: 16 }
       ).addTo(map);
 
       layerGroup.current = L.layerGroup().addTo(map);
@@ -64,15 +65,15 @@ export function SwachhaMap({
 
           const facMarker = L.circleMarker([lat, lng], {
             radius: 8,
-            color: "#c9a227",
+            color: "#7ad6b4",
             weight: 2,
-            fillColor: "#7a1f2b",
+            fillColor: "#131c22",
             fillOpacity: 0.9,
           });
 
           facMarker.bindPopup(`
             <div style="font-family: sans-serif; font-size: 13px; color: #111;">
-              <strong style="color: #7a1f2b;">🏭 ${fac.name}</strong><br/>
+              <strong style="color: #0d5c4a;">${fac.name}</strong><br/>
               <b>Capacity:</b> ${fac.capacity_tpd || fac.cap} TPD<br/>
               <b>Type:</b> ${fac.kind || "Processing Plant"}<br/>
               <b>Serves:</b> ${fac.serves || "Designated Wards"}
@@ -135,7 +136,7 @@ export function SwachhaMap({
                   [lat, lng],
                   [fLat, fLng],
                 ],
-                { color: "#c9a227", weight: 2, dashArray: "4, 6" }
+                { color: "#7ad6b4", weight: 2, dashArray: "4, 6" }
               );
               layerGroup.current.addLayer(polyline);
             }
@@ -175,7 +176,7 @@ export function SwachhaMap({
             }
 
             return {
-              color: "#333",
+              color: "#7ad6b4",
               weight: 1,
               fillColor,
               fillOpacity: 0.65,

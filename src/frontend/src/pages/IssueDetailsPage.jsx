@@ -38,8 +38,8 @@ export function IssueDetailsPage({ publicView, officer }) {
     load();
   }, [id, publicView, officer]);
 
-  if (error) return <main className="shell"><p className="badge badge-risk">{error}</p></main>;
-  if (!data) return <main className="shell"><p className="muted">Loading…</p></main>;
+  if (error) return <main className="wrap"><p className="badge badge-risk">{error}</p></main>;
+  if (!data) return <main className="wrap"><p className="muted">Loading…</p></main>;
 
   const { issue, evidence = [], events = [] } = data;
   const loc = issue.location?.coordinates;
@@ -85,20 +85,23 @@ export function IssueDetailsPage({ publicView, officer }) {
   }
 
   return (
-    <main className="shell">
-      <p className="muted">{issue.publicId}</p>
-      <h1>{issue.title}</h1>
+    <main className="wrap">
+      <div className="page-h">
+        <h2>{issue.title || issue.publicId}</h2>
+        <p>
+          {issue.publicId} · {issue.category?.name} · {issue.zone?.displayName}
+          {issue.zone?.isDemoData ? " (demo zone)" : ""} · SLA {formatDate(issue.deadline)}
+        </p>
+      </div>
+
+      <section className="card">
       <div className="row">
         <StatusBadge status={issue.status} />
         <VerificationBadge status={issue.verificationStatus} score={issue.verificationScore} />
-        {issue.escalated ? <span className="badge badge-risk">Escalated</span> : null}
+        {issue.escalated ? <span className="badge badge-risk">SLA / escalated</span> : null}
       </div>
       <p>{issue.description}</p>
-      <p className="muted">
-        {issue.category?.name} · {issue.zone?.displayName}
-        {issue.zone?.isDemoData ? " (demo zone)" : ""} · Deadline {formatDate(issue.deadline)}
-      </p>
-      <p>{issue.approximateLocationLabel}</p>
+      <p className="muted">{issue.approximateLocationLabel}</p>
       <MapPreview lng={loc?.[0]} lat={loc?.[1]} label={publicView ? "Approximate public location" : ""} />
 
       {!publicView && user?.role === "CITIZEN" ? (
@@ -121,7 +124,12 @@ export function IssueDetailsPage({ publicView, officer }) {
         </section>
       )}
 
-      <h2>Evidence Cards</h2>
+      </section>
+
+      <section className="card">
+        <header>
+          <h3>Evidence</h3>
+        </header>
       <div className="grid">
         {before.map((e) => (
           <EvidenceCard key={e.evidenceId} evidence={e} />
@@ -130,13 +138,21 @@ export function IssueDetailsPage({ publicView, officer }) {
           <EvidenceCard key={e.evidenceId} evidence={e} />
         ))}
       </div>
+      </section>
 
-      <h2>Audit timeline</h2>
+      <section className="card">
+        <header>
+          <h3>Status trail</h3>
+        </header>
       <Timeline events={events} />
+      </section>
 
       {officer ? (
         <section className="card" style={{ marginTop: 24 }}>
-          <h2>Officer actions</h2>
+          <header>
+            <h3>Dispatch &amp; status update</h3>
+            <p>Every update emails the complainant automatically.</p>
+          </header>
           <div className="row">
             <button className="btn btn-primary" type="button" onClick={accept}>
               Accept Issue

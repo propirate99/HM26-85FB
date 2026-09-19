@@ -1,5 +1,20 @@
 export const demoAccounts = [
   {
+    email: "anitha.r@example.in",
+    name: "Anitha R",
+    role: "CITIZEN",
+    phone: "+91 98450 11111",
+    address: "Jayalakshmipuram, Mysuru",
+  },
+  {
+    email: "swm.officer@mysuru.gov.in",
+    name: "MCC SWM Control Officer",
+    role: "ZONE_OFFICER",
+    zoneCode: "NORTH",
+    phone: "+91 821 2418800",
+    address: "MCC SWM Cell, Main Office, Mysuru",
+  },
+  {
     email: "ravi.citizen@mysuru.demo",
     name: "Ravi Kumar",
     role: "CITIZEN",

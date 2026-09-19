@@ -22,22 +22,26 @@ export function PublicIssuesPage() {
   }, [filters]);
 
   return (
-    <main className="shell">
-      <h1>Public issues</h1>
-      <p className="muted">
-        Sanitized feed: no personal data, approximate location only. Sorted by recency, not
-        popularity.
-      </p>
-      <IssueFilters categories={config.categories} zones={config.zones} value={filters} onChange={setFilters} />
-      {issues.length ? (
-        <div className="grid" style={{ marginTop: 16 }}>
-          {issues.map((i) => (
-            <IssueCard key={i.publicId} issue={i} />
-          ))}
-        </div>
-      ) : (
-        <EmptyState title="No public issues" body="Seed demo data or submit a verified report." />
-      )}
-    </main>
+    <div className="wrap">
+      <div className="page-h">
+        <h2>Public tracker</h2>
+        <p>
+          Sanitized feed: no personal data, approximate location only. Sorted by recency, not
+          popularity.
+        </p>
+      </div>
+      <section className="card">
+        <IssueFilters categories={config.categories} zones={config.zones} value={filters} onChange={setFilters} />
+        {issues.length ? (
+          <div className="grid" style={{ marginTop: 16 }}>
+            {issues.map((i) => (
+              <IssueCard key={i.publicId} issue={i} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No public issues" body="Seed demo data or submit a verified report." />
+        )}
+      </section>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { Navbar } from "../components/Navbar.jsx";
 import { ProtectedRoute } from "../auth/ProtectedRoute.jsx";
 import { RoleRoute } from "../auth/RoleRoute.jsx";
@@ -14,9 +14,12 @@ import { SwachhaGridPage } from "../pages/SwachhaGridPage.jsx";
 import { SimulatorPage } from "../pages/SimulatorPage.jsx";
 
 export function AppRouter() {
+  const { pathname } = useLocation();
+  const hideNav = pathname === "/" || pathname === "/login";
+
   return (
     <>
-      <Navbar />
+      {hideNav ? null : <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />

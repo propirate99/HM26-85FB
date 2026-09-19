@@ -108,7 +108,7 @@ export function WardTable({ wards = [], onSelectWard, selectedWardId }) {
               return (
                 <tr
                   key={wId}
-                  style={isSelected ? { background: "rgba(201, 162, 39, 0.15)" } : {}}
+                  className={isSelected ? "sel" : undefined}
                 >
                   <td>
                     <strong>W{wId}</strong>
@@ -125,7 +125,7 @@ export function WardTable({ wards = [], onSelectWard, selectedWardId }) {
                       style={{
                         color:
                           (w.backlog || w.standing_backlog_t || 0) > 3
-                            ? "#ef4444"
+                            ? "var(--bad)"
                             : "inherit",
                         fontWeight:
                           (w.backlog || w.standing_backlog_t || 0) > 3 ? "bold" : "normal",

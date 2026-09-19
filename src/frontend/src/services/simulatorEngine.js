@@ -13,24 +13,24 @@ export const DEFAULT_CONFIG = {
 
   // Secondary fleet (compactors & dumper placers)
   compactors: 46,
-  compactorCap: 5.5, // payload tonnes
+  compactorCap: 7.5, // payload tonnes (Simulator 2)
   compactorTrips: 3, // max trips/vehicle/day
-  compactorFuel: 26.0, // L/100 km
+  compactorFuel: 32.0, // L/100 km
 
   // Operational policies & costs
   shift: 7.5, // shift hours
   night: false, // night secondary haulage bonus
   congestion: 18, // city traffic delay %
-  diesel: 89.5, // diesel price in INR/L
+  diesel: 91, // diesel price in INR/L
   freq: 7, // base pickups per week
   freqMode: "uniform", // uniform | core | density
   routeRule: "nearest", // nearest | balanced | zone
   newPoints: 0, // collection point expansion %
   ptMode: "uniform",
-  serviceMin: 1.8, // minutes per collection point
+  serviceMin: 3.5, // minutes per collection point
   tipMin: 14, // unload/tip minutes at facility
-  vLocal: 14, // in-ward speed km/h
-  vHaul: 24, // haul speed km/h
+  vLocal: 11, // in-ward speed km/h
+  vHaul: 26, // haul speed km/h
   transfer: false, // Bannimantap transfer station
   selected: new Set(),
 };

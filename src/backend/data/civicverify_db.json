@@ -1,6 +1,30 @@
 {
   "User": [
     {
+      "_id": "66e9a0000000000000000098",
+      "email": "swm.officer@mysuru.gov.in",
+      "name": "MCC SWM Control Officer",
+      "role": "ZONE_OFFICER",
+      "zoneCode": "NORTH",
+      "assignedZoneId": "6aadb05b0000e532",
+      "phone": "+91 821 2418800",
+      "address": "MCC SWM Cell, Main Office, Mysuru",
+      "isActive": true,
+      "createdAt": "2026-09-19T10:30:04.215Z",
+      "updatedAt": "2026-09-19T10:30:04.215Z"
+    },
+    {
+      "_id": "66e9a0000000000000000099",
+      "email": "anitha.r@example.in",
+      "name": "Anitha R",
+      "role": "CITIZEN",
+      "phone": "+91 98450 11111",
+      "address": "Jayalakshmipuram, Mysuru",
+      "isActive": true,
+      "createdAt": "2026-09-19T10:30:04.214Z",
+      "updatedAt": "2026-09-19T10:30:04.215Z"
+    },
+    {
       "email": "ravi.citizen@mysuru.demo",
       "name": "Ravi Kumar",
       "role": "CITIZEN",

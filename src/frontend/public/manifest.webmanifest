@@ -1,9 +1,9 @@
 {
-  "name": "Mysuru CivicVerify",
-  "short_name": "CivicVerify",
+  "name": "Mysuru Swachha Portal",
+  "short_name": "MCC SWM",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7F1E3",
-  "theme_color": "#7A1F2B",
-  "description": "Evidence-first civic complaints for Mysuru"
+  "background_color": "#131c22",
+  "theme_color": "#131c22",
+  "description": "Mysuru City Corporation 65-ward waste operations, complaints, and 600 TPD logistics simulator"
 }

@@ -125,7 +125,7 @@ export function SwachhaGridPage() {
           </p>
         </div>
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-          <span style={{ fontSize: "0.85rem", color: "#94a3b8" }}>Window:</span>
+          <span className="muted">Window</span>
           {[7, 30, 90, 120].map((d) => (
             <button
               key={d}
@@ -149,7 +149,7 @@ export function SwachhaGridPage() {
             <span className="kpi-label">Collection Rate</span>
             <span
               className="kpi-val"
-              style={{ color: citySummary.coverageRate >= 92 ? "#34d399" : "#f87171" }}
+              style={{ color: citySummary.coverageRate >= 92 ? "var(--good)" : "var(--bad)" }}
             >
               {citySummary.coverageRate.toFixed(1)}%
             </span>
@@ -161,7 +161,7 @@ export function SwachhaGridPage() {
             <span className="kpi-label">Standing Backlog</span>
             <span
               className="kpi-val"
-              style={{ color: citySummary.totalBacklog > 50 ? "#f87171" : "#fbbf24" }}
+              style={{ color: citySummary.totalBacklog > 50 ? "var(--bad)" : "var(--warn)" }}
             >
               {citySummary.totalBacklog.toFixed(1)} Tonnes
             </span>
@@ -185,7 +185,7 @@ export function SwachhaGridPage() {
       <div className="swm-grid-2">
         <div className="swm-card">
           <div className="swm-card-header">
-            <h3>📍 Ward Accumulation &amp; Haulage Map</h3>
+            <h3>Ward accumulation &amp; haulage map</h3>
             <span className="swm-subtitle">
               {selectedWard
                 ? `Selected: Ward ${selectedWard.ward || selectedWard.ward_no} (${selectedWard.name})`

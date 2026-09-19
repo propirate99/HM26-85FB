@@ -127,8 +127,8 @@ npm run build -w frontend
 
 | Role | Email / Persona | Primary Access |
 | --- | --- | --- |
-| **Citizen** | `ravi.citizen@mysuru.demo` (Ravi Kumar) | Submit report with GPS & camera, track progress |
-| **North Zone Officer** | `ananya.officer@mysuru.gov.in` (Ananya Rao) | Zone 5 queue (`Sayyaji Rao Rd`), status updates |
+| **Citizen** | `anitha.r@example.in` (Anitha R) / `ravi.citizen@mysuru.demo` | Submit report with SLA calculation & GPS/camera, track status, preview HTML email notifications |
+| **MCC Officer** | `swm.officer@mysuru.gov.in` (SWM Officer) / `ananya.officer@mysuru.gov.in` | 65-ward grievance queue, crew dispatch, ward hotspots, notification mailer log |
 | **South Zone Officer** | `karthik.officer@mysuru.gov.in` (Karthik Swamy) | Zone 1/2 queue (`Vidyaranyapuram`), repair photos |
 | **Main Authority** | `commissioner@mysuru.gov.in` (MCC Commissioner) | Authority console, SLA escalation, SWM Grid, Simulator |
 

@@ -95,7 +95,7 @@ export function CreateIssuePage() {
   }
 
   return (
-    <main className="shell">
+    <div className="wrap">
       {result?.awaiting && result.duplicateResult?.best && (
         <DuplicatePromptModal
           candidate={result.duplicateResult.best}
@@ -106,10 +106,13 @@ export function CreateIssuePage() {
         />
       )}
 
-      <h1>Submit Evidence-First Civic Complaint</h1>
-      <p className="muted">
-        Every submission is location-bound, verified by multi-signal heuristics and routed to the responsible MCC ward officer.
-      </p>
+      <div className="page-h">
+        <h2>New complaint</h2>
+        <p>
+          Every category carries its own SLA clock. Location-bound camera evidence is verified and
+          routed to the ward sanitary inspector.
+        </p>
+      </div>
 
       <div className="stepper">
         {STEPS.map((label, i) => (
@@ -135,9 +138,9 @@ export function CreateIssuePage() {
 
       {step === 1 && (
         <div className="card">
-          <h3>GPS &amp; Zone Verification</h3>
+          <h3>Location / landmark</h3>
           <p className="muted">
-            CivicVerify captures real-time device coordinates to prevent fake or misplaced reports.
+            Complaints are routed to the ward sanitary inspector using live device coordinates.
           </p>
           {geoError ? <p className="badge badge-risk">{geoError}</p> : null}
           {denied ? (
@@ -165,9 +168,9 @@ export function CreateIssuePage() {
 
       {step === 2 && (
         <div className="card">
-          <h3>In-App Camera Capture</h3>
+          <h3>Photograph of the issue</h3>
           <p className="muted">
-            Live camera capture proves fresh local presence. Gallery uploads are flagged for provenance review.
+            Live camera capture proves the complaint is current. Gallery uploads are flagged for review.
           </p>
           <CameraCapture onCapture={setPhoto} />
           {preview ? (
@@ -189,27 +192,28 @@ export function CreateIssuePage() {
 
       {step === 3 && (
         <div className="card">
-          <h3>Review Before Transparent Scoring</h3>
-          <p style={{ fontSize: 16, fontWeight: 500 }}>{form.description}</p>
+          <h3>Review before submit</h3>
+          <p>{form.description}</p>
           {preview ? <img src={preview} alt="Review" style={{ borderRadius: 12, maxWidth: "100%", maxHeight: 320, objectFit: "cover", margin: "12px 0" }} /> : null}
           <MapPreview lng={coords?.lng} lat={coords?.lat} />
 
           <div style={{ marginTop: 16 }}>
             <button className="btn btn-primary" type="button" disabled={busy} onClick={verifyEvidence}>
-              {busy ? "Running 7-Signal Verification & Duplicate Scan…" : "Submit For Verification"}
+              {busy ? "Submitting complaint…" : "Submit complaint"}
             </button>
           </div>
         </div>
       )}
 
       {step === 4 && result?.issue && (
-        <div className="card" style={{ border: "2px solid var(--sage)" }}>
+        <div className="card">
           <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
-            <h2 style={{ margin: 0 }}>✓ Work Order Dispatched</h2>
-            <span className="badge badge-status">MCC {result.issue.publicId}</span>
+            <h3 style={{ margin: 0 }}>Complaint registered</h3>
+            <span className="pill">{result.issue.publicId}</span>
           </div>
-          <p style={{ marginTop: 12 }}>
-            Civic issue <strong>{result.issue.publicId}</strong> has been logged into the MCC operational pipeline.
+          <p>
+            <strong>{result.issue.publicId}</strong> is with the ward sanitary inspector. You will get an email at
+            every status change.
           </p>
           <div style={{ margin: "14px 0" }}>
             <VerificationBadge
@@ -228,7 +232,7 @@ export function CreateIssuePage() {
               type="button"
               onClick={() => navigate(`/app/issues/${result.issue.publicId}`)}
             >
-              View Issue &amp; Audit Trail →
+              Open complaint trail
             </button>
             <button
               className="btn btn-ghost"
@@ -248,6 +252,6 @@ export function CreateIssuePage() {
       )}
 
       {error ? <p className="badge badge-risk" style={{ marginTop: 16 }}>{error}</p> : null}
-    </main>
+    </div>
   );
 }

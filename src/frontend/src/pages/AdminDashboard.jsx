@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { adminApi } from "../api/adminApi.js";
 import { IssueCard } from "../components/IssueCard.jsx";
 import { formatDate } from "../utils/formatDate.js";
+import { grievanceStore, fmtDate } from "../services/grievanceStore.js";
+import { swmApi } from "../services/swmApi.js";
 
 export function AdminDashboard() {
   const [analytics, setAnalytics] = useState(null);
@@ -10,100 +12,258 @@ export function AdminDashboard() {
   const [escalated, setEscalated] = useState([]);
   const [officers, setOfficers] = useState([]);
   const [audit, setAudit] = useState([]);
+  const [toastMessage, setToastMessage] = useState("");
+
+  const staticData = useMemo(() => swmApi.getStaticData(), []);
+  const stats = useMemo(() => grievanceStore.getStats(), []);
+  const wardHotspots = useMemo(() => grievanceStore.getWardHotspots().slice(0, 10), []);
 
   useEffect(() => {
-    adminApi.analytics().then(setAnalytics);
-    adminApi.issues().then((d) => setIssues(d.issues || []));
-    adminApi.escalated().then((d) => setEscalated(d.issues || []));
-    adminApi.officers().then((d) => setOfficers(d.officers || []));
-    adminApi.audit().then((d) => setAudit(d.events || []));
+    adminApi.analytics().then(setAnalytics).catch(() => {});
+    adminApi.issues().then((d) => setIssues(d.issues || [])).catch(() => {});
+    adminApi.escalated().then((d) => setEscalated(d.issues || [])).catch(() => {});
+    adminApi.officers().then((d) => setOfficers(d.officers || [])).catch(() => {});
+    adminApi.audit().then((d) => setAudit(d.events || [])).catch(() => {});
   }, []);
 
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(""), 3000);
+  };
+
   async function review(reportId, decision) {
-    await adminApi.review(reportId, { decision, message: `Authority ${decision}` });
-    const a = await adminApi.analytics();
-    setAnalytics(a);
+    try {
+      await adminApi.review(reportId, { decision, message: `Authority decision: ${decision}` });
+      const a = await adminApi.analytics();
+      setAnalytics(a);
+      showToast(`Report ${reportId} marked ${decision}!`);
+    } catch (err) {
+      showToast(err.message);
+    }
   }
 
   return (
-    <main className="shell">
-      <h1>Main authority</h1>
-      {analytics ? (
-        <div className="grid">
-          <div className="card">
-            <h3>{analytics.open}</h3>
-            <p>Open issues</p>
-          </div>
-          <div className="card">
-            <h3>{analytics.escalated}</h3>
-            <p>Escalated</p>
-          </div>
-          <div className="card">
-            <h3>{analytics.resolved}</h3>
-            <p>Resolved</p>
-          </div>
-          <div className="card" style={{ borderLeft: "3px solid var(--palace-gold, #c9a227)" }}>
-            <h3>65 Wards</h3>
-            <Link to="/operations" style={{ color: "var(--palace-gold, #c9a227)", fontWeight: 600 }}>
-              Launch Operations Grid →
-            </Link>
-          </div>
-          <div className="card" style={{ borderLeft: "3px solid #10b981" }}>
-            <h3>600 TPD</h3>
-            <Link to="/simulator" style={{ color: "#34d399", fontWeight: 600 }}>
-              Launch SWM Simulator →
-            </Link>
-          </div>
-        </div>
-      ) : null}
+    <div className="wrap">
+      {toastMessage && <div className="toast on">{toastMessage}</div>}
 
-      <h2>Needs review</h2>
-      {(analytics?.pendingReviews || []).map((r) => (
-        <article key={r._id} className="card">
-          <strong>{r.reportId}</strong> · {r.issueId?.publicId}
-          <div className="row">
-            <button className="btn btn-primary" type="button" onClick={() => review(r.reportId, "approve")}>
-              Approve
-            </button>
-            <button className="btn btn-ghost" type="button" onClick={() => review(r.reportId, "reject")}>
-              Reject
-            </button>
-          </div>
-        </article>
-      ))}
-
-      <h2>Escalated</h2>
-      <div className="grid">
-        {escalated.map((i) => (
-          <IssueCard key={i.id} issue={i} to={`/officer/issues/${i.id}`} />
-        ))}
-      </div>
-
-      <h2>All issues</h2>
-      <div className="grid">
-        {issues.slice(0, 12).map((i) => (
-          <IssueCard key={i.id} issue={i} to={`/officer/issues/${i.id}`} />
-        ))}
-      </div>
-
-      <h2>Officers</h2>
-      {officers.map((o) => (
-        <p key={o._id}>
-          {o.name} · {o.role} · {o.assignedZoneId?.displayName || "all zones"}
+      <div className="page-h">
+        <h2>MCC Operations Console · Executive Authority</h2>
+        <p>
+          City-wide SLA oversight, evidence verification approvals, and the same 65-ward model used by
+          Swachha Grid and the 600 TPD logistics simulator.
         </p>
-      ))}
+      </div>
 
-      <h2>Audit</h2>
-      <ul>
-        {audit.slice(0, 20).map((e) => (
-          <li key={e._id}>
-            {formatDate(e.createdAt)} · {e.eventType} · {e.issueId?.publicId} · {e.message}
-          </li>
-        ))}
-      </ul>
-      <p>
-        <Link to="/officer">Open officer queue</Link>
+      {/* KPIs */}
+      <div className="kpis">
+        <div className="kpi">
+          <span>City open issues</span>
+          <b>{analytics ? analytics.open : stats.open}</b>
+        </div>
+        <div className="kpi bad">
+          <span>Escalated / breached</span>
+          <b>{analytics ? analytics.escalated : stats.breached}</b>
+        </div>
+        <div className="kpi good">
+          <span>City resolved</span>
+          <b>{analytics ? analytics.resolved : stats.resolved}</b>
+        </div>
+        <div className="kpi">
+          <span>SLA compliance</span>
+          <b>{stats.slaRate.toFixed(0)}%</b>
+        </div>
+        <div className="kpi">
+          <span>65 wards grid</span>
+          <b>
+            <Link to="/operations" style={{ color: "var(--accent)" }}>
+              Grid ↗
+            </Link>
+          </b>
+        </div>
+        <div className="kpi">
+          <span>600 TPD simulator</span>
+          <b>
+            <Link to="/simulator" style={{ color: "var(--accent)" }}>
+              Model ↗
+            </Link>
+          </b>
+        </div>
+      </div>
+
+      {/* Navigation shortcuts */}
+      <div className="row" style={{ justifyContent: "space-between", alignItems: "center" }}>
+        <div className="row">
+          <Link className="btn" to="/operations">
+            Ward waste operations grid
+          </Link>
+          <Link className="btn ghost" to="/simulator">
+            600 TPD logistics simulator
+          </Link>
+          <Link className="btn ghost" to="/officer">
+            Field complaint queue
+          </Link>
+        </div>
+      </div>
+
+      {/* Evidence Verification Reviews */}
+      <section className="card">
+        <header>
+          <h3>Verification requiring authority review</h3>
+          <p>Citizen reports with borderline AI confidence or cross-zone discrepancies waiting on commissioner decision.</p>
+        </header>
+        {analytics?.pendingReviews && analytics.pendingReviews.length > 0 ? (
+          <div className="grid">
+            {analytics.pendingReviews.map((r) => (
+              <article key={r._id} className="card" style={{ background: "var(--bg-2)" }}>
+                <div className="row" style={{ justifyContent: "space-between" }}>
+                  <strong>{r.reportId}</strong>
+                  <span className="pill warn">Pending Review</span>
+                </div>
+                <p style={{ margin: "8px 0" }}>{r.description || "Suspected unsegregated / black spot waste accumulation."}</p>
+                <div className="row">
+                  <button className="btn" type="button" onClick={() => review(r.reportId, "approve")}>
+                    Approve
+                  </button>
+                  <button className="btn ghost" type="button" onClick={() => review(r.reportId, "reject")}>
+                    Reject
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="empty" style={{ padding: "var(--space-4)" }}>
+            No reports currently pending authority sign-off. All active items cleared.
+          </p>
+        )}
+      </section>
+
+      {/* Two columns: Escalated Complaints & Top Hotspots */}
+      <div className="cols">
+        {/* Escalated Issues */}
+        <section className="card">
+          <header>
+            <h3>Escalated grievances</h3>
+            <p>Issues exceeding zonal SLA clocks or flagged for urgent attention.</p>
+          </header>
+          {escalated.length ? (
+            <div className="grid">
+              {escalated.map((i) => (
+                <IssueCard key={i.id} issue={i} to={`/officer/issues/${i.id}`} />
+              ))}
+            </div>
+          ) : (
+            <p className="empty">No escalated grievances at this time.</p>
+          )}
+        </section>
+
+        {/* Top 10 Ward Hotspots */}
+        <section className="card">
+          <header>
+            <h3>Top 10 ward bottlenecks</h3>
+            <p>Wards with highest combined waste generation and open complaints.</p>
+          </header>
+          <div className="tbl-scroll" style={{ maxHeight: 380 }}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Ward</th>
+                  <th>Zone</th>
+                  <th className="num">Waste t/d</th>
+                  <th className="num">Open</th>
+                  <th>Load</th>
+                </tr>
+              </thead>
+              <tbody>
+                {wardHotspots.map((w) => (
+                  <tr key={w.ward}>
+                    <td>
+                      <b>W{w.ward}</b> · {w.name}
+                    </td>
+                    <td>{w.zone}</td>
+                    <td className="num">{w.waste}</td>
+                    <td className="num" style={{ color: w.openComplaints > 0 ? "var(--warn)" : "inherit" }}>
+                      {w.openComplaints}
+                    </td>
+                    <td style={{ minWidth: 90 }}>
+                      <div className="bar">
+                        <i
+                          style={{
+                            width: `${w.load}%`,
+                            background: w.load > 70 ? "var(--bad)" : w.load > 40 ? "var(--warn)" : "var(--accent)"
+                          }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      {/* Zonal Officers Section */}
+      <section className="card">
+        <header>
+          <h3>Zonal sanitary inspectors &amp; officers</h3>
+          <p>MCC officers responsible for field command across Mysuru's 9 administrative zones.</p>
+        </header>
+        <div className="grid">
+          {officers.map((o) => (
+            <article key={o._id} className="card" style={{ background: "var(--bg-2)" }}>
+              <div className="row" style={{ justifyContent: "space-between" }}>
+                <b>{o.name}</b>
+                <span className="pill">{o.role}</span>
+              </div>
+              <p style={{ margin: "6px 0 0", color: "var(--fg-3)", fontSize: "var(--text-xs)" }}>
+                {o.email} · {o.phone || "+91 821 2418800"}
+              </p>
+              <span className="tag" style={{ marginTop: 6, alignSelf: "flex-start" }}>
+                Jurisdiction: {o.assignedZoneId?.displayName || "City-wide Headquarters"}
+              </span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Audit Log */}
+      <section className="card">
+        <header>
+          <h3>Official audit trail</h3>
+          <p>Cryptographic tamper-evident operational event log.</p>
+        </header>
+        <div className="tbl-scroll" style={{ maxHeight: 350 }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Event</th>
+                <th>Issue ID</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              {audit.slice(0, 25).map((e) => (
+                <tr key={e._id}>
+                  <td>{formatDate(e.createdAt)}</td>
+                  <td>
+                    <span className="tag">{e.eventType}</span>
+                  </td>
+                  <td>{e.issueId?.publicId || "—"}</td>
+                  <td>{e.message}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <p className="rail-foot" style={{ margin: "var(--space-4) 0 0" }}>
+        Mysuru City Corporation · Solid Waste Management Cell · Operations Console connected to{" "}
+        <Link to="/simulator">600 TPD logistics simulator</Link> and{" "}
+        <Link to="/operations">Swachha Grid operations console</Link>.
       </p>
-    </main>
+    </div>
   );
 }
