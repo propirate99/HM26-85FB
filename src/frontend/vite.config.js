@@ -20,8 +20,8 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/api": process.env.VITE_PROXY_TARGET || "http://localhost:5000",
-      "/uploads": process.env.VITE_PROXY_TARGET || "http://localhost:5000",
+      "/api": process.env.VITE_PROXY_TARGET || "http://localhost:5050",
+      "/uploads": process.env.VITE_PROXY_TARGET || "http://localhost:5050",
     },
   },
 });
