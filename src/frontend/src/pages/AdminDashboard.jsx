@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { adminApi } from "../api/adminApi.js";
+import { issueApi } from "../api/issueApi.js";
 import { IssueCard } from "../components/IssueCard.jsx";
 import { formatDate } from "../utils/formatDate.js";
 import { grievanceStore, fmtDate } from "../services/grievanceStore.js";
@@ -17,6 +18,7 @@ export function AdminDashboard() {
   const [customKey, setCustomKey] = useState("");
   const [updatingAi, setUpdatingAi] = useState(false);
   const [showKeyInput, setShowKeyInput] = useState(false);
+  const [adminNotifs, setAdminNotifs] = useState([]);
 
   const staticData = useMemo(() => swmApi.getStaticData(), []);
   const stats = useMemo(() => grievanceStore.getStats(), []);
@@ -29,6 +31,7 @@ export function AdminDashboard() {
     adminApi.officers().then((d) => setOfficers(d.officers || [])).catch(() => {});
     adminApi.audit().then((d) => setAudit(d.events || [])).catch(() => {});
     adminApi.aiStatus().then(setAiInfo).catch(() => {});
+    issueApi.notifications().then((d) => setAdminNotifs(d.notifications || [])).catch(() => {});
   }, []);
 
   const showToast = (msg) => {
@@ -239,6 +242,106 @@ export function AdminDashboard() {
         </div>
       </section>
 
+      {/* Real-time Evidence & Complaint Dispatch Notifications */}
+      <section className="card" style={{ border: "1px solid rgba(55, 211, 155, 0.3)", borderRadius: 16 }}>
+        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 20 }}>🚨</span>
+              <h3 style={{ margin: 0 }}>Incoming Citizen Complaints &amp; Captured Evidence</h3>
+              <span className="pill" style={{ background: "rgba(55, 211, 155, 0.15)", color: "#37d39b", fontWeight: 700 }}>
+                ● Real-Time Feed ({adminNotifs.length})
+              </span>
+            </div>
+            <p className="muted" style={{ margin: "6px 0 0" }}>
+              Every citizen complaint captured photo and verified GPS coordinates are dispatched immediately to executive authority.
+            </p>
+          </div>
+          <button
+            className="btn ghost"
+            type="button"
+            onClick={() => issueApi.notifications().then((d) => setAdminNotifs(d.notifications || []))}
+          >
+            ↻ Refresh Feed
+          </button>
+        </header>
+
+        {adminNotifs.length === 0 ? (
+          <p className="empty" style={{ padding: "28px 0" }}>No incoming complaint notifications logged yet.</p>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 14, marginTop: 14 }}>
+            {adminNotifs.slice(0, 6).map((n) => (
+              <div
+                key={n._id}
+                style={{
+                  padding: 16,
+                  borderRadius: 12,
+                  background: "var(--bg-2)",
+                  border: "1px solid var(--line-soft)",
+                  display: "flex",
+                  gap: 14,
+                }}
+              >
+                {n.photoUrl ? (
+                  <div
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: 8,
+                      overflow: "hidden",
+                      flexShrink: 0,
+                      background: "#000",
+                      border: "1px solid rgba(55, 211, 155, 0.3)",
+                    }}
+                  >
+                    <img src={n.photoUrl} alt="Evidence" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: 8,
+                      background: "rgba(55, 211, 155, 0.1)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 24,
+                      flexShrink: 0,
+                    }}
+                  >
+                    📍
+                  </div>
+                )}
+                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+                      <strong style={{ fontSize: 13, color: "var(--fg)" }}>{n.title}</strong>
+                      <span style={{ fontSize: 10.5, color: "var(--fg-3)", whiteSpace: "nowrap" }}>{formatDate(n.createdAt)}</span>
+                    </div>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, color: "var(--fg-2)", lineHeight: 1.4 }}>
+                      {n.body}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
+                    <span style={{ fontSize: 11, color: "#37d39b", fontWeight: 600 }}>
+                      📍 {n.locationLabel || "Mysuru Verified"}
+                    </span>
+                    {n.issuePublicId && (
+                      <Link
+                        to={`/app/issues/${n.issuePublicId}`}
+                        style={{ fontSize: 12, color: "var(--accent)", fontWeight: 700, textDecoration: "none" }}
+                      >
+                        Inspect {n.issuePublicId} ↗
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* Evidence Verification Reviews */}
       <section className="card">

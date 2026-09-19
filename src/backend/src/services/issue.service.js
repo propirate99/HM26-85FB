@@ -1,10 +1,12 @@
+import mongoose from "mongoose";
 import { CivicIssue } from "../models/CivicIssue.js";
 import { Report } from "../models/Report.js";
 import { User } from "../models/User.js";
+import { Evidence } from "../models/Evidence.js";
 import { recordEvent } from "./audit.service.js";
 import { assignOfficer } from "./routing.service.js";
 import { applySla } from "./sla.service.js";
-import { notify } from "./notification.service.js";
+import { notify, notifyAdmins } from "./notification.service.js";
 import { nextId } from "./priority.service.js";
 import { mapsProvider } from "../integrations/maps.provider.js";
 import { createAIProvider } from "../integrations/ai.provider.js";
@@ -70,6 +72,8 @@ export async function createIssueFromReport(report, { actor }) {
     verificationStatus: report.verification?.overallStatus || "PENDING",
     verificationScore: report.verification?.score || 0,
     aiTriage: report.aiTriage || undefined,
+    supporters: report.citizenId ? [report.citizenId] : [],
+    supportCount: report.citizenId ? 1 : 0,
   });
 
   await applySla(issue);
@@ -100,36 +104,85 @@ export async function createIssueFromReport(report, { actor }) {
     metadata: { reportId: report.reportId },
   });
 
+  await issue.populate("categoryId");
+  await issue.populate("zoneId");
+
+  // Fetch latest evidence photo & location for rich dispatch notifications
+  let photoUrl = "";
+  try {
+    const latestEvidence = await Evidence.findOne({ reportId: report._id }).sort({ createdAt: -1 });
+    if (latestEvidence) {
+      photoUrl = latestEvidence.publicUrl || "";
+      if (latestEvidence._id) {
+        await Evidence.updateOne({ _id: latestEvidence._id }, { $set: { issueId: issue._id } });
+      }
+    }
+  } catch (_e) {}
+
+  const wardName = issue.zoneId?.displayName || issue.zoneId?.name || "Mysuru Urban";
+  const locLabel = `${wardName} · ${coords[1]?.toFixed(4)}°N, ${coords[0]?.toFixed(4)}°E`;
+
+  // 1. Notify Assigned Zone Officer
   if (officer) {
     await notify({
       userId: officer._id,
-      title: `New issue ${issue.publicId}`,
-      body: issue.title,
+      title: `📋 Complaint Assigned: ${issue.publicId}`,
+      body: `${issue.title} in ${locLabel}. Target SLA: ${issue.deadline ? new Date(issue.deadline).toLocaleDateString() : "Active"}.`,
       issueId: issue._id,
+      issuePublicId: issue.publicId,
+      photoUrl,
+      location: issue.location,
+      locationLabel: locLabel,
+      category: cat.name,
+      type: "OFFICER_ASSIGNED",
     });
   }
-  await issue.populate("categoryId");
-  await issue.populate("zoneId");
+
+  // 2. Notify Admin (MAIN_AUTHORITY) with Captured Photo and Audited Location
+  await notifyAdmins({
+    title: `🚨 New Civic Complaint: ${issue.publicId}`,
+    body: `Citizen logged "${issue.title}" at ${locLabel}. Photo evidence & GPS coordinates received. AI Verification: ${issue.verificationScore}/100.`,
+    issueId: issue._id,
+    issuePublicId: issue.publicId,
+    photoUrl,
+    location: issue.location,
+    locationLabel: locLabel,
+    category: cat.name,
+    type: "ADMIN_NEW_COMPLAINT",
+  });
+
+  // 3. Notify Citizen (User)
+  if (report.citizenId) {
+    await notify({
+      userId: report.citizenId,
+      title: `✅ Complaint Registered: ${issue.publicId}`,
+      body: `Your complaint "${issue.title}" has been registered at ${locLabel} and sent to MCC. Evidence photo and GPS verification recorded.`,
+      issueId: issue._id,
+      issuePublicId: issue.publicId,
+      photoUrl,
+      location: issue.location,
+      locationLabel: locLabel,
+      category: cat.name,
+      type: "COMPLAINT_REGISTERED",
+    });
+  }
+
   return issue;
 }
 
 export async function attachReportToIssue(report, issue, { actor }) {
-  if (String(report.citizenId) && issue._id) {
-    const existing = await Report.findOne({ citizenId: report.citizenId, issueId: issue._id });
-    if (existing && String(existing._id) !== String(report._id)) {
-      const err = new Error("You already supported this issue");
-      err.status = 409;
-      throw err;
-    }
-  }
   report.issueId = issue._id;
   report.duplicateDecision = "ATTACHED";
   report.reportStatus = "ATTACHED";
   await report.save();
-  issue.reportCount += 1;
-  issue.supportCount += 1;
+
+  issue.reportCount = (issue.reportCount || 0) + 1;
+  if (!Array.isArray(issue.supporters)) {
+    issue.supporters = [];
+  }
   if (!issue.supporters.some((id) => String(id) === String(report.citizenId))) {
     issue.supporters.push(report.citizenId);
+    issue.supportCount = (issue.supportCount || 0) + 1;
   }
   await issue.save();
   await recordEvent({
@@ -137,8 +190,50 @@ export async function attachReportToIssue(report, issue, { actor }) {
     actorId: actor._id,
     actorRole: actor.role,
     eventType: "REPORT_ATTACHED",
-    message: `Report ${report.reportId} attached — support increased`,
+    message: `Report ${report.reportId} attached — additional citizen evidence linked`,
   });
+
+  let photoUrl = "";
+  try {
+    const latestEvidence = await Evidence.findOne({ reportId: report._id }).sort({ createdAt: -1 });
+    if (latestEvidence) {
+      photoUrl = latestEvidence.publicUrl || "";
+      if (latestEvidence._id) {
+        await Evidence.updateOne({ _id: latestEvidence._id }, { $set: { issueId: issue._id } });
+      }
+    }
+  } catch (_e) {}
+
+  const locCoords = issue.location?.coordinates || [];
+  const locLabel = locCoords.length >= 2 ? `${locCoords[1]?.toFixed(4)}°N, ${locCoords[0]?.toFixed(4)}°E` : "Mysuru";
+
+  // Notify Citizen
+  if (report.citizenId) {
+    await notify({
+      userId: report.citizenId,
+      title: `📎 Evidence Attached to ${issue.publicId}`,
+      body: `Your captured photo and location were successfully attached to existing work order ${issue.publicId}. Community support increased!`,
+      issueId: issue._id,
+      issuePublicId: issue.publicId,
+      photoUrl,
+      location: issue.location,
+      locationLabel: locLabel,
+      type: "EVIDENCE_ATTACHED",
+    });
+  }
+
+  // Notify Admin
+  await notifyAdmins({
+    title: `📸 Additional Evidence on ${issue.publicId}`,
+    body: `Citizen attached new evidence photo and location data for work order ${issue.publicId} (${issue.title}). Priority escalated.`,
+    issueId: issue._id,
+    issuePublicId: issue.publicId,
+    photoUrl,
+    location: issue.location,
+    locationLabel: locLabel,
+    type: "ADMIN_EVIDENCE_ATTACHED",
+  });
+
   return issue;
 }
 
@@ -176,6 +271,20 @@ export async function changeStatus(issue, { user, status, message }) {
     toStatus: status,
     message,
   });
+
+  // Notify citizen supporters
+  const supporters = Array.isArray(issue.supporters) ? issue.supporters : [];
+  for (const sId of supporters) {
+    await notify({
+      userId: sId,
+      title: `Complaint ${issue.publicId}: ${status}`,
+      body: `MCC status changed from ${from} to ${status}${message ? ` — ${message}` : ""}.`,
+      issueId: issue._id,
+      issuePublicId: issue.publicId,
+      type: "STATUS_UPDATE",
+    });
+  }
+
   return issue;
 }
 
@@ -199,7 +308,7 @@ export function sanitizeIssue(issue, { publicView = false } = {}) {
     verificationStatus: issue.verificationStatus,
     verificationScore: issue.verificationScore,
     reportCount: issue.reportCount,
-    supportCount: issue.supportCount,
+    supportCount: issue.supportCount || 0,
     deadline: issue.deadline,
     escalated: issue.escalated,
     approximateLocationLabel: issue.approximateLocationLabel,
@@ -217,17 +326,32 @@ export function sanitizeIssue(issue, { publicView = false } = {}) {
 }
 
 export async function setSupport(issue, user, on) {
-  const has = issue.supporters.some((id) => String(id) === String(user._id));
+  if (!Array.isArray(issue.supporters)) {
+    issue.supporters = [];
+  }
+  const has = issue.supporters.some((id) => String(id) === String(user?._id));
   if (on && !has) {
     issue.supporters.push(user._id);
-    issue.supportCount += 1;
+    issue.supportCount = (issue.supportCount || 0) + 1;
   }
   if (!on && has) {
     issue.supporters = issue.supporters.filter((id) => String(id) !== String(user._id));
-    issue.supportCount = Math.max(0, issue.supportCount - 1);
+    issue.supportCount = Math.max(0, (issue.supportCount || 1) - 1);
   }
   await issue.save();
   return issue;
+}
+
+export async function findIssueByParam(param) {
+  if (!param) return null;
+  const or = [{ publicId: String(param) }];
+  if (mongoose.isValidObjectId(param)) {
+    or.push({ _id: param });
+  }
+  return CivicIssue.findOne({ $or: or })
+    .populate("categoryId")
+    .populate("zoneId")
+    .populate("assignedOfficerId", "name email role");
 }
 
 export { User };

@@ -7,6 +7,7 @@ import { useGeolocation } from "../features/location/useGeolocation.js";
 import { MapPreview } from "../components/MapPreview.jsx";
 import { VerificationBadge } from "../components/VerificationBadge.jsx";
 import { DuplicatePromptModal } from "../components/DuplicatePromptModal.jsx";
+import { AITriageCard } from "../components/AITriageCard.jsx";
 
 const STEPS = ["Problem", "Location", "Camera evidence", "Review", "Submitted"];
 
@@ -71,7 +72,7 @@ export function CreateIssuePage() {
       setResult({ reportId: id, verification, duplicateResult, issue });
       setStep(4);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to submit complaint. Please retry.");
     } finally {
       setBusy(false);
     }
@@ -81,35 +82,46 @@ export function CreateIssuePage() {
     setBusy(true);
     setError("");
     try {
-      const issue =
+      const targetIssueId = extra.issueId || result?.duplicateResult?.best?.issueId || result?.duplicateResult?.best?.publicId;
+      const res =
         decision === "attach"
-          ? (await issueApi.attach(reportId, extra.issueId)).issue
-          : (await issueApi.createIssue(reportId)).issue;
+          ? await issueApi.attach(reportId, targetIssueId)
+          : await issueApi.createIssue(reportId);
+
+      const issue = res.issue;
       setResult((prev) => ({ ...prev, awaiting: false, issue }));
       setStep(4);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Unable to complete action. Please retry or dismiss.");
     } finally {
       setBusy(false);
     }
   }
 
+  const selectedCategoryObj = config.categories?.find((c) => c._id === form.categoryId);
+
   return (
     <div className="wrap">
+      {/* Duplicate Resolution Modal with Cancel and Active Green Buttons */}
       {result?.awaiting && result.duplicateResult?.best && (
         <DuplicatePromptModal
           candidate={result.duplicateResult.best}
           busy={busy}
+          error={error}
           onAttach={(issueId) => finish("attach", { issueId })}
           onCreateSeparate={() => finish("new")}
           onReview={() => finish("new")}
+          onCancel={() => {
+            setError("");
+            setResult((prev) => ({ ...prev, awaiting: false }));
+          }}
         />
       )}
 
       <div className="page-h">
         <h2>New complaint</h2>
         <p>
-          Every category carries its own SLA clock. Location-bound camera evidence is verified and
+          Every category carries its own SLA clock. Location-bound camera evidence is verified by AI and
           routed to the ward sanitary inspector.
         </p>
       </div>
@@ -197,9 +209,31 @@ export function CreateIssuePage() {
           {preview ? <img src={preview} alt="Review" style={{ borderRadius: 12, maxWidth: "100%", maxHeight: 320, objectFit: "cover", margin: "12px 0" }} /> : null}
           <MapPreview lng={coords?.lng} lat={coords?.lat} />
 
+          {/* AI Pre-Verification Banner */}
+          <div
+            style={{
+              background: "rgba(55, 211, 155, 0.06)",
+              border: "1px solid rgba(55, 211, 155, 0.25)",
+              borderRadius: 12,
+              padding: "14px 18px",
+              margin: "18px 0",
+              display: "flex",
+              alignItems: "center",
+              gap: 14,
+            }}
+          >
+            <span style={{ fontSize: 26 }}>🤖</span>
+            <div style={{ fontSize: 13, lineHeight: 1.45 }}>
+              <strong style={{ color: "#37d39b", fontSize: 13.5 }}>AI Multimodal Triage Engine Active</strong>
+              <div style={{ color: "var(--fg-3)", fontSize: 12, marginTop: 2 }}>
+                Submitting will run deep vision inspection on the photo, verify GPS within Mysuru municipal boundaries, screen for duplicates, and auto-route to the ward officer.
+              </div>
+            </div>
+          </div>
+
           <div style={{ marginTop: 16 }}>
             <button className="btn btn-primary" type="button" disabled={busy} onClick={verifyEvidence}>
-              {busy ? "Submitting complaint…" : "Submit complaint"}
+              {busy ? "Auditing & submitting complaint…" : "Submit complaint"}
             </button>
           </div>
         </div>
@@ -215,12 +249,21 @@ export function CreateIssuePage() {
             <strong>{result.issue.publicId}</strong> is with the ward sanitary inspector. You will get an email at
             every status change.
           </p>
+
           <div style={{ margin: "14px 0" }}>
             <VerificationBadge
               status={result.verification?.overallStatus || result.issue.verificationStatus}
               score={result.verification?.score ?? result.issue.verificationScore}
             />
           </div>
+
+          {/* AI Complaint Review: Photo & Location Analysis */}
+          <AITriageCard
+            triage={result.issue?.aiTriage || result.verification?.aiTriage}
+            categoryName={selectedCategoryObj?.name}
+            verification={result.verification}
+          />
+
           <p className="muted">
             {result.verification?.requiresManualReview
               ? "Flagged for manual review by the Zonal Officer due to borderline evidence score."
@@ -251,7 +294,11 @@ export function CreateIssuePage() {
         </div>
       )}
 
-      {error ? <p className="badge badge-risk" style={{ marginTop: 16 }}>{error}</p> : null}
+      {error && !result?.awaiting ? (
+        <p className="badge badge-risk" style={{ marginTop: 16 }}>
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }

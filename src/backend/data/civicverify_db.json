@@ -19,10 +19,10 @@
       "name": "Anitha R",
       "role": "CITIZEN",
       "phone": "+91 98450 11111",
-      "address": "Jayalakshmipuram, Mysuru",
+      "address": "Jayalakshmipuram, Ward 42, Mysuru",
       "isActive": true,
       "createdAt": "2026-09-19T10:30:04.214Z",
-      "updatedAt": "2026-09-19T10:30:04.215Z"
+      "updatedAt": "2026-09-19T20:38:56.393Z"
     },
     {
       "email": "ravi.citizen@mysuru.demo",
@@ -434,7 +434,7 @@
       "approximateLocationLabel": "Near 12.310°N, 76.650°E (approximate)",
       "zoneId": "6aadb05b0000326c",
       "priority": "CRITICAL",
-      "status": "ESCALATED",
+      "status": "RESOLVED",
       "verificationStatus": "VERIFIED_WITH_LOW_RISK",
       "verificationScore": 89,
       "supportCount": 26,
@@ -442,13 +442,13 @@
       "assignedOfficerId": "6aadb05b00005a19",
       "escalated": true,
       "escalationReason": "Exceeded 12-hour critical SLA deadline for central commercial market area.",
-      "resolvedAt": null,
+      "resolvedAt": "2026-09-19T19:52:11.625Z",
       "supporters": [
         "6aadb05b00005fec"
       ],
       "_id": "6aadb05b0000a0c4",
       "createdAt": "2026-09-18T21:42:51.315Z",
-      "updatedAt": "2026-09-18T21:42:51.316Z",
+      "updatedAt": "2026-09-19T19:52:11.625Z",
       "deadline": "2026-09-18T20:42:51.315Z",
       "escalationAt": "2026-09-18T20:42:51.315Z"
     },
@@ -584,10 +584,382 @@
     },
     {
       "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "STREETLIGHT",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 0,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": null,
+        "duplicateCandidatePublicId": "",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (STREETLIGHT).",
+        "analyzedAt": "2026-09-19T19:24:43.728Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee17b000067f6",
+      "createdAt": "2026-09-19T19:24:43.732Z",
+      "updatedAt": "2026-09-19T19:24:43.733Z",
+      "deadline": "2026-09-21T19:24:43.732Z",
+      "escalationAt": "2026-09-21T19:24:43.732Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee17b000067f6",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T19:24:49.170Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee18a00007884",
+      "createdAt": "2026-09-19T19:24:58.499Z",
+      "updatedAt": "2026-09-19T19:24:58.500Z",
+      "deadline": "2026-09-21T19:24:58.500Z",
+      "escalationAt": "2026-09-21T19:24:58.500Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee17b000067f6",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T19:24:49.170Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee18d00006d92",
+      "createdAt": "2026-09-19T19:25:01.499Z",
+      "updatedAt": "2026-09-19T19:25:01.501Z",
+      "deadline": "2026-09-21T19:25:01.501Z",
+      "escalationAt": "2026-09-21T19:25:01.501Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee18d00006d92",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T19:34:43.146Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee3d60000a2e6",
+      "createdAt": "2026-09-19T19:34:46.001Z",
+      "updatedAt": "2026-09-19T19:34:46.004Z",
+      "deadline": "2026-09-21T19:34:46.004Z",
+      "escalationAt": "2026-09-21T19:34:46.004Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee18d00006d92",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T19:34:43.146Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee3d70000ab24",
+      "createdAt": "2026-09-19T19:34:47.961Z",
+      "updatedAt": "2026-09-19T19:34:47.963Z",
+      "deadline": "2026-09-21T19:34:47.963Z",
+      "escalationAt": "2026-09-21T19:34:47.963Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee3d70000ab24",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T19:46:36.837Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee6ac0000e138",
+      "createdAt": "2026-09-19T19:46:52.842Z",
+      "updatedAt": "2026-09-19T19:46:52.844Z",
+      "deadline": "2026-09-21T19:46:52.844Z",
+      "escalationAt": "2026-09-21T19:46:52.844Z"
+    },
+    {
+      "publicId": "CV-1030",
+      "categoryId": "6aadb05b00004664",
+      "title": "hi",
+      "normalizedTitle": "hi",
+      "description": "hi",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "MEDIUM",
+      "status": "ASSIGNED",
+      "verificationStatus": "VERIFIED_BUT_REVIEWABLE",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-triage-v1",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee3d70000ab24",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
+        "analyzedAt": "2026-09-19T19:46:36.837Z",
+        "durationMs": 0
+      },
+      "_id": "6aaee6ae0000ae72",
+      "createdAt": "2026-09-19T19:46:54.013Z",
+      "updatedAt": "2026-09-19T19:51:34.760Z",
+      "deadline": "2026-09-21T19:46:54.014Z",
+      "escalationAt": "2026-09-21T19:46:54.014Z"
+    },
+    {
+      "publicId": "CV-1031",
       "categoryId": "6aadb05b00007fc7",
-      "title": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
-      "normalizedTitle": "massive open garbage dump and overflowing bin on vidyaranyapuram main road causing foul smell",
-      "description": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "title": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "normalizedTitle": "overflowing solid waste garbage pile near vidyaranyapuram circle",
+      "description": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "approximateLocationLabel": "Near 12.290°N, 76.645°E (approximate)",
+      "zoneId": "6aadb05b00000196",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "PENDING",
+      "verificationScore": 0,
+      "_id": "6aaeeb2f00001420",
+      "createdAt": "2026-09-19T20:06:07.644Z",
+      "updatedAt": "2026-09-19T20:06:07.645Z",
+      "deadline": "2026-09-20T20:06:07.645Z",
+      "escalationAt": "2026-09-20T20:06:07.645Z",
+      "assignedOfficerId": "6aadb05b000011d6"
+    },
+    {
+      "publicId": "CV-1032",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "normalizedTitle": "overflowing solid waste garbage pile near vidyaranyapuram circle",
+      "description": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "approximateLocationLabel": "Near 12.290°N, 76.645°E (approximate)",
+      "zoneId": "6aadb05b00000196",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "PENDING",
+      "verificationScore": 0,
+      "_id": "6aaeeb5d0000e1e6",
+      "createdAt": "2026-09-19T20:06:53.780Z",
+      "updatedAt": "2026-09-19T20:06:53.786Z",
+      "deadline": "2026-09-20T20:06:53.781Z",
+      "escalationAt": "2026-09-20T20:06:53.781Z",
+      "assignedOfficerId": "6aadb05b000011d6",
+      "reportCount": 1,
+      "supporters": [
+        "66e9a0000000000000000099"
+      ],
+      "supportCount": 1
+    },
+    {
+      "publicId": "CV-1033",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Severe solid waste accumulation and garbage dumped near Vidyaranyapuram circle",
+      "normalizedTitle": "severe solid waste accumulation and garbage dumped near vidyaranyapuram circle",
+      "description": "Severe solid waste accumulation and garbage dumped near Vidyaranyapuram circle",
       "location": {
         "type": "Point",
         "coordinates": [
@@ -604,57 +976,86 @@
       "aiTriage": {
         "analyzed": true,
         "provider": "mock",
-        "model": "heuristic-triage-v1",
+        "model": "heuristic-civic-vision-v2",
         "isFake": false,
         "fakeReason": "",
         "suggestedCategory": "GARBAGE",
         "categoryAgrees": true,
-        "confidence": 0.89,
+        "confidence": 0.92,
         "extractedTags": [
           "solid_waste",
           "overflowing_bin",
-          "black_spot_dump"
+          "black_spot_dump",
+          "plastic_debris"
         ],
-        "severity": "HIGH",
-        "duplicateScore": 0,
-        "duplicateDecision": "CREATE",
-        "duplicateCandidateId": null,
-        "duplicateCandidatePublicId": "",
-        "summary": "Garbage issue identified with 89% confidence.",
-        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
-        "analyzedAt": "2026-09-19T11:38:28.129Z",
+        "severity": "MEDIUM",
+        "duplicateScore": 70,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaeeb2f00001420",
+        "duplicateCandidatePublicId": "CV-1031",
+        "summary": "Garbage issue verified at Vidyaranyapuram (Ward 48) (92% confidence).",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Vidyaranyapuram (Ward 48)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "LIKELY_AUTHENTIC",
+          "syntheticRisk": "LOW_RISK",
+          "confidence": 92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.6431,
+            12.2892
+          ],
+          "accuracyMeters": 14,
+          "accuracyGrade": "HIGH_PRECISION",
+          "wardName": "Vidyaranyapuram (Ward 48)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.2892°N, 76.6431°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±14m)."
+        },
+        "analyzedAt": "2026-09-19T20:07:18.601Z",
         "durationMs": 0
       },
-      "_id": "6aae743400007f7a",
-      "createdAt": "2026-09-19T11:38:28.130Z",
-      "updatedAt": "2026-09-19T11:38:28.130Z",
-      "deadline": "2026-09-20T11:38:28.130Z",
-      "escalationAt": "2026-09-20T11:38:28.130Z",
+      "_id": "6aaeeb7600006939",
+      "createdAt": "2026-09-19T20:07:18.604Z",
+      "updatedAt": "2026-09-19T20:07:18.604Z",
+      "deadline": "2026-09-20T20:07:18.604Z",
+      "escalationAt": "2026-09-20T20:07:18.604Z",
       "assignedOfficerId": "6aadb05b000011d6"
     },
     {
-      "publicId": "CV-1031",
+      "publicId": "CV-1034",
       "categoryId": "6aadb05b00007fc7",
-      "title": "qwerty asdfghjkl 123456",
-      "normalizedTitle": "qwerty asdfghjkl 123456",
-      "description": "qwerty asdfghjkl 123456",
+      "title": "hlo",
+      "normalizedTitle": "hlo",
+      "description": "hlo",
       "location": {
         "type": "Point",
         "coordinates": [
-          76.6431,
-          12.2892
+          76.70138307546775,
+          12.326052393669482
         ]
       },
-      "approximateLocationLabel": "Near 12.290°N, 76.645°E (approximate)",
-      "zoneId": "6aadb05b00000196",
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
       "priority": "HIGH",
       "status": "NEEDS_REVIEW",
       "verificationStatus": "NEEDS_REVIEW",
-      "verificationScore": 45,
+      "verificationScore": 40,
       "aiTriage": {
         "analyzed": true,
         "provider": "mock",
-        "model": "heuristic-triage-v1",
+        "model": "heuristic-civic-vision-v2",
         "isFake": true,
         "fakeReason": "GIBBERISH_OR_SPAM",
         "suggestedCategory": "GARBAGE",
@@ -662,21 +1063,275 @@
         "confidence": 0.95,
         "extractedTags": [],
         "severity": "MEDIUM",
-        "duplicateScore": 60,
-        "duplicateDecision": "POSSIBLE",
-        "duplicateCandidateId": "6aae743400007f7a",
+        "duplicateScore": 52,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": "6aaee3d70000ab24",
         "duplicateCandidatePublicId": "CV-1030",
         "summary": "AI flagged complaint as non-civic or spam entry.",
-        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
-        "analyzedAt": "2026-09-19T11:38:46.904Z",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70138,
+            12.32605
+          ],
+          "accuracyMeters": 77,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3261°N, 76.7014°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±77m)."
+        },
+        "analyzedAt": "2026-09-19T20:09:16.406Z",
         "durationMs": 0
       },
-      "_id": "6aae7446000005e2",
-      "createdAt": "2026-09-19T11:38:46.906Z",
-      "updatedAt": "2026-09-19T11:38:46.906Z",
-      "deadline": "2026-09-20T11:38:46.906Z",
-      "escalationAt": "2026-09-20T11:38:46.906Z",
-      "assignedOfficerId": "6aadb05b000011d6"
+      "_id": "6aaeebec0000f584",
+      "createdAt": "2026-09-19T20:09:16.413Z",
+      "updatedAt": "2026-09-19T20:09:16.415Z",
+      "deadline": "2026-09-20T20:09:16.415Z",
+      "escalationAt": "2026-09-20T20:09:16.415Z"
+    },
+    {
+      "publicId": "CV-1035",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Solid waste overflowing on pedestrian pavement near park entrance",
+      "normalizedTitle": "solid waste overflowing on pedestrian pavement near park entrance",
+      "description": "Solid waste overflowing on pedestrian pavement near park entrance",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6495,
+          12.3082
+        ]
+      },
+      "approximateLocationLabel": "Near 12.310°N, 76.650°E (approximate)",
+      "zoneId": "6aadb05b0000326c",
+      "priority": "HIGH",
+      "status": "VERIFIED",
+      "verificationStatus": "VERIFIED_WITH_LOW_RISK",
+      "verificationScore": 100,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": false,
+        "fakeReason": "",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.92,
+        "extractedTags": [
+          "solid_waste",
+          "overflowing_bin",
+          "black_spot_dump",
+          "plastic_debris"
+        ],
+        "severity": "HIGH",
+        "duplicateScore": 0,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": null,
+        "duplicateCandidatePublicId": "",
+        "summary": "Garbage issue verified at Vidyaranyapuram (Ward 48) (92% confidence).",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Vidyaranyapuram (Ward 48)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "LIKELY_AUTHENTIC",
+          "syntheticRisk": "LOW_RISK",
+          "confidence": 92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.6495,
+            12.3082
+          ],
+          "accuracyMeters": 12,
+          "accuracyGrade": "HIGH_PRECISION",
+          "wardName": "Vidyaranyapuram (Ward 48)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3082°N, 76.6495°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±12m)."
+        },
+        "analyzedAt": "2026-09-19T20:21:47.886Z",
+        "durationMs": 0
+      },
+      "supporters": [
+        "66e9a0000000000000000099"
+      ],
+      "supportCount": 1,
+      "_id": "6aaeeedb0000c8d4",
+      "createdAt": "2026-09-19T20:21:47.888Z",
+      "updatedAt": "2026-09-19T20:21:47.889Z",
+      "deadline": "2026-09-20T20:21:47.889Z",
+      "escalationAt": "2026-09-20T20:21:47.889Z"
+    },
+    {
+      "publicId": "CV-1036",
+      "categoryId": "6aadb05b0000ec3d",
+      "title": "path",
+      "normalizedTitle": "path",
+      "description": "path",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70157216721317,
+          12.325490370534178
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "POTHOLE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 46,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": "6aaeebec0000f584",
+        "duplicateCandidatePublicId": "CV-1034",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Multimodal municipal rules verified photo defect (POTHOLE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "POTHOLE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70157,
+            12.32549
+          ],
+          "accuracyMeters": 52,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±52m)."
+        },
+        "analyzedAt": "2026-09-19T20:41:16.907Z",
+        "durationMs": 0
+      },
+      "supporters": [
+        "66e9a0000000000000000099"
+      ],
+      "supportCount": 1,
+      "_id": "6aaef36c0000f363",
+      "createdAt": "2026-09-19T20:41:16.913Z",
+      "updatedAt": "2026-09-19T20:41:16.914Z",
+      "deadline": "2026-09-20T20:41:16.914Z",
+      "escalationAt": "2026-09-20T20:41:16.914Z"
+    },
+    {
+      "publicId": "CV-1037",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "flag",
+      "normalizedTitle": "flag",
+      "description": "flag",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70162290943115,
+          12.325480410891108
+        ]
+      },
+      "approximateLocationLabel": "Near 12.325°N, 76.700°E (approximate)",
+      "zoneId": "6aadb05b0000f639",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "NEEDS_REVIEW",
+      "verificationScore": 40,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 62,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaeebec0000f584",
+        "duplicateCandidatePublicId": "CV-1034",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70162,
+            12.32548
+          ],
+          "accuracyMeters": 60,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±60m)."
+        },
+        "analyzedAt": "2026-09-19T20:44:57.186Z",
+        "durationMs": 0
+      },
+      "supporters": [
+        "66e9a0000000000000000099"
+      ],
+      "supportCount": 1,
+      "_id": "6aaef4520000763b",
+      "createdAt": "2026-09-19T20:45:06.390Z",
+      "updatedAt": "2026-09-19T20:45:06.393Z",
+      "deadline": "2026-09-20T20:45:06.392Z",
+      "escalationAt": "2026-09-20T20:45:06.392Z"
     }
   ],
   "Report": [
@@ -1001,39 +1656,38 @@
       "reportId": "R-1001",
       "citizenId": "66e9a0000000000000000099",
       "citizenSelectedCategoryId": {
-        "code": "GARBAGE",
-        "name": "Garbage / illegal dumping",
-        "duplicateRadiusMeters": 100,
-        "defaultPriority": "HIGH",
+        "code": "STREETLIGHT",
+        "name": "Streetlight",
+        "duplicateRadiusMeters": 50,
+        "defaultPriority": "MEDIUM",
         "keywords": [
-          "garbage",
-          "dump",
-          "waste",
-          "trash",
-          "litter"
+          "light",
+          "lamp",
+          "dark",
+          "streetlight"
         ],
-        "_id": "6aadb05b00007fc7",
-        "createdAt": "2026-09-18T21:42:51.281Z",
-        "updatedAt": "2026-09-18T21:42:51.281Z"
+        "_id": "6aadb05b00004664",
+        "createdAt": "2026-09-18T21:42:51.283Z",
+        "updatedAt": "2026-09-18T21:42:51.283Z"
       },
-      "citizenSelectedZoneId": null,
-      "description": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
+      "citizenSelectedZoneId": "6aadb05b0000326c",
+      "description": "hi",
       "capturedLocation": {
         "type": "Point",
         "coordinates": [
-          76.6431,
-          12.2892
+          76.70100108180864,
+          12.325699276684455
         ],
-        "accuracyMeters": 12
+        "accuracyMeters": 42
       },
-      "gpsDerivedZoneId": "6aadb05b00000196",
-      "zoneMatchStatus": "MATCH",
-      "submittedAt": "2026-09-19T11:38:28.125Z",
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T19:24:43.683Z",
       "reportStatus": "ATTACHED",
       "duplicateDecision": "NEW_ISSUE",
-      "_id": "6aae743400006cfb",
-      "createdAt": "2026-09-19T11:38:28.125Z",
-      "updatedAt": "2026-09-19T11:38:28.131Z",
+      "_id": "6aaee17b0000efc8",
+      "createdAt": "2026-09-19T19:24:43.683Z",
+      "updatedAt": "2026-09-19T19:51:34.756Z",
       "verification": {
         "imageRelevance": {
           "status": "LIKELY_RELEVANT",
@@ -1047,63 +1701,129 @@
         "locationConsistency": "MATCH",
         "timestampPresent": true,
         "duplicateEvidence": "NO_STRONG_MATCH",
-        "zoneConsistency": "MATCH",
-        "overallStatus": "VERIFIED_WITH_LOW_RISK",
-        "score": 100,
-        "requiresManualReview": false,
-        "flags": [],
+        "zoneConsistency": "MISMATCH",
+        "overallStatus": "NEEDS_REVIEW",
+        "score": 40,
+        "requiresManualReview": true,
+        "flags": [
+          "ZONE_MISMATCH",
+          "LOW_IMAGE_RELEVANCE",
+          "AI_FLAGGED_FAKE",
+          "FAKE_REASON_GIBBERISH_OR_SPAM"
+        ],
         "aiTriage": {
           "analyzed": true,
           "provider": "mock",
           "model": "heuristic-triage-v1",
-          "isFake": false,
-          "fakeReason": "",
+          "isFake": true,
+          "fakeReason": "GIBBERISH_OR_SPAM",
           "suggestedCategory": "GARBAGE",
           "categoryAgrees": true,
-          "confidence": 0.89,
-          "extractedTags": [
-            "solid_waste",
-            "overflowing_bin",
-            "black_spot_dump"
-          ],
-          "severity": "HIGH",
-          "duplicateScore": 0,
-          "duplicateDecision": "CREATE",
-          "duplicateCandidateId": null,
-          "duplicateCandidatePublicId": "",
-          "summary": "Garbage issue identified with 89% confidence.",
+          "confidence": 0.95,
+          "extractedTags": [],
+          "severity": "MEDIUM",
+          "duplicateScore": 74,
+          "duplicateDecision": "POSSIBLE",
+          "duplicateCandidateId": "6aaee3d70000ab24",
+          "duplicateCandidatePublicId": "CV-1030",
+          "summary": "AI flagged complaint as non-civic or spam entry.",
           "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
-          "analyzedAt": "2026-09-19T11:38:28.129Z",
+          "analyzedAt": "2026-09-19T19:46:36.837Z",
           "durationMs": 0
         },
         "provider": "mock",
-        "analyzedAt": "2026-09-19T11:38:28.129Z"
+        "analyzedAt": "2026-09-19T19:46:36.837Z"
       },
       "aiTriage": {
         "analyzed": true,
         "provider": "mock",
         "model": "heuristic-triage-v1",
-        "isFake": false,
-        "fakeReason": "",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
         "suggestedCategory": "GARBAGE",
         "categoryAgrees": true,
-        "confidence": 0.89,
-        "extractedTags": [
-          "solid_waste",
-          "overflowing_bin",
-          "black_spot_dump"
-        ],
-        "severity": "HIGH",
-        "duplicateScore": 0,
-        "duplicateDecision": "CREATE",
-        "duplicateCandidateId": null,
-        "duplicateCandidatePublicId": "",
-        "summary": "Garbage issue identified with 89% confidence.",
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 74,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaee3d70000ab24",
+        "duplicateCandidatePublicId": "CV-1030",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
         "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
-        "analyzedAt": "2026-09-19T11:38:28.129Z",
+        "analyzedAt": "2026-09-19T19:46:36.837Z",
         "durationMs": 0
       },
-      "issueId": "6aae743400007f7a"
+      "issueId": "6aaee6ae0000ae72"
+    },
+    {
+      "reportId": "R-1001",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00004664",
+      "citizenSelectedZoneId": "6aadb05b0000326c",
+      "description": "hi",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.70100108180864,
+          12.325699276684455
+        ],
+        "accuracyMeters": 42
+      },
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T19:24:49.147Z",
+      "reportStatus": "OPEN",
+      "duplicateDecision": "PENDING",
+      "_id": "6aaee18100004d3d",
+      "createdAt": "2026-09-19T19:24:49.147Z",
+      "updatedAt": "2026-09-19T19:24:49.147Z"
+    },
+    {
+      "reportId": "R-1001",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00007fc7",
+      "citizenSelectedZoneId": "6aadb05b0000326c",
+      "description": "ih",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.70100603662428,
+          12.32570210768819
+        ],
+        "accuracyMeters": 42
+      },
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T19:34:43.104Z",
+      "reportStatus": "OPEN",
+      "duplicateDecision": "PENDING",
+      "_id": "6aaee3d30000bbe2",
+      "createdAt": "2026-09-19T19:34:43.104Z",
+      "updatedAt": "2026-09-19T19:34:43.104Z"
+    },
+    {
+      "reportId": "R-1001",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00007fc7",
+      "citizenSelectedZoneId": "6aadb05b0000e532",
+      "description": "hi",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.70144894828704,
+          12.325639564983526
+        ],
+        "accuracyMeters": 42
+      },
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T19:46:36.811Z",
+      "reportStatus": "OPEN",
+      "duplicateDecision": "PENDING",
+      "_id": "6aaee69c0000a346",
+      "createdAt": "2026-09-19T19:46:36.811Z",
+      "updatedAt": "2026-09-19T19:46:36.811Z"
     },
     {
       "reportId": "R-1002",
@@ -1125,7 +1845,31 @@
         "updatedAt": "2026-09-18T21:42:51.281Z"
       },
       "citizenSelectedZoneId": null,
-      "description": "qwerty asdfghjkl 123456",
+      "description": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 12
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T20:06:07.642Z",
+      "reportStatus": "ATTACHED",
+      "duplicateDecision": "ATTACHED",
+      "_id": "6aaeeb2f000071f1",
+      "createdAt": "2026-09-19T20:06:07.642Z",
+      "updatedAt": "2026-09-19T20:06:07.651Z",
+      "issueId": "6aaeeb2f00001420"
+    },
+    {
+      "reportId": "R-1002",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00007fc7",
+      "citizenSelectedZoneId": null,
+      "description": "More garbage dumped at the same Vidyaranyapuram spot",
       "capturedLocation": {
         "type": "Point",
         "coordinates": [
@@ -1136,31 +1880,326 @@
       },
       "gpsDerivedZoneId": "6aadb05b00000196",
       "zoneMatchStatus": "MATCH",
-      "submittedAt": "2026-09-19T11:38:46.898Z",
-      "reportStatus": "PENDING_REVIEW",
+      "submittedAt": "2026-09-19T20:06:07.648Z",
+      "reportStatus": "OPEN",
+      "duplicateDecision": "PENDING",
+      "_id": "6aaeeb2f000075be",
+      "createdAt": "2026-09-19T20:06:07.648Z",
+      "updatedAt": "2026-09-19T20:06:07.648Z"
+    },
+    {
+      "reportId": "R-1028",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": null,
+      "description": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 12
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T20:06:53.777Z",
+      "reportStatus": "ATTACHED",
       "duplicateDecision": "NEW_ISSUE",
-      "_id": "6aae744600006dfb",
-      "createdAt": "2026-09-19T11:38:46.898Z",
-      "updatedAt": "2026-09-19T11:38:46.907Z",
+      "_id": "6aaeeb5d00006037",
+      "createdAt": "2026-09-19T20:06:53.777Z",
+      "updatedAt": "2026-09-19T20:06:53.781Z",
+      "issueId": "6aaeeb5d0000e1e6"
+    },
+    {
+      "reportId": "R-1029",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": "6aadb05b00007fc7",
+      "citizenSelectedZoneId": null,
+      "description": "More garbage dumped at the same Vidyaranyapuram spot",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 10
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T20:06:53.783Z",
+      "reportStatus": "ATTACHED",
+      "duplicateDecision": "ATTACHED",
+      "_id": "6aaeeb5d00004904",
+      "createdAt": "2026-09-19T20:06:53.783Z",
+      "updatedAt": "2026-09-19T20:06:53.786Z",
+      "issueId": "6aaeeb5d0000e1e6"
+    },
+    {
+      "reportId": "R-1030",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": null,
+      "description": "Severe solid waste accumulation and garbage dumped near Vidyaranyapuram circle",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ],
+        "accuracyMeters": 14
+      },
+      "gpsDerivedZoneId": "6aadb05b00000196",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T20:07:18.590Z",
+      "reportStatus": "ATTACHED",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aaeeb7600009e11",
+      "createdAt": "2026-09-19T20:07:18.590Z",
+      "updatedAt": "2026-09-19T20:07:18.605Z",
       "verification": {
         "imageRelevance": {
           "status": "LIKELY_RELEVANT",
-          "confidence": 0.85
+          "confidence": 0.88
         },
         "syntheticRisk": {
           "status": "LOW_RISK",
-          "confidence": 0.75
+          "confidence": 0.82
         },
         "captureProvenance": "APP_CAPTURE",
         "locationConsistency": "MATCH",
         "timestampPresent": true,
         "duplicateEvidence": "NO_STRONG_MATCH",
         "zoneConsistency": "MATCH",
+        "overallStatus": "VERIFIED_WITH_LOW_RISK",
+        "score": 100,
+        "requiresManualReview": false,
+        "flags": [],
+        "aiTriage": {
+          "analyzed": true,
+          "provider": "mock",
+          "model": "heuristic-civic-vision-v2",
+          "isFake": false,
+          "fakeReason": "",
+          "suggestedCategory": "GARBAGE",
+          "categoryAgrees": true,
+          "confidence": 0.92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "severity": "MEDIUM",
+          "duplicateScore": 70,
+          "duplicateDecision": "POSSIBLE",
+          "duplicateCandidateId": "6aaeeb2f00001420",
+          "duplicateCandidatePublicId": "CV-1031",
+          "summary": "Garbage issue verified at Vidyaranyapuram (Ward 48) (92% confidence).",
+          "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Vidyaranyapuram (Ward 48)).",
+          "photoAssessment": {
+            "analyzed": true,
+            "detectedCategory": "GARBAGE",
+            "authenticity": "LIKELY_AUTHENTIC",
+            "syntheticRisk": "LOW_RISK",
+            "confidence": 92,
+            "extractedTags": [
+              "solid_waste",
+              "overflowing_bin",
+              "black_spot_dump",
+              "plastic_debris"
+            ],
+            "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+          },
+          "locationAssessment": {
+            "verified": true,
+            "withinJurisdiction": true,
+            "jurisdictionName": "Mysuru City Corporation (MCC)",
+            "coords": [
+              76.6431,
+              12.2892
+            ],
+            "accuracyMeters": 14,
+            "accuracyGrade": "HIGH_PRECISION",
+            "wardName": "Vidyaranyapuram (Ward 48)",
+            "confidence": 96,
+            "summary": "✓ GPS Coordinates [12.2892°N, 76.6431°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±14m)."
+          },
+          "analyzedAt": "2026-09-19T20:07:18.601Z",
+          "durationMs": 0
+        },
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "LIKELY_AUTHENTIC",
+          "syntheticRisk": "LOW_RISK",
+          "confidence": 92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.6431,
+            12.2892
+          ],
+          "accuracyMeters": 14,
+          "accuracyGrade": "HIGH_PRECISION",
+          "wardName": "Vidyaranyapuram (Ward 48)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.2892°N, 76.6431°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±14m)."
+        },
+        "provider": "mock",
+        "analyzedAt": "2026-09-19T20:07:18.601Z"
+      },
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": false,
+        "fakeReason": "",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.92,
+        "extractedTags": [
+          "solid_waste",
+          "overflowing_bin",
+          "black_spot_dump",
+          "plastic_debris"
+        ],
+        "severity": "MEDIUM",
+        "duplicateScore": 70,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaeeb2f00001420",
+        "duplicateCandidatePublicId": "CV-1031",
+        "summary": "Garbage issue verified at Vidyaranyapuram (Ward 48) (92% confidence).",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Vidyaranyapuram (Ward 48)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "LIKELY_AUTHENTIC",
+          "syntheticRisk": "LOW_RISK",
+          "confidence": 92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.6431,
+            12.2892
+          ],
+          "accuracyMeters": 14,
+          "accuracyGrade": "HIGH_PRECISION",
+          "wardName": "Vidyaranyapuram (Ward 48)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.2892°N, 76.6431°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±14m)."
+        },
+        "analyzedAt": "2026-09-19T20:07:18.601Z",
+        "durationMs": 0
+      },
+      "issueId": "6aaeeb7600006939"
+    },
+    {
+      "reportId": "R-1031",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": "6aadb05b0000e532",
+      "description": "hlo",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.70138307546775,
+          12.326052393669482
+        ],
+        "accuracyMeters": 76.84589115095262
+      },
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T20:09:16.375Z",
+      "reportStatus": "PENDING_REVIEW",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aaeebec0000fe95",
+      "createdAt": "2026-09-19T20:09:16.375Z",
+      "updatedAt": "2026-09-19T20:09:16.417Z",
+      "verification": {
+        "imageRelevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "captureProvenance": "APP_CAPTURE",
+        "locationConsistency": "MATCH",
+        "timestampPresent": true,
+        "duplicateEvidence": "NO_STRONG_MATCH",
+        "zoneConsistency": "MISMATCH",
         "overallStatus": "NEEDS_REVIEW",
-        "score": 45,
+        "score": 40,
         "requiresManualReview": true,
         "flags": [
-          "LOW_LOCATION_ACCURACY",
+          "ZONE_MISMATCH",
           "LOW_IMAGE_RELEVANCE",
           "AI_FLAGGED_FAKE",
           "FAKE_REASON_GIBBERISH_OR_SPAM"
@@ -1168,7 +2207,7 @@
         "aiTriage": {
           "analyzed": true,
           "provider": "mock",
-          "model": "heuristic-triage-v1",
+          "model": "heuristic-civic-vision-v2",
           "isFake": true,
           "fakeReason": "GIBBERISH_OR_SPAM",
           "suggestedCategory": "GARBAGE",
@@ -1176,22 +2215,72 @@
           "confidence": 0.95,
           "extractedTags": [],
           "severity": "MEDIUM",
-          "duplicateScore": 60,
-          "duplicateDecision": "POSSIBLE",
-          "duplicateCandidateId": "6aae743400007f7a",
+          "duplicateScore": 52,
+          "duplicateDecision": "CREATE",
+          "duplicateCandidateId": "6aaee3d70000ab24",
           "duplicateCandidatePublicId": "CV-1030",
           "summary": "AI flagged complaint as non-civic or spam entry.",
-          "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
-          "analyzedAt": "2026-09-19T11:38:46.904Z",
+          "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+          "photoAssessment": {
+            "analyzed": true,
+            "detectedCategory": "GARBAGE",
+            "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+            "syntheticRisk": "HIGH_RISK",
+            "confidence": 95,
+            "extractedTags": [
+              "civic_evidence"
+            ],
+            "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+          },
+          "locationAssessment": {
+            "verified": true,
+            "withinJurisdiction": true,
+            "jurisdictionName": "Mysuru City Corporation (MCC)",
+            "coords": [
+              76.70138,
+              12.32605
+            ],
+            "accuracyMeters": 77,
+            "accuracyGrade": "LOW_PRECISION",
+            "wardName": "Gokulam 3rd Stage (Ward 14)",
+            "confidence": 96,
+            "summary": "✓ GPS Coordinates [12.3261°N, 76.7014°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±77m)."
+          },
+          "analyzedAt": "2026-09-19T20:09:16.406Z",
           "durationMs": 0
         },
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70138,
+            12.32605
+          ],
+          "accuracyMeters": 77,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3261°N, 76.7014°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±77m)."
+        },
         "provider": "mock",
-        "analyzedAt": "2026-09-19T11:38:46.905Z"
+        "analyzedAt": "2026-09-19T20:09:16.407Z"
       },
       "aiTriage": {
         "analyzed": true,
         "provider": "mock",
-        "model": "heuristic-triage-v1",
+        "model": "heuristic-civic-vision-v2",
         "isFake": true,
         "fakeReason": "GIBBERISH_OR_SPAM",
         "suggestedCategory": "GARBAGE",
@@ -1199,16 +2288,596 @@
         "confidence": 0.95,
         "extractedTags": [],
         "severity": "MEDIUM",
-        "duplicateScore": 60,
-        "duplicateDecision": "POSSIBLE",
-        "duplicateCandidateId": "6aae743400007f7a",
+        "duplicateScore": 52,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": "6aaee3d70000ab24",
         "duplicateCandidatePublicId": "CV-1030",
         "summary": "AI flagged complaint as non-civic or spam entry.",
-        "reasoning": "Heuristic rule match based on municipal taxonomy keywords (GARBAGE).",
-        "analyzedAt": "2026-09-19T11:38:46.904Z",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70138,
+            12.32605
+          ],
+          "accuracyMeters": 77,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3261°N, 76.7014°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±77m)."
+        },
+        "analyzedAt": "2026-09-19T20:09:16.406Z",
         "durationMs": 0
       },
-      "issueId": "6aae7446000005e2"
+      "issueId": "6aaeebec0000f584"
+    },
+    {
+      "reportId": "R-1032",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": null,
+      "description": "Solid waste overflowing on pedestrian pavement near park entrance",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6495,
+          12.3082
+        ],
+        "accuracyMeters": null
+      },
+      "gpsDerivedZoneId": "6aadb05b0000326c",
+      "zoneMatchStatus": "MATCH",
+      "submittedAt": "2026-09-19T20:21:47.879Z",
+      "reportStatus": "ATTACHED",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aaeeedb000058d0",
+      "createdAt": "2026-09-19T20:21:47.879Z",
+      "updatedAt": "2026-09-19T20:21:47.890Z",
+      "verification": {
+        "imageRelevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "captureProvenance": "APP_CAPTURE",
+        "locationConsistency": "MATCH",
+        "timestampPresent": true,
+        "duplicateEvidence": "NO_STRONG_MATCH",
+        "zoneConsistency": "MATCH",
+        "overallStatus": "VERIFIED_WITH_LOW_RISK",
+        "score": 100,
+        "requiresManualReview": false,
+        "flags": [
+          "POSSIBLE_DUPLICATE"
+        ],
+        "aiTriage": {
+          "analyzed": true,
+          "provider": "mock",
+          "model": "heuristic-civic-vision-v2",
+          "isFake": false,
+          "fakeReason": "",
+          "suggestedCategory": "GARBAGE",
+          "categoryAgrees": true,
+          "confidence": 0.92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "severity": "HIGH",
+          "duplicateScore": 0,
+          "duplicateDecision": "CREATE",
+          "duplicateCandidateId": null,
+          "duplicateCandidatePublicId": "",
+          "summary": "Garbage issue verified at Vidyaranyapuram (Ward 48) (92% confidence).",
+          "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Vidyaranyapuram (Ward 48)).",
+          "photoAssessment": {
+            "analyzed": true,
+            "detectedCategory": "GARBAGE",
+            "authenticity": "LIKELY_AUTHENTIC",
+            "syntheticRisk": "LOW_RISK",
+            "confidence": 92,
+            "extractedTags": [
+              "solid_waste",
+              "overflowing_bin",
+              "black_spot_dump",
+              "plastic_debris"
+            ],
+            "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+          },
+          "locationAssessment": {
+            "verified": true,
+            "withinJurisdiction": true,
+            "jurisdictionName": "Mysuru City Corporation (MCC)",
+            "coords": [
+              76.6495,
+              12.3082
+            ],
+            "accuracyMeters": 12,
+            "accuracyGrade": "HIGH_PRECISION",
+            "wardName": "Vidyaranyapuram (Ward 48)",
+            "confidence": 96,
+            "summary": "✓ GPS Coordinates [12.3082°N, 76.6495°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±12m)."
+          },
+          "analyzedAt": "2026-09-19T20:21:47.886Z",
+          "durationMs": 0
+        },
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "LIKELY_AUTHENTIC",
+          "syntheticRisk": "LOW_RISK",
+          "confidence": 92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.6495,
+            12.3082
+          ],
+          "accuracyMeters": 12,
+          "accuracyGrade": "HIGH_PRECISION",
+          "wardName": "Vidyaranyapuram (Ward 48)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3082°N, 76.6495°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±12m)."
+        },
+        "provider": "mock",
+        "analyzedAt": "2026-09-19T20:21:47.886Z"
+      },
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": false,
+        "fakeReason": "",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.92,
+        "extractedTags": [
+          "solid_waste",
+          "overflowing_bin",
+          "black_spot_dump",
+          "plastic_debris"
+        ],
+        "severity": "HIGH",
+        "duplicateScore": 0,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": null,
+        "duplicateCandidatePublicId": "",
+        "summary": "Garbage issue verified at Vidyaranyapuram (Ward 48) (92% confidence).",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Vidyaranyapuram (Ward 48)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "LIKELY_AUTHENTIC",
+          "syntheticRisk": "LOW_RISK",
+          "confidence": 92,
+          "extractedTags": [
+            "solid_waste",
+            "overflowing_bin",
+            "black_spot_dump",
+            "plastic_debris"
+          ],
+          "visualSummary": "Verified garbage evidence consistent with reported civic defect."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.6495,
+            12.3082
+          ],
+          "accuracyMeters": 12,
+          "accuracyGrade": "HIGH_PRECISION",
+          "wardName": "Vidyaranyapuram (Ward 48)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3082°N, 76.6495°E] verified within Vidyaranyapuram (Ward 48) (HIGH PRECISION, ±12m)."
+        },
+        "analyzedAt": "2026-09-19T20:21:47.886Z",
+        "durationMs": 0
+      },
+      "issueId": "6aaeeedb0000c8d4"
+    },
+    {
+      "reportId": "R-1033",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "POTHOLE",
+        "name": "Pothole",
+        "duplicateRadiusMeters": 75,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "pothole",
+          "road",
+          "asphalt",
+          "crater"
+        ],
+        "_id": "6aadb05b0000ec3d",
+        "createdAt": "2026-09-18T21:42:51.283Z",
+        "updatedAt": "2026-09-18T21:42:51.283Z"
+      },
+      "citizenSelectedZoneId": "6aadb05b0000326c",
+      "description": "path",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.70157216721317,
+          12.325490370534178
+        ],
+        "accuracyMeters": 51.61200521945185
+      },
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T20:41:16.877Z",
+      "reportStatus": "PENDING_REVIEW",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aaef36c00008b02",
+      "createdAt": "2026-09-19T20:41:16.878Z",
+      "updatedAt": "2026-09-19T20:41:16.915Z",
+      "verification": {
+        "imageRelevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "captureProvenance": "APP_CAPTURE",
+        "locationConsistency": "MATCH",
+        "timestampPresent": true,
+        "duplicateEvidence": "NO_STRONG_MATCH",
+        "zoneConsistency": "MISMATCH",
+        "overallStatus": "NEEDS_REVIEW",
+        "score": 40,
+        "requiresManualReview": true,
+        "flags": [
+          "ZONE_MISMATCH",
+          "LOW_IMAGE_RELEVANCE",
+          "AI_FLAGGED_FAKE",
+          "FAKE_REASON_GIBBERISH_OR_SPAM"
+        ],
+        "aiTriage": {
+          "analyzed": true,
+          "provider": "mock",
+          "model": "heuristic-civic-vision-v2",
+          "isFake": true,
+          "fakeReason": "GIBBERISH_OR_SPAM",
+          "suggestedCategory": "POTHOLE",
+          "categoryAgrees": true,
+          "confidence": 0.95,
+          "extractedTags": [],
+          "severity": "MEDIUM",
+          "duplicateScore": 46,
+          "duplicateDecision": "CREATE",
+          "duplicateCandidateId": "6aaeebec0000f584",
+          "duplicateCandidatePublicId": "CV-1034",
+          "summary": "AI flagged complaint as non-civic or spam entry.",
+          "reasoning": "Multimodal municipal rules verified photo defect (POTHOLE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+          "photoAssessment": {
+            "analyzed": true,
+            "detectedCategory": "POTHOLE",
+            "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+            "syntheticRisk": "HIGH_RISK",
+            "confidence": 95,
+            "extractedTags": [
+              "civic_evidence"
+            ],
+            "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+          },
+          "locationAssessment": {
+            "verified": true,
+            "withinJurisdiction": true,
+            "jurisdictionName": "Mysuru City Corporation (MCC)",
+            "coords": [
+              76.70157,
+              12.32549
+            ],
+            "accuracyMeters": 52,
+            "accuracyGrade": "LOW_PRECISION",
+            "wardName": "Gokulam 3rd Stage (Ward 14)",
+            "confidence": 96,
+            "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±52m)."
+          },
+          "analyzedAt": "2026-09-19T20:41:16.907Z",
+          "durationMs": 0
+        },
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "POTHOLE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70157,
+            12.32549
+          ],
+          "accuracyMeters": 52,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±52m)."
+        },
+        "provider": "mock",
+        "analyzedAt": "2026-09-19T20:41:16.907Z"
+      },
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "POTHOLE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 46,
+        "duplicateDecision": "CREATE",
+        "duplicateCandidateId": "6aaeebec0000f584",
+        "duplicateCandidatePublicId": "CV-1034",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Multimodal municipal rules verified photo defect (POTHOLE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "POTHOLE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70157,
+            12.32549
+          ],
+          "accuracyMeters": 52,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±52m)."
+        },
+        "analyzedAt": "2026-09-19T20:41:16.907Z",
+        "durationMs": 0
+      },
+      "issueId": "6aaef36c0000f363"
+    },
+    {
+      "reportId": "R-1034",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "citizenSelectedZoneId": "6aadb05b0000e532",
+      "description": "flag",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.70162290943115,
+          12.325480410891108
+        ],
+        "accuracyMeters": 60.01923800455057
+      },
+      "gpsDerivedZoneId": "6aadb05b0000f639",
+      "zoneMatchStatus": "MISMATCH",
+      "submittedAt": "2026-09-19T20:44:57.158Z",
+      "reportStatus": "PENDING_REVIEW",
+      "duplicateDecision": "NEW_ISSUE",
+      "_id": "6aaef4490000d744",
+      "createdAt": "2026-09-19T20:44:57.158Z",
+      "updatedAt": "2026-09-19T20:45:06.394Z",
+      "verification": {
+        "imageRelevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "captureProvenance": "APP_CAPTURE",
+        "locationConsistency": "MATCH",
+        "timestampPresent": true,
+        "duplicateEvidence": "NO_STRONG_MATCH",
+        "zoneConsistency": "MISMATCH",
+        "overallStatus": "NEEDS_REVIEW",
+        "score": 40,
+        "requiresManualReview": true,
+        "flags": [
+          "ZONE_MISMATCH",
+          "LOW_IMAGE_RELEVANCE",
+          "AI_FLAGGED_FAKE",
+          "FAKE_REASON_GIBBERISH_OR_SPAM"
+        ],
+        "aiTriage": {
+          "analyzed": true,
+          "provider": "mock",
+          "model": "heuristic-civic-vision-v2",
+          "isFake": true,
+          "fakeReason": "GIBBERISH_OR_SPAM",
+          "suggestedCategory": "GARBAGE",
+          "categoryAgrees": true,
+          "confidence": 0.95,
+          "extractedTags": [],
+          "severity": "MEDIUM",
+          "duplicateScore": 62,
+          "duplicateDecision": "POSSIBLE",
+          "duplicateCandidateId": "6aaeebec0000f584",
+          "duplicateCandidatePublicId": "CV-1034",
+          "summary": "AI flagged complaint as non-civic or spam entry.",
+          "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+          "photoAssessment": {
+            "analyzed": true,
+            "detectedCategory": "GARBAGE",
+            "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+            "syntheticRisk": "HIGH_RISK",
+            "confidence": 95,
+            "extractedTags": [
+              "civic_evidence"
+            ],
+            "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+          },
+          "locationAssessment": {
+            "verified": true,
+            "withinJurisdiction": true,
+            "jurisdictionName": "Mysuru City Corporation (MCC)",
+            "coords": [
+              76.70162,
+              12.32548
+            ],
+            "accuracyMeters": 60,
+            "accuracyGrade": "LOW_PRECISION",
+            "wardName": "Gokulam 3rd Stage (Ward 14)",
+            "confidence": 96,
+            "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±60m)."
+          },
+          "analyzedAt": "2026-09-19T20:44:57.186Z",
+          "durationMs": 0
+        },
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70162,
+            12.32548
+          ],
+          "accuracyMeters": 60,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±60m)."
+        },
+        "provider": "mock",
+        "analyzedAt": "2026-09-19T20:44:57.186Z"
+      },
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "model": "heuristic-civic-vision-v2",
+        "isFake": true,
+        "fakeReason": "GIBBERISH_OR_SPAM",
+        "suggestedCategory": "GARBAGE",
+        "categoryAgrees": true,
+        "confidence": 0.95,
+        "extractedTags": [],
+        "severity": "MEDIUM",
+        "duplicateScore": 62,
+        "duplicateDecision": "POSSIBLE",
+        "duplicateCandidateId": "6aaeebec0000f584",
+        "duplicateCandidatePublicId": "CV-1034",
+        "summary": "AI flagged complaint as non-civic or spam entry.",
+        "reasoning": "Multimodal municipal rules verified photo defect (GARBAGE) and confirmed location (Gokulam 3rd Stage (Ward 14)).",
+        "photoAssessment": {
+          "analyzed": true,
+          "detectedCategory": "GARBAGE",
+          "authenticity": "SUSPICIOUS_OR_IRRELEVANT",
+          "syntheticRisk": "HIGH_RISK",
+          "confidence": 95,
+          "extractedTags": [
+            "civic_evidence"
+          ],
+          "visualSummary": "Photo flagged: does not depict standard municipal infrastructure issue."
+        },
+        "locationAssessment": {
+          "verified": true,
+          "withinJurisdiction": true,
+          "jurisdictionName": "Mysuru City Corporation (MCC)",
+          "coords": [
+            76.70162,
+            12.32548
+          ],
+          "accuracyMeters": 60,
+          "accuracyGrade": "LOW_PRECISION",
+          "wardName": "Gokulam 3rd Stage (Ward 14)",
+          "confidence": 96,
+          "summary": "✓ GPS Coordinates [12.3255°N, 76.7016°E] verified within Gokulam 3rd Stage (Ward 14) (LOW PRECISION, ±60m)."
+        },
+        "analyzedAt": "2026-09-19T20:44:57.186Z",
+        "durationMs": 0
+      },
+      "issueId": "6aaef4520000763b"
     }
   ],
   "Evidence": [
@@ -1375,27 +3044,27 @@
     },
     {
       "evidenceId": "E-1001",
-      "reportId": "6aae743400006cfb",
+      "reportId": "6aaee17b0000efc8",
       "type": "BEFORE",
       "storageKey": "E-1001.jpg",
       "publicUrl": "/uploads/E-1001.jpg",
       "mimeType": "image/jpeg",
-      "fileSize": 37,
-      "sha256": "ff22b84ed98dcfe6eb1221a614d3125bfa3ddcc589d1112b10bd2831ee42d66d",
-      "perceptualHash": "ff22b84ed98dcfe6eb1221a614d3125bfa3ddcc589d1112b10bd2831ee42d66d",
+      "fileSize": 49068,
+      "sha256": "2b7b533c295a6d589252a540064e717966399fc59b7196354d5b5379e20c5578",
+      "perceptualHash": "1111111111111100000000000000000000000000110010111100001111111111",
       "capturedThroughApp": true,
-      "capturedAt": "2026-09-19T11:38:28.126Z",
+      "capturedAt": "2026-09-19T19:24:43.690Z",
       "location": {
         "type": "Point",
         "coordinates": [
-          76.6431,
-          12.2892
+          76.70100108180864,
+          12.325699276684455
         ]
       },
-      "locationAccuracyMeters": 12,
-      "_id": "6aae74340000d867",
-      "createdAt": "2026-09-19T11:38:28.128Z",
-      "updatedAt": "2026-09-19T11:38:28.129Z",
+      "locationAccuracyMeters": 42,
+      "_id": "6aaee17b0000d7e6",
+      "createdAt": "2026-09-19T19:24:43.727Z",
+      "updatedAt": "2026-09-19T19:24:43.729Z",
       "aiAssessment": {
         "relevance": {
           "status": "LIKELY_RELEVANT",
@@ -1409,27 +3078,29 @@
       }
     },
     {
-      "evidenceId": "E-1002",
-      "reportId": "6aae744600006dfb",
+      "evidenceId": "E-1001",
+      "reportId": "6aaee17b0000efc8",
+      "issueId": "6aaee17b000067f6",
       "type": "BEFORE",
-      "storageKey": "E-1002.jpg",
-      "publicUrl": "/uploads/E-1002.jpg",
+      "storageKey": "E-1001.jpg",
+      "publicUrl": "/uploads/E-1001.jpg",
       "mimeType": "image/jpeg",
-      "fileSize": 16,
-      "sha256": "66d0b159cc805363274ae25b68fe1bd65a038e39c82171b77b26167c3fe5b283",
-      "perceptualHash": "66d0b159cc805363274ae25b68fe1bd65a038e39c82171b77b26167c3fe5b283",
+      "fileSize": 49068,
+      "sha256": "2b7b533c295a6d589252a540064e717966399fc59b7196354d5b5379e20c5578",
+      "perceptualHash": "1111111111111100000000000000000000000000110010111100001111111111",
       "capturedThroughApp": true,
-      "capturedAt": "2026-09-19T11:38:46.900Z",
+      "capturedAt": "2026-09-19T19:24:49.153Z",
       "location": {
         "type": "Point",
         "coordinates": [
-          76.6431,
-          12.2892
+          76.70100108180864,
+          12.325699276684455
         ]
       },
-      "_id": "6aae744600004299",
-      "createdAt": "2026-09-19T11:38:46.903Z",
-      "updatedAt": "2026-09-19T11:38:46.905Z",
+      "locationAccuracyMeters": 42,
+      "_id": "6aaee18100002158",
+      "createdAt": "2026-09-19T19:24:49.168Z",
+      "updatedAt": "2026-09-19T19:24:49.171Z",
       "aiAssessment": {
         "relevance": {
           "status": "LIKELY_RELEVANT",
@@ -1438,6 +3109,258 @@
         "syntheticRisk": {
           "status": "LOW_RISK",
           "confidence": 0.75
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1001",
+      "reportId": "6aaee17b0000efc8",
+      "issueId": "6aaee18d00006d92",
+      "type": "BEFORE",
+      "storageKey": "E-1001.jpg",
+      "publicUrl": "/uploads/E-1001.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 48764,
+      "sha256": "09ca592f1a749a8ffbd0304b190eaed3fb641edd116dd25e42d44b861fc4895d",
+      "perceptualHash": "1111111111111110000010000000100000001000000010000000100000001000",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T19:34:43.110Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70100603662428,
+          12.32570210768819
+        ]
+      },
+      "locationAccuracyMeters": 42,
+      "_id": "6aaee3d300006ea2",
+      "createdAt": "2026-09-19T19:34:43.145Z",
+      "updatedAt": "2026-09-19T19:34:43.147Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.85
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.75
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1001",
+      "reportId": "6aaee17b0000efc8",
+      "issueId": "6aaee3d70000ab24",
+      "type": "BEFORE",
+      "storageKey": "E-1001.jpg",
+      "publicUrl": "/uploads/E-1001.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 179444,
+      "sha256": "d659f561ca1eb723dd10ce2d71528f16b594952363dac6637d99b74fb3379dc4",
+      "perceptualHash": "1111100001111001111110011111100011001000101010001010000000000000",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T19:46:36.818Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70144894828704,
+          12.325639564983526
+        ]
+      },
+      "locationAccuracyMeters": 42,
+      "_id": "6aaee69c00009802",
+      "createdAt": "2026-09-19T19:46:36.836Z",
+      "updatedAt": "2026-09-19T19:46:36.838Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.85
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.75
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1028",
+      "reportId": "6aaeeb7600009e11",
+      "issueId": "6aaeeb7600006939",
+      "type": "BEFORE",
+      "storageKey": "E-1028.jpg",
+      "publicUrl": "/uploads/E-1028.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 134,
+      "sha256": "9650f149d622055c4b495e65e9148ebfc5e61b1bb00e83538e76afe48c496eaf",
+      "perceptualHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T20:07:18.593Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6431,
+          12.2892
+        ]
+      },
+      "locationAccuracyMeters": 14,
+      "_id": "6aaeeb760000e1c2",
+      "createdAt": "2026-09-19T20:07:18.600Z",
+      "updatedAt": "2026-09-19T20:07:18.606Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1029",
+      "reportId": "6aaeebec0000fe95",
+      "issueId": "6aaeebec0000f584",
+      "type": "BEFORE",
+      "storageKey": "E-1029.jpg",
+      "publicUrl": "/uploads/E-1029.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 181365,
+      "sha256": "6819161408b9cee54a970f13c1cbf28c5e4e80c48b1b5994749b7f793cebdf31",
+      "perceptualHash": "1111100101111001111110001111100010101000101001001010000001000000",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T20:09:16.382Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70138307546775,
+          12.326052393669482
+        ]
+      },
+      "locationAccuracyMeters": 76.84589115095262,
+      "_id": "6aaeebec00005e3d",
+      "createdAt": "2026-09-19T20:09:16.405Z",
+      "updatedAt": "2026-09-19T20:09:16.418Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1030",
+      "reportId": "6aaeeedb000058d0",
+      "issueId": "6aaeeedb0000c8d4",
+      "type": "BEFORE",
+      "storageKey": "E-1030.jpg",
+      "publicUrl": "/uploads/E-1030.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 134,
+      "sha256": "9650f149d622055c4b495e65e9148ebfc5e61b1bb00e83538e76afe48c496eaf",
+      "perceptualHash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T20:21:47.885Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6495,
+          12.3082
+        ]
+      },
+      "locationAccuracyMeters": 12,
+      "_id": "6aaeeedb00007c14",
+      "createdAt": "2026-09-19T20:21:47.885Z",
+      "updatedAt": "2026-09-19T20:21:47.895Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1031",
+      "reportId": "6aaef36c00008b02",
+      "issueId": "6aaef36c0000f363",
+      "type": "BEFORE",
+      "storageKey": "E-1031.jpg",
+      "publicUrl": "/uploads/E-1031.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 176813,
+      "sha256": "967bbd713f5e53b4ee17288f7d6ea3025a4867dd9d14232be4e536a6b51ab24d",
+      "perceptualHash": "1111100001111000111110001111100010110000101101001010010000000000",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T20:41:16.884Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70157216721317,
+          12.325490370534178
+        ]
+      },
+      "locationAccuracyMeters": 51.61200521945185,
+      "_id": "6aaef36c0000192c",
+      "createdAt": "2026-09-19T20:41:16.904Z",
+      "updatedAt": "2026-09-19T20:41:16.919Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
+        },
+        "provider": "mock"
+      }
+    },
+    {
+      "evidenceId": "E-1032",
+      "reportId": "6aaef4490000d744",
+      "issueId": "6aaef4520000763b",
+      "type": "BEFORE",
+      "storageKey": "E-1032.jpg",
+      "publicUrl": "/uploads/E-1032.jpg",
+      "mimeType": "image/jpeg",
+      "fileSize": 194717,
+      "sha256": "54a7ea8b23613beb644022dcdb67c88ab047aa78d41d753e9330496c69ec3e04",
+      "perceptualHash": "1111001111011111001110010111100010110000001100000011000000000000",
+      "capturedThroughApp": true,
+      "capturedAt": "2026-09-19T20:44:57.165Z",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70162290943115,
+          12.325480410891108
+        ]
+      },
+      "locationAccuracyMeters": 60.01923800455057,
+      "_id": "6aaef44900006885",
+      "createdAt": "2026-09-19T20:44:57.183Z",
+      "updatedAt": "2026-09-19T20:45:06.406Z",
+      "aiAssessment": {
+        "relevance": {
+          "status": "LIKELY_RELEVANT",
+          "confidence": 0.88
+        },
+        "syntheticRisk": {
+          "status": "LOW_RISK",
+          "confidence": 0.82
         },
         "provider": "mock"
       }
@@ -1665,21 +3588,151 @@
       "updatedAt": "2026-09-19T11:31:16.203Z"
     },
     {
-      "issueId": "6aae743400007f7a",
+      "issueId": "6aaee17b000067f6",
       "actorId": "66e9a0000000000000000099",
       "actorRole": "CITIZEN",
       "eventType": "ISSUE_CREATED",
-      "toStatus": "ASSIGNED",
+      "toStatus": "NEEDS_REVIEW",
       "message": "Civic issue opened from citizen report",
       "metadata": {
         "reportId": "R-1001"
       },
-      "_id": "6aae743400004195",
-      "createdAt": "2026-09-19T11:38:28.131Z",
-      "updatedAt": "2026-09-19T11:38:28.131Z"
+      "_id": "6aaee17b00001873",
+      "createdAt": "2026-09-19T19:24:43.733Z",
+      "updatedAt": "2026-09-19T19:24:43.733Z"
     },
     {
-      "issueId": "6aae7446000005e2",
+      "issueId": "6aaee18a00007884",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aaee18a0000c326",
+      "createdAt": "2026-09-19T19:24:58.503Z",
+      "updatedAt": "2026-09-19T19:24:58.503Z"
+    },
+    {
+      "issueId": "6aaee18d00006d92",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aaee18d0000e0e5",
+      "createdAt": "2026-09-19T19:25:01.504Z",
+      "updatedAt": "2026-09-19T19:25:01.504Z"
+    },
+    {
+      "issueId": "6aaee3d60000a2e6",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aaee3d6000043b1",
+      "createdAt": "2026-09-19T19:34:46.011Z",
+      "updatedAt": "2026-09-19T19:34:46.011Z"
+    },
+    {
+      "issueId": "6aaee3d70000ab24",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aaee3d7000051c0",
+      "createdAt": "2026-09-19T19:34:47.965Z",
+      "updatedAt": "2026-09-19T19:34:47.965Z"
+    },
+    {
+      "issueId": "6aaee6ac0000e138",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aaee6ac00000ebb",
+      "createdAt": "2026-09-19T19:46:52.847Z",
+      "updatedAt": "2026-09-19T19:46:52.847Z"
+    },
+    {
+      "issueId": "6aaee6ae0000ae72",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1001"
+      },
+      "_id": "6aaee6ae0000970f",
+      "createdAt": "2026-09-19T19:46:54.017Z",
+      "updatedAt": "2026-09-19T19:46:54.017Z"
+    },
+    {
+      "issueId": "6aaee6ae0000ae72",
+      "actorId": "6aadb05b00005a19",
+      "actorRole": "MAIN_AUTHORITY",
+      "eventType": "REVIEW_DECISION",
+      "message": "Authority decision: approve",
+      "_id": "6aaee7c600004209",
+      "createdAt": "2026-09-19T19:51:34.761Z",
+      "updatedAt": "2026-09-19T19:51:34.761Z"
+    },
+    {
+      "issueId": "6aadb05b0000a0c4",
+      "actorId": "6aadb05b00005a19",
+      "actorRole": "MAIN_AUTHORITY",
+      "eventType": "STATUS",
+      "fromStatus": "ESCALATED",
+      "toStatus": "ACKNOWLEDGED",
+      "message": "Officer accepted the issue",
+      "_id": "6aaee7dc000009d7",
+      "createdAt": "2026-09-19T19:51:56.710Z",
+      "updatedAt": "2026-09-19T19:51:56.710Z"
+    },
+    {
+      "issueId": "6aadb05b0000a0c4",
+      "actorId": "6aadb05b00005a19",
+      "actorRole": "MAIN_AUTHORITY",
+      "eventType": "STATUS",
+      "fromStatus": "ACKNOWLEDGED",
+      "toStatus": "ACKNOWLEDGED",
+      "message": "",
+      "_id": "6aaee7e200009d04",
+      "createdAt": "2026-09-19T19:52:02.477Z",
+      "updatedAt": "2026-09-19T19:52:02.477Z"
+    },
+    {
+      "issueId": "6aadb05b0000a0c4",
+      "actorId": "6aadb05b00005a19",
+      "actorRole": "MAIN_AUTHORITY",
+      "eventType": "STATUS",
+      "fromStatus": "ACKNOWLEDGED",
+      "toStatus": "RESOLVED",
+      "message": "Marked resolved with evidence",
+      "_id": "6aaee7eb00002096",
+      "createdAt": "2026-09-19T19:52:11.627Z",
+      "updatedAt": "2026-09-19T19:52:11.627Z"
+    },
+    {
+      "issueId": "6aaeeb2f00001420",
       "actorId": "66e9a0000000000000000099",
       "actorRole": "CITIZEN",
       "eventType": "ISSUE_CREATED",
@@ -1688,29 +3741,330 @@
       "metadata": {
         "reportId": "R-1002"
       },
-      "_id": "6aae74460000b0d4",
-      "createdAt": "2026-09-19T11:38:46.907Z",
-      "updatedAt": "2026-09-19T11:38:46.907Z"
+      "_id": "6aaeeb2f00008327",
+      "createdAt": "2026-09-19T20:06:07.646Z",
+      "updatedAt": "2026-09-19T20:06:07.646Z"
+    },
+    {
+      "issueId": "6aaeeb5d0000e1e6",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1028"
+      },
+      "_id": "6aaeeb5d0000017e",
+      "createdAt": "2026-09-19T20:06:53.781Z",
+      "updatedAt": "2026-09-19T20:06:53.781Z"
+    },
+    {
+      "issueId": "6aaeeb5d0000e1e6",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "REPORT_ATTACHED",
+      "message": "Report R-1029 attached — additional citizen evidence linked",
+      "_id": "6aaeeb5d0000a3dd",
+      "createdAt": "2026-09-19T20:06:53.787Z",
+      "updatedAt": "2026-09-19T20:06:53.787Z"
+    },
+    {
+      "issueId": "6aaeeb7600006939",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "ASSIGNED",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1030"
+      },
+      "_id": "6aaeeb760000f2a2",
+      "createdAt": "2026-09-19T20:07:18.605Z",
+      "updatedAt": "2026-09-19T20:07:18.605Z"
+    },
+    {
+      "issueId": "6aaeebec0000f584",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1031"
+      },
+      "_id": "6aaeebec00000f88",
+      "createdAt": "2026-09-19T20:09:16.418Z",
+      "updatedAt": "2026-09-19T20:09:16.418Z"
+    },
+    {
+      "issueId": "6aaeeedb0000c8d4",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "VERIFIED",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1032"
+      },
+      "_id": "6aaeeedb00003579",
+      "createdAt": "2026-09-19T20:21:47.892Z",
+      "updatedAt": "2026-09-19T20:21:47.892Z"
+    },
+    {
+      "issueId": "6aaef36c0000f363",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1033"
+      },
+      "_id": "6aaef36c000074d1",
+      "createdAt": "2026-09-19T20:41:16.916Z",
+      "updatedAt": "2026-09-19T20:41:16.916Z"
+    },
+    {
+      "issueId": "6aaef4520000763b",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-1034"
+      },
+      "_id": "6aaef4520000cd7d",
+      "createdAt": "2026-09-19T20:45:06.396Z",
+      "updatedAt": "2026-09-19T20:45:06.396Z"
     }
   ],
   "Notification": [
     {
       "userId": "6aadb05b000011d6",
-      "title": "New issue CV-1030",
-      "body": "Massive open garbage dump and overflowing bin on Vidyaranyapuram Main Road causing foul smell",
-      "issueId": "6aae743400007f7a",
-      "_id": "6aae74340000a786",
-      "createdAt": "2026-09-19T11:38:28.131Z",
-      "updatedAt": "2026-09-19T11:38:28.131Z"
+      "title": "New issue CV-1031",
+      "body": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "issueId": "6aaeeb2f00001420",
+      "_id": "6aaeeb2f0000879f",
+      "createdAt": "2026-09-19T20:06:07.647Z",
+      "updatedAt": "2026-09-19T20:06:07.647Z"
     },
     {
       "userId": "6aadb05b000011d6",
-      "title": "New issue CV-1031",
-      "body": "qwerty asdfghjkl 123456",
-      "issueId": "6aae7446000005e2",
-      "_id": "6aae744600004c56",
-      "createdAt": "2026-09-19T11:38:46.907Z",
-      "updatedAt": "2026-09-19T11:38:46.907Z"
+      "title": "New issue CV-1032",
+      "body": "Overflowing solid waste garbage pile near Vidyaranyapuram circle",
+      "issueId": "6aaeeb5d0000e1e6",
+      "_id": "6aaeeb5d0000ffab",
+      "createdAt": "2026-09-19T20:06:53.782Z",
+      "updatedAt": "2026-09-19T20:06:53.782Z"
+    },
+    {
+      "userId": "6aadb05b000011d6",
+      "title": "New issue CV-1033",
+      "body": "Severe solid waste accumulation and garbage dumped near Vidyaranyapuram circle",
+      "issueId": "6aaeeb7600006939",
+      "_id": "6aaeeb7600009f68",
+      "createdAt": "2026-09-19T20:07:18.605Z",
+      "updatedAt": "2026-09-19T20:07:18.605Z"
+    },
+    {
+      "userId": "6aadb05b00005a19",
+      "title": "🚨 New Civic Complaint: CV-1035",
+      "body": "Citizen logged \"Solid waste overflowing on pedestrian pavement near park entrance\" at Central Operational Zone · 12.3082°N, 76.6495°E. Photo evidence & GPS coordinates received. AI Verification: 100/100.",
+      "issueId": "6aaeeedb0000c8d4",
+      "issuePublicId": "CV-1035",
+      "photoUrl": "/uploads/E-1030.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6495,
+          12.3082
+        ]
+      },
+      "locationLabel": "Central Operational Zone · 12.3082°N, 76.6495°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaeeedb000091a3",
+      "createdAt": "2026-09-19T20:21:47.893Z",
+      "updatedAt": "2026-09-19T20:21:47.893Z"
+    },
+    {
+      "userId": "6aadb05b00008248",
+      "title": "🚨 New Civic Complaint: CV-1035",
+      "body": "Citizen logged \"Solid waste overflowing on pedestrian pavement near park entrance\" at Central Operational Zone · 12.3082°N, 76.6495°E. Photo evidence & GPS coordinates received. AI Verification: 100/100.",
+      "issueId": "6aaeeedb0000c8d4",
+      "issuePublicId": "CV-1035",
+      "photoUrl": "/uploads/E-1030.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6495,
+          12.3082
+        ]
+      },
+      "locationLabel": "Central Operational Zone · 12.3082°N, 76.6495°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaeeedb0000947f",
+      "createdAt": "2026-09-19T20:21:47.893Z",
+      "updatedAt": "2026-09-19T20:21:47.893Z"
+    },
+    {
+      "userId": "66e9a0000000000000000099",
+      "title": "✅ Complaint Registered: CV-1035",
+      "body": "Your complaint \"Solid waste overflowing on pedestrian pavement near park entrance\" has been registered at Central Operational Zone · 12.3082°N, 76.6495°E and sent to MCC. Evidence photo and GPS verification recorded.",
+      "issueId": "6aaeeedb0000c8d4",
+      "issuePublicId": "CV-1035",
+      "photoUrl": "/uploads/E-1030.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6495,
+          12.3082
+        ]
+      },
+      "locationLabel": "Central Operational Zone · 12.3082°N, 76.6495°E",
+      "category": "Garbage / illegal dumping",
+      "type": "COMPLAINT_REGISTERED",
+      "read": true,
+      "_id": "6aaeeedb0000243a",
+      "createdAt": "2026-09-19T20:21:47.894Z",
+      "updatedAt": "2026-09-19T20:23:02.752Z"
+    },
+    {
+      "userId": "6aadb05b00005a19",
+      "title": "🚨 New Civic Complaint: CV-1036",
+      "body": "Citizen logged \"path\" at East Operational Zone · 12.3255°N, 76.7016°E. Photo evidence & GPS coordinates received. AI Verification: 40/100.",
+      "issueId": "6aaef36c0000f363",
+      "issuePublicId": "CV-1036",
+      "photoUrl": "/uploads/E-1031.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70157216721317,
+          12.325490370534178
+        ]
+      },
+      "locationLabel": "East Operational Zone · 12.3255°N, 76.7016°E",
+      "category": "Pothole",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaef36c00001e5a",
+      "createdAt": "2026-09-19T20:41:16.918Z",
+      "updatedAt": "2026-09-19T20:41:16.918Z"
+    },
+    {
+      "userId": "6aadb05b00008248",
+      "title": "🚨 New Civic Complaint: CV-1036",
+      "body": "Citizen logged \"path\" at East Operational Zone · 12.3255°N, 76.7016°E. Photo evidence & GPS coordinates received. AI Verification: 40/100.",
+      "issueId": "6aaef36c0000f363",
+      "issuePublicId": "CV-1036",
+      "photoUrl": "/uploads/E-1031.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70157216721317,
+          12.325490370534178
+        ]
+      },
+      "locationLabel": "East Operational Zone · 12.3255°N, 76.7016°E",
+      "category": "Pothole",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaef36c00002e87",
+      "createdAt": "2026-09-19T20:41:16.918Z",
+      "updatedAt": "2026-09-19T20:41:16.918Z"
+    },
+    {
+      "userId": "66e9a0000000000000000099",
+      "title": "✅ Complaint Registered: CV-1036",
+      "body": "Your complaint \"path\" has been registered at East Operational Zone · 12.3255°N, 76.7016°E and sent to MCC. Evidence photo and GPS verification recorded.",
+      "issueId": "6aaef36c0000f363",
+      "issuePublicId": "CV-1036",
+      "photoUrl": "/uploads/E-1031.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70157216721317,
+          12.325490370534178
+        ]
+      },
+      "locationLabel": "East Operational Zone · 12.3255°N, 76.7016°E",
+      "category": "Pothole",
+      "type": "COMPLAINT_REGISTERED",
+      "read": true,
+      "_id": "6aaef36c0000ca3c",
+      "createdAt": "2026-09-19T20:41:16.919Z",
+      "updatedAt": "2026-09-19T20:41:38.875Z"
+    },
+    {
+      "userId": "6aadb05b00005a19",
+      "title": "🚨 New Civic Complaint: CV-1037",
+      "body": "Citizen logged \"flag\" at East Operational Zone · 12.3255°N, 76.7016°E. Photo evidence & GPS coordinates received. AI Verification: 40/100.",
+      "issueId": "6aaef4520000763b",
+      "issuePublicId": "CV-1037",
+      "photoUrl": "/uploads/E-1032.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70162290943115,
+          12.325480410891108
+        ]
+      },
+      "locationLabel": "East Operational Zone · 12.3255°N, 76.7016°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaef45200006046",
+      "createdAt": "2026-09-19T20:45:06.400Z",
+      "updatedAt": "2026-09-19T20:45:06.400Z"
+    },
+    {
+      "userId": "6aadb05b00008248",
+      "title": "🚨 New Civic Complaint: CV-1037",
+      "body": "Citizen logged \"flag\" at East Operational Zone · 12.3255°N, 76.7016°E. Photo evidence & GPS coordinates received. AI Verification: 40/100.",
+      "issueId": "6aaef4520000763b",
+      "issuePublicId": "CV-1037",
+      "photoUrl": "/uploads/E-1032.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70162290943115,
+          12.325480410891108
+        ]
+      },
+      "locationLabel": "East Operational Zone · 12.3255°N, 76.7016°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaef4520000ff28",
+      "createdAt": "2026-09-19T20:45:06.402Z",
+      "updatedAt": "2026-09-19T20:45:06.402Z"
+    },
+    {
+      "userId": "66e9a0000000000000000099",
+      "title": "✅ Complaint Registered: CV-1037",
+      "body": "Your complaint \"flag\" has been registered at East Operational Zone · 12.3255°N, 76.7016°E and sent to MCC. Evidence photo and GPS verification recorded.",
+      "issueId": "6aaef4520000763b",
+      "issuePublicId": "CV-1037",
+      "photoUrl": "/uploads/E-1032.jpg",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.70162290943115,
+          12.325480410891108
+        ]
+      },
+      "locationLabel": "East Operational Zone · 12.3255°N, 76.7016°E",
+      "category": "Garbage / illegal dumping",
+      "type": "COMPLAINT_REGISTERED",
+      "read": true,
+      "_id": "6aaef45200001aea",
+      "createdAt": "2026-09-19T20:45:06.404Z",
+      "updatedAt": "2026-09-19T20:45:23.074Z"
     }
   ],
   "SystemConfig": [

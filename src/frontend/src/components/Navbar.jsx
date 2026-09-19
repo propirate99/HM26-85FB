@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import { QuickUserSwitcher } from "../auth/QuickUserSwitcher.jsx";
 import { BrandMark } from "./BrandMark.jsx";
+import { NotificationCenter } from "./NotificationCenter.jsx";
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -31,6 +32,9 @@ export function Navbar() {
               <NavLink to="/app" className={({ isActive }) => (isActive ? "on" : undefined)}>
                 Citizen desk
               </NavLink>
+              <NavLink to="/app/profile" className={({ isActive }) => (isActive ? "on" : undefined)}>
+                📸 Profile & Gallery
+              </NavLink>
               <NavLink to="/app/report" className={({ isActive }) => (isActive ? "on" : "nav-highlight")}>
                 Report an issue
               </NavLink>
@@ -47,15 +51,25 @@ export function Navbar() {
             </NavLink>
           )}
           {user ? (
-            <div className="who">
-              <div className="avatar">{(user.name || "U").slice(0, 1)}</div>
-              <div>
-                <b>{user.name || user.email}</b>
-                <span>{user.role}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <NotificationCenter />
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Link
+                  to="/app/profile"
+                  className="who"
+                  title="View Profile & Evidence Gallery"
+                  style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                >
+                  <div className="avatar">{(user.name || "U").slice(0, 1)}</div>
+                  <div>
+                    <b>{user.name || user.email}</b>
+                    <span>{user.role}</span>
+                  </div>
+                </Link>
+                <button className="btn ghost" type="button" onClick={logout} style={{ flex: "none", padding: "4px 8px", fontSize: 11 }}>
+                  Sign out
+                </button>
               </div>
-              <button className="btn ghost" type="button" onClick={logout} style={{ flex: "none" }}>
-                Sign out
-              </button>
             </div>
           ) : (
             <Link className="btn" to="/login">

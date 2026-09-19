@@ -6,7 +6,7 @@ import * as reports from "../services/report.service.js";
 import * as issues from "../services/issue.service.js";
 import { findNearbyIssues } from "../services/duplicate.service.js";
 import { listEvents } from "../services/audit.service.js";
-import { listNotifications } from "../services/notification.service.js";
+import { listNotifications, markNotificationRead, markAllNotificationsRead } from "../services/notification.service.js";
 import { IssueCategory } from "../models/IssueCategory.js";
 import { Zone } from "../models/Zone.js";
 import { getSlaHours } from "../services/sla.service.js";
@@ -79,13 +79,27 @@ export async function nearby(req, res, next) {
 export async function attach(req, res, next) {
   try {
     const report = await Report.findOne({ reportId: req.params.reportId });
-    const issue = await CivicIssue.findById(req.body.issueId);
-    if (!report || !issue) return res.status(404).json({ error: "Not found" });
+    const issueId = req.body.issueId || req.body.publicId;
+    let issue = null;
+    if (issueId) {
+      if (mongoose.isValidObjectId(issueId)) {
+        issue = await CivicIssue.findById(issueId);
+      }
+      if (!issue) {
+        issue = await CivicIssue.findOne({
+          $or: [{ publicId: String(issueId) }, { _id: String(issueId) }],
+        });
+      }
+    }
+    if (!report || !issue) return res.status(404).json({ error: "Target issue or report not found" });
     if (String(report.citizenId) !== String(req.user._id)) {
       return res.status(403).json({ error: "Not your report" });
     }
     const updated = await issues.attachReportToIssue(report, issue, { actor: req.user });
-    await Evidence.updateMany({ reportId: report._id }, { issueId: issue._id });
+    await Evidence.updateMany(
+      { $or: [{ reportId: report._id }, { reportId: String(report._id) }] },
+      { issueId: issue._id }
+    );
     res.json({ issue: issues.sanitizeIssue(updated) });
   } catch (err) {
     next(err);
@@ -100,7 +114,10 @@ export async function createIssue(req, res, next) {
       return res.status(403).json({ error: "Not your report" });
     }
     const issue = await issues.createIssueFromReport(report, { actor: req.user });
-    await Evidence.updateMany({ reportId: report._id }, { issueId: issue._id });
+    await Evidence.updateMany(
+      { $or: [{ reportId: report._id }, { reportId: String(report._id) }] },
+      { issueId: issue._id }
+    );
     res.status(201).json({ issue: issues.sanitizeIssue(issue) });
   } catch (err) {
     next(err);
@@ -146,11 +163,13 @@ export async function getIssue(req, res, next) {
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     const evidence = await Evidence.find({ issueId: issue._id });
     const events = await listEvents(issue._id);
+    const supporters = Array.isArray(issue.supporters) ? issue.supporters : [];
+    const supported = Boolean(req.user?._id && supporters.some((id) => String(id) === String(req.user._id)));
     res.json({
       issue: issues.sanitizeIssue(issue),
       evidence,
       events,
-      supported: issue.supporters.some((id) => String(id) === String(req.user._id)),
+      supported,
     });
   } catch (err) {
     next(err);
@@ -162,7 +181,7 @@ export async function supportOn(req, res, next) {
     const issue = await findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.setSupport(issue, req.user, true);
-    res.json({ supportCount: issue.supportCount });
+    res.json({ supportCount: issue.supportCount || 0 });
   } catch (err) {
     next(err);
   }
@@ -173,7 +192,7 @@ export async function supportOff(req, res, next) {
     const issue = await findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.setSupport(issue, req.user, false);
-    res.json({ supportCount: issue.supportCount });
+    res.json({ supportCount: issue.supportCount || 0 });
   } catch (err) {
     next(err);
   }
@@ -195,6 +214,24 @@ export async function configAll(_req, res, next) {
 export async function notifications(req, res, next) {
   try {
     res.json({ notifications: await listNotifications(req.user._id) });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function markRead(req, res, next) {
+  try {
+    await markNotificationRead(req.params.id, req.user._id);
+    res.json({ ok: true });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function markAllRead(req, res, next) {
+  try {
+    await markAllNotificationsRead(req.user._id);
+    res.json({ ok: true });
   } catch (err) {
     next(err);
   }

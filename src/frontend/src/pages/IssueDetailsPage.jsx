@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { issueApi } from "../api/issueApi.js";
 import { adminApi } from "../api/adminApi.js";
 import { StatusBadge } from "../components/StatusBadge.jsx";
@@ -22,6 +22,7 @@ export function IssueDetailsPage({ publicView, officer }) {
   const [status, setStatus] = useState("");
 
   async function load() {
+    setError("");
     try {
       const payload = publicView
         ? await issueApi.publicOne(id)
@@ -39,7 +40,36 @@ export function IssueDetailsPage({ publicView, officer }) {
     load();
   }, [id, publicView, officer]);
 
-  if (error) return <main className="wrap"><p className="badge badge-risk">{error}</p></main>;
+  if (error) {
+    return (
+      <main className="wrap">
+        <div
+          className="card"
+          style={{
+            maxWidth: 520,
+            margin: "48px auto",
+            textAlign: "center",
+            padding: 32,
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            background: "linear-gradient(180deg, rgba(35, 20, 20, 0.9) 0%, rgba(20, 10, 10, 0.95) 100%)",
+            borderRadius: 16,
+          }}
+        >
+          <span style={{ fontSize: 36 }}>⚠️</span>
+          <h3 style={{ marginTop: 12, color: "#ef4444" }}>Complaint Details Unavailable</h3>
+          <p className="muted" style={{ marginTop: 8 }}>{error}</p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 24 }}>
+            <button className="btn btn-primary" type="button" onClick={load}>
+              Try Again
+            </button>
+            <Link className="btn btn-ghost" to={user?.role === "MAIN_AUTHORITY" ? "/admin" : user?.role === "ZONE_OFFICER" ? "/officer" : "/app"}>
+              Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
   if (!data) return <main className="wrap"><p className="muted">Loading…</p></main>;
 
   const { issue, evidence = [], events = [] } = data;

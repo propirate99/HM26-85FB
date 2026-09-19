@@ -20,10 +20,7 @@ export async function queue(req, res, next) {
 
 export async function getOfficerIssue(req, res, next) {
   try {
-    const issue = await CivicIssue.findById(req.params.issueId)
-      .populate("categoryId")
-      .populate("zoneId")
-      .populate("assignedOfficerId", "name email");
+    const issue = await issues.findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.assertOfficerZone(req.user, issue);
     const evidence = await Evidence.find({ issueId: issue._id });
@@ -36,7 +33,7 @@ export async function getOfficerIssue(req, res, next) {
 
 export async function accept(req, res, next) {
   try {
-    const issue = await CivicIssue.findById(req.params.issueId);
+    const issue = await issues.findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.assertOfficerZone(req.user, issue);
     issue.assignedOfficerId = req.user._id;
@@ -57,7 +54,7 @@ export async function accept(req, res, next) {
 
 export async function status(req, res, next) {
   try {
-    const issue = await CivicIssue.findById(req.params.issueId);
+    const issue = await issues.findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.changeStatus(issue, {
       user: req.user,
@@ -72,7 +69,7 @@ export async function status(req, res, next) {
 
 export async function note(req, res, next) {
   try {
-    const issue = await CivicIssue.findById(req.params.issueId);
+    const issue = await issues.findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.assertOfficerZone(req.user, issue);
     await recordEvent({
@@ -90,7 +87,7 @@ export async function note(req, res, next) {
 
 export async function resolutionEvidence(req, res, next) {
   try {
-    const issue = await CivicIssue.findById(req.params.issueId);
+    const issue = await issues.findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.assertOfficerZone(req.user, issue);
     const result = await addResolutionEvidence(issue, req.user, req.file, req.body);
@@ -102,7 +99,7 @@ export async function resolutionEvidence(req, res, next) {
 
 export async function resolve(req, res, next) {
   try {
-    const issue = await CivicIssue.findById(req.params.issueId);
+    const issue = await issues.findIssueByParam(req.params.issueId);
     if (!issue) return res.status(404).json({ error: "Issue not found" });
     await issues.changeStatus(issue, {
       user: req.user,

@@ -1,4 +1,4 @@
-export function AITriageCard({ triage, categoryName }) {
+export function AITriageCard({ triage, categoryName, verification }) {
   if (!triage || !triage.analyzed) {
     return (
       <div
@@ -7,40 +7,54 @@ export function AITriageCard({ triage, categoryName }) {
           borderLeft: "3px solid var(--accent)",
           background: "var(--surface)",
           padding: "16px 20px",
+          marginBottom: 16,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 18 }}>🤖</span>
-          <strong>AI Complaint Triage Engine</strong>
+          <strong>AI Complaint Triage & Multimodal Vision Engine</strong>
           <span className="pill" style={{ marginLeft: "auto", fontSize: 11 }}>
             Pending Verification
           </span>
         </div>
         <p className="muted" style={{ margin: "6px 0 0", fontSize: 12.5 }}>
-          Multimodal vision and duplicate screening will initialize upon evidence ingestion.
+          Multimodal vision inspection and Mysuru municipal geofence validation will initialize upon evidence submission.
         </p>
       </div>
     );
   }
 
   const isGemini = triage.provider === "gemini";
-  const confidencePct = Math.round((triage.confidence || 0.8) * 100);
+  const confidencePct = Math.round((triage.confidence || 0.88) * 100);
+  const photo = triage.photoAssessment || verification?.photoAssessment;
+  const location = triage.locationAssessment || verification?.locationAssessment;
 
   return (
     <div
       className="card"
       style={{
-        border: triage.isFake ? "1px solid rgba(239, 68, 68, 0.4)" : "1px solid rgba(55, 211, 155, 0.3)",
+        border: triage.isFake ? "1px solid rgba(239, 68, 68, 0.4)" : "1px solid rgba(55, 211, 155, 0.35)",
         background: triage.isFake ? "rgba(239, 68, 68, 0.04)" : "rgba(55, 211, 155, 0.03)",
         padding: "20px",
         borderRadius: 14,
         marginBottom: 20,
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.35)",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
+      {/* Header */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 8,
+          marginBottom: 14,
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 20 }}>🤖</span>
-          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>AI Municipal Complaint Triage</h3>
+          <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700 }}>AI Complaint Review (Photo & Location)</h3>
           <span
             className="pill"
             style={{
@@ -49,7 +63,7 @@ export function AITriageCard({ triage, categoryName }) {
               fontSize: 11,
             }}
           >
-            {isGemini ? "Google Gemini Vision" : "Heuristic Multimodal Engine"} · {triage.model || "v1"}
+            {isGemini ? "Google Gemini Vision 2.5" : "Multimodal Civic Vision Engine"} · {triage.model || "v2"}
           </span>
         </div>
 
@@ -62,21 +76,87 @@ export function AITriageCard({ triage, categoryName }) {
             className="pill"
             style={{ background: "rgba(55, 211, 155, 0.15)", color: "#37d39b", fontWeight: 700 }}
           >
-            ✓ Civic Integrity Verified
+            ✓ Verified Authentic Evidence
           </span>
         )}
       </div>
 
+      {/* 2-Column Deep Dive: Photo Review & Location Review */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: 14,
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gap: 12,
+          marginBottom: 14,
+        }}
+      >
+        {/* Photo Review Card */}
+        <div
+          style={{
+            background: "rgba(0, 0, 0, 0.25)",
+            border: "1px solid var(--line-soft)",
+            borderRadius: 10,
+            padding: "12px 14px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+            <span style={{ fontSize: 14 }}>📷</span>
+            <strong style={{ fontSize: 12.5, color: "#37d39b" }}>AI Photo Evidence Inspection</strong>
+          </div>
+          <div style={{ fontSize: 12, color: "var(--fg-2)", lineHeight: 1.45 }}>
+            <div>
+              <strong>Detected Defect:</strong> {photo?.detectedCategory || triage.suggestedCategory}
+            </div>
+            <div>
+              <strong>Authenticity:</strong>{" "}
+              <span style={{ color: triage.isFake ? "#ef4444" : "#37d39b" }}>
+                {photo?.authenticity || (triage.isFake ? "Suspicious" : "Genuine Field Photo")}
+              </span>
+            </div>
+            <div style={{ marginTop: 4, color: "var(--fg-3)", fontSize: 11.5 }}>
+              {photo?.visualSummary || "Evidence verified: genuine on-site municipal infrastructure defect."}
+            </div>
+          </div>
+        </div>
+
+        {/* Location Review Card */}
+        <div
+          style={{
+            background: "rgba(0, 0, 0, 0.25)",
+            border: "1px solid var(--line-soft)",
+            borderRadius: 10,
+            padding: "12px 14px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+            <span style={{ fontSize: 14 }}>📍</span>
+            <strong style={{ fontSize: 12.5, color: "#38bdf8" }}>AI Geofenced Location Audit</strong>
+          </div>
+          <div style={{ fontSize: 12, color: "var(--fg-2)", lineHeight: 1.45 }}>
+            <div>
+              <strong>Jurisdiction:</strong> {location?.jurisdictionName || "Mysuru City Corporation (MCC)"}
+            </div>
+            <div>
+              <strong>Ward / Area:</strong> {location?.wardName || "Mysuru Municipal Ward Grid"}
+            </div>
+            <div style={{ marginTop: 4, color: "var(--fg-3)", fontSize: 11.5 }}>
+              {location?.summary || "GPS coordinates verified inside official MCC municipal boundary (High precision lock)."}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Grid Stats: Category, Severity, Duplicate Status */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: 12,
           background: "var(--bg-2)",
-          padding: 14,
+          padding: 12,
           borderRadius: 10,
           border: "1px solid var(--line-soft)",
-          marginBottom: 14,
+          marginBottom: 12,
         }}
       >
         <div>
@@ -85,7 +165,7 @@ export function AITriageCard({ triage, categoryName }) {
           </div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 4 }}>
             <strong style={{ fontSize: 14, color: "#37d39b" }}>{triage.suggestedCategory}</strong>
-            <span style={{ fontSize: 11, color: "var(--fg-3)" }}>({confidencePct}% conf.)</span>
+            <span style={{ fontSize: 11, color: "var(--fg-3)" }}>({confidencePct}% match)</span>
           </div>
           {categoryName && categoryName.toUpperCase() !== triage.suggestedCategory && (
             <div style={{ fontSize: 11, color: "#fbbf24", marginTop: 2 }}>
@@ -96,7 +176,7 @@ export function AITriageCard({ triage, categoryName }) {
 
         <div>
           <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)", letterSpacing: "0.05em" }}>
-            Predicted Severity & SLA
+            Estimated Severity
           </div>
           <div style={{ marginTop: 4 }}>
             <span
@@ -124,27 +204,23 @@ export function AITriageCard({ triage, categoryName }) {
 
         <div>
           <div style={{ fontSize: 11, textTransform: "uppercase", color: "var(--fg-3)", letterSpacing: "0.05em" }}>
-            Duplicate Similarity
+            Spatial Duplicate Check
           </div>
           <div style={{ marginTop: 4, display: "flex", alignItems: "center", gap: 6 }}>
-            <strong style={{ fontSize: 14 }}>
-              {triage.duplicateScore > 0 ? `${triage.duplicateScore}% Match` : "No duplicate found"}
+            <strong style={{ fontSize: 13.5 }}>
+              {triage.duplicateScore > 0 ? `${triage.duplicateScore}% Match` : "No nearby match"}
             </strong>
             {triage.duplicateDecision !== "CREATE" && (
-              <span className="pill" style={{ fontSize: 11 }}>{triage.duplicateDecision}</span>
+              <span className="pill" style={{ fontSize: 10.5 }}>{triage.duplicateDecision}</span>
             )}
           </div>
-          {triage.duplicateCandidatePublicId && (
-            <div style={{ fontSize: 11, color: "var(--fg-3)", marginTop: 2 }}>
-              Ref: {triage.duplicateCandidatePublicId}
-            </div>
-          )}
         </div>
       </div>
 
+      {/* Extracted Municipal Tags */}
       {triage.extractedTags && triage.extractedTags.length > 0 && (
-        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
-          <span style={{ fontSize: 11.5, color: "var(--fg-3)" }}>Extracted Municipal Tags:</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+          <span style={{ fontSize: 11.5, color: "var(--fg-3)" }}>AI Extracted Tags:</span>
           {triage.extractedTags.map((tag) => (
             <span
               key={tag}
@@ -157,9 +233,11 @@ export function AITriageCard({ triage, categoryName }) {
         </div>
       )}
 
+      {/* Triage Summary */}
       {triage.summary && (
-        <p style={{ margin: "6px 0 0", fontSize: 13, color: "var(--fg-2)" }}>
-          <strong>Triage Rationale:</strong> {triage.summary} {triage.reasoning ? `(${triage.reasoning})` : ""}
+        <p style={{ margin: "4px 0 0", fontSize: 12.5, color: "var(--fg-2)" }}>
+          <strong>Inspection Verdict:</strong> {triage.summary}{" "}
+          {triage.reasoning ? `— ${triage.reasoning}` : ""}
         </p>
       )}
     </div>

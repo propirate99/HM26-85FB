@@ -12,6 +12,7 @@ import { AdminDashboard } from "../pages/AdminDashboard.jsx";
 import { PublicIssuesPage } from "../pages/PublicIssuesPage.jsx";
 import { SwachhaGridPage } from "../pages/SwachhaGridPage.jsx";
 import { SimulatorPage } from "../pages/SimulatorPage.jsx";
+import { ProfilePage } from "../pages/ProfilePage.jsx";
 
 export function AppRouter() {
   const { pathname } = useLocation();
@@ -32,6 +33,14 @@ export function AppRouter() {
           element={
             <ProtectedRoute>
               <CitizenDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
             </ProtectedRoute>
           }
         />

@@ -21,6 +21,10 @@ export const issueApi = {
   support: (id) => api.post(`/issues/${id}/support`, {}),
   unsupport: (id) => api.del(`/issues/${id}/support`),
   publicList: (q = {}) => api.get(`/public/issues?${new URLSearchParams(q)}`),
-  publicOne: (publicId) => api.get(`/public/issues/${publicId}`),
   notifications: () => api.get("/notifications"),
+  markNotificationRead: (id) => api.patch(`/notifications/${id}/read`, {}),
+  markAllNotificationsRead: () => api.post("/notifications/mark-all-read", {}),
+  getMyGallery: () => api.get("/users/gallery"),
+  getProfile: () => api.get("/users/me"),
+  updateProfile: (data) => api.patch("/users/me", data),
 };

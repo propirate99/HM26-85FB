@@ -18,6 +18,8 @@ const aiTriageSchema = new mongoose.Schema(
     duplicateCandidatePublicId: { type: String, default: "" },
     summary: { type: String, default: "" },
     reasoning: { type: String, default: "" },
+    photoAssessment: { type: mongoose.Schema.Types.Mixed, default: {} },
+    locationAssessment: { type: mongoose.Schema.Types.Mixed, default: {} },
     analyzedAt: { type: Date, default: null },
     durationMs: { type: Number, default: 0 },
   },

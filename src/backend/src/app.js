@@ -14,7 +14,7 @@ import { evidenceRoutes } from "./routes/evidence.routes.js";
 import { officerRoutes } from "./routes/officer.routes.js";
 import { adminRoutes } from "./routes/admin.routes.js";
 import { publicRoutes } from "./routes/public.routes.js";
-import { notifications } from "./controllers/report.controller.js";
+import { notifications, markRead, markAllRead } from "./controllers/report.controller.js";
 import { auth } from "./middleware/auth.js";
 import { uploadsDir } from "./integrations/storage.provider.js";
 import { configRoutes } from "./routes/config.routes.js";
@@ -44,6 +44,8 @@ export function createApp() {
   app.use("/api/users", userRoutes);
   app.use("/api/config", configRoutes);
   app.get("/api/notifications", auth, notifications);
+  app.patch("/api/notifications/:id/read", auth, markRead);
+  app.post("/api/notifications/mark-all-read", auth, markAllRead);
   app.use("/api/reports", reportRoutes);
   app.use("/api/reports", evidenceRoutes);
   app.use("/api/issues", issueRoutes);

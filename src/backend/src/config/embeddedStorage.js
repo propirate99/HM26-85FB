@@ -385,11 +385,24 @@ export function patchMongooseForEmbedded(mongoose, engine) {
     model.updateOne = async function (filter, update) {
       const doc = await model.findOne(filter);
       if (doc) {
-        Object.assign(doc, update);
+        const changes = update.$set || update;
+        Object.assign(doc, changes);
         await doc.save();
-        return { modifiedCount: 1 };
+        return { modifiedCount: 1, matchedCount: 1 };
       }
-      return { modifiedCount: 0 };
+      return { modifiedCount: 0, matchedCount: 0 };
+    };
+
+    model.updateMany = async function (filter, update) {
+      const docs = await model.find(filter);
+      const changes = update.$set || update;
+      let count = 0;
+      for (const doc of docs) {
+        Object.assign(doc, changes);
+        await doc.save();
+        count++;
+      }
+      return { modifiedCount: count, matchedCount: docs.length };
     };
 
     model.deleteMany = async function (filter = {}) {

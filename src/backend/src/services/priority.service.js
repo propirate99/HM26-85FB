@@ -59,13 +59,18 @@ export function jaccard(a, b) {
 
 export async function nextId(Model, field, prefix) {
   try {
-    const q = Model.findOne({ [field]: new RegExp(`^${prefix}-`) }).sort({ createdAt: -1 });
-    const last = typeof q.lean === "function" ? await q.lean() : await q;
-    const val = last?.[field] ? String(last[field]) : "";
-    const parts = val.split("-");
-    const parsed = Number(parts[parts.length - 1]);
-    const n = Number.isFinite(parsed) ? parsed + 1 : 1001;
-    return `${prefix}-${n}`;
+    const docs = await Model.find({});
+    let max = 1000;
+    for (const doc of docs) {
+      const val = doc?.[field] ? String(doc[field]) : "";
+      if (val.startsWith(`${prefix}-`)) {
+        const num = parseInt(val.replace(`${prefix}-`, ""), 10);
+        if (Number.isFinite(num) && num > max) {
+          max = num;
+        }
+      }
+    }
+    return `${prefix}-${max + 1}`;
   } catch {
     return `${prefix}-${Math.floor(1000 + Math.random() * 9000)}`;
   }

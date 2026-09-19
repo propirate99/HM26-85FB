@@ -18,6 +18,8 @@ const aiTriageSchema = new mongoose.Schema(
     duplicateCandidatePublicId: { type: String, default: "" },
     summary: { type: String, default: "" },
     reasoning: { type: String, default: "" },
+    photoAssessment: { type: mongoose.Schema.Types.Mixed, default: {} },
+    locationAssessment: { type: mongoose.Schema.Types.Mixed, default: {} },
     analyzedAt: { type: Date, default: null },
     durationMs: { type: Number, default: 0 },
   },
@@ -69,7 +71,7 @@ const issueSchema = new mongoose.Schema(
     escalated: { type: Boolean, default: false },
     escalationReason: { type: String, default: "" },
     resolvedAt: { type: Date, default: null },
-    supporters: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    supporters: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], default: [] },
     aiTriage: { type: aiTriageSchema, default: undefined },
   },
   { timestamps: true }

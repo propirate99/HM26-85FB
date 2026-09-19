@@ -48,16 +48,24 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
   let syntheticResult;
   let relevance;
   let triageResult;
+
+  const locCoords = evidence?.location?.coordinates || report.capturedLocation?.coordinates;
+  const locAccuracy = evidence?.locationAccuracyMeters ?? report.capturedLocation?.accuracyMeters;
+  const locationPayload =
+    locCoords && locCoords.length === 2 ? { coordinates: locCoords, accuracyMeters: locAccuracy } : null;
+
   try {
     triageResult = await ai.triageComplaint({
       text: report.description,
       categoryCode: category?.code,
       image: evidence?.publicUrl,
+      location: locationPayload,
       duplicateResult,
     });
     categoryResult = await ai.classifyComplaint({
       text: report.description,
       categoryCode: category?.code,
+      location: locationPayload,
     });
     relevance = await ai.assessImageRelevance({ category, image: evidence?.publicUrl });
     syntheticResult = await ai.assessSyntheticRisk({ image: evidence?.publicUrl });
@@ -68,6 +76,8 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
       fakeReason: "",
       suggestedCategory: category?.code || "GARBAGE",
       confidence: 0.5,
+      photoAssessment: null,
+      locationAssessment: null,
     };
     categoryResult = { relevant: true, agreesWithCitizen: true, provider: "UNAVAILABLE" };
     relevance = { status: "UNAVAILABLE", confidence: 0 };
@@ -153,6 +163,8 @@ export async function verifyReport({ report, evidence, duplicateResult }) {
     requiresManualReview,
     flags,
     aiTriage: triageResult,
+    photoAssessment: triageResult?.photoAssessment || null,
+    locationAssessment: triageResult?.locationAssessment || null,
     provider: categoryResult.provider || "RULES_AND_AI",
     analyzedAt: new Date(),
   };

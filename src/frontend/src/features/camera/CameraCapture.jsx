@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCamera } from "./useCamera.js";
 
 function generateSampleCivicBlob(type) {
@@ -123,37 +123,56 @@ function generateSampleCivicBlob(type) {
 }
 
 export function CameraCapture({ onCapture }) {
-  const { videoRef, start, stop, snapshot, switchCamera, error, denied, loading, live } =
-    useCamera();
-  const fileInputRef = useRef(null);
-  const [activeTab, setActiveTab] = useState("camera"); // "camera" | "upload" | "samples"
+  const {
+    videoRef,
+    start,
+    stop,
+    startSimulation,
+    snapshot,
+    switchCamera,
+    facingMode,
+    error,
+    denied,
+    loading,
+    live,
+    isSimulated,
+    devices,
+    selectedDeviceId,
+    selectDevice,
+  } = useCamera();
+
+  const [activeTab, setActiveTab] = useState("camera"); // "camera" | "samples"
   const [capturing, setCapturing] = useState(false);
+  const [shutterFlash, setShutterFlash] = useState(false);
   const [sampleSelected, setSampleSelected] = useState("");
 
+  // Start/Stop camera on tab toggle
   useEffect(() => {
     if (activeTab === "camera") {
       start();
     } else {
       stop();
     }
-  }, [activeTab, start, stop]);
+    return () => {
+      stop();
+    };
+  }, [activeTab]);
 
   async function handleLiveCapture() {
+    if (capturing) return;
     setCapturing(true);
+    setShutterFlash(true);
+    setTimeout(() => setShutterFlash(false), 220);
+
     try {
       const blob = await snapshot();
       if (blob) {
         onCapture(blob);
       }
+    } catch (err) {
+      console.error("Snapshot failed:", err);
     } finally {
       setCapturing(false);
-    }
-  }
-
-  function handleFileSelected(e) {
-    const file = e.target.files?.[0];
-    if (file) {
-      onCapture(file);
     }
   }
 
@@ -178,13 +197,6 @@ export function CameraCapture({ onCapture }) {
         </button>
         <button
           type="button"
-          className={activeTab === "upload" ? "on" : ""}
-          onClick={() => setActiveTab("upload")}
-        >
-          📁 Upload Photo
-        </button>
-        <button
-          type="button"
           className={activeTab === "samples" ? "on" : ""}
           onClick={() => setActiveTab("samples")}
         >
@@ -194,51 +206,140 @@ export function CameraCapture({ onCapture }) {
 
       {activeTab === "camera" && (
         <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              {live ? (
-                <span className="pill" style={{ background: "rgba(55, 211, 155, 0.15)", color: "#37d39b" }}>
-                  ● Live Camera Feed Active
+          {/* Status and Controls Toolbar */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 8,
+              marginBottom: 10,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              {live && !isSimulated && (
+                <span
+                  className="pill"
+                  style={{
+                    background: "rgba(55, 211, 155, 0.15)",
+                    color: "#37d39b",
+                    border: "1px solid rgba(55, 211, 155, 0.3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  ● Live Camera Feed (Hardware)
                 </span>
-              ) : loading ? (
-                <span className="pill" style={{ background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24" }}>
-                  ⏳ Starting video feed…
+              )}
+              {live && isSimulated && (
+                <span
+                  className="pill"
+                  style={{
+                    background: "rgba(168, 85, 247, 0.15)",
+                    color: "#c084fc",
+                    border: "1px solid rgba(168, 85, 247, 0.3)",
+                    fontWeight: 600,
+                  }}
+                >
+                  ● Live Civic Audit Stream (Simulator)
                 </span>
-              ) : denied ? (
-                <span className="pill" style={{ background: "rgba(239, 68, 68, 0.15)", color: "#ef4444" }}>
+              )}
+              {loading && (
+                <span
+                  className="pill"
+                  style={{ background: "rgba(251, 191, 36, 0.15)", color: "#fbbf24", fontWeight: 600 }}
+                >
+                  ⏳ Initializing camera stream…
+                </span>
+              )}
+              {denied && !live && (
+                <span
+                  className="pill"
+                  style={{ background: "rgba(239, 68, 68, 0.15)", color: "#ef4444", fontWeight: 600 }}
+                >
                   ✕ Camera Blocked / Denied
                 </span>
-              ) : (
-                <span className="pill" style={{ opacity: 0.7 }}>Camera standby</span>
               )}
             </div>
-            {live && (
-              <button
-                className="btn btn-ghost"
-                type="button"
-                style={{ padding: "4px 10px", fontSize: "12px" }}
-                onClick={switchCamera}
-                title="Switch front/back camera"
-              >
-                🔄 Flip Camera
-              </button>
-            )}
+
+            {/* Quick action buttons */}
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              {devices.length > 1 && (
+                <select
+                  value={selectedDeviceId}
+                  onChange={(e) => selectDevice(e.target.value)}
+                  style={{
+                    background: "var(--surface)",
+                    color: "var(--fg)",
+                    border: "1px solid var(--line)",
+                    borderRadius: 8,
+                    padding: "4px 8px",
+                    fontSize: 12,
+                  }}
+                  title="Choose input camera"
+                >
+                  {devices.map((d, i) => (
+                    <option key={d.deviceId || i} value={d.deviceId}>
+                      {d.label || `Camera ${i + 1}`}
+                    </option>
+                  ))}
+                </select>
+              )}
+
+              {live && (
+                <button
+                  className="btn btn-ghost"
+                  type="button"
+                  style={{ padding: "4px 10px", fontSize: "12px" }}
+                  onClick={switchCamera}
+                  title="Switch camera mode or angle"
+                >
+                  🔄 {isSimulated ? "Use Physical Camera" : facingMode === "environment" ? "Front Camera" : "Rear Camera"}
+                </button>
+              )}
+
+              {!isSimulated && (
+                <button
+                  className="btn btn-ghost"
+                  type="button"
+                  style={{ padding: "4px 10px", fontSize: "12px", color: "#c084fc" }}
+                  onClick={() => startSimulation()}
+                  title="Test using live simulated video feed"
+                >
+                  ⚡ Simulate Feed
+                </button>
+              )}
+
+              {isSimulated && (
+                <button
+                  className="btn btn-ghost"
+                  type="button"
+                  style={{ padding: "4px 10px", fontSize: "12px", color: "#37d39b" }}
+                  onClick={() => start()}
+                  title="Switch back to real hardware webcam"
+                >
+                  📷 Hardware Camera
+                </button>
+              )}
+            </div>
           </div>
 
+          {/* Viewfinder Frame */}
           <div
             className="camera-frame"
             style={{
               position: "relative",
-              minHeight: 260,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "#0a0f0d",
-              borderRadius: 14,
-              border: "1px solid var(--line)",
+              minHeight: 280,
+              maxHeight: 420,
+              aspectRatio: "16 / 9",
+              background: "#080e0b",
+              borderRadius: 16,
+              border: "1px solid rgba(55, 211, 155, 0.25)",
               overflow: "hidden",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.5)",
             }}
           >
+            {/* Always-mounted Video Element */}
             <video
               ref={videoRef}
               autoPlay
@@ -247,45 +348,244 @@ export function CameraCapture({ onCapture }) {
               style={{
                 width: "100%",
                 height: "100%",
-                maxHeight: 380,
                 objectFit: "cover",
-                display: live ? "block" : "none",
+                display: "block",
               }}
             />
 
-            {!live && !denied && (
-              <div style={{ textAlign: "center", padding: 24, color: "var(--fg-3)" }}>
-                <p style={{ margin: "0 0 8px", fontSize: 28 }}>📷</p>
-                <p style={{ margin: 0, fontSize: 13.5 }}>
-                  {loading ? "Connecting to device camera…" : "Initializing live camera stream…"}
-                </p>
+            {/* Shutter Flash Animation */}
+            {shutterFlash && (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "white",
+                  opacity: 0.85,
+                  zIndex: 10,
+                  transition: "opacity 0.2s ease-out",
+                  pointerEvents: "none",
+                }}
+              />
+            )}
+
+            {/* HUD Reticle Overlay when stream is live */}
+            {live && (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  padding: 16,
+                }}
+              >
+                {/* Top Corner Brackets */}
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderTop: "3px solid #37d39b",
+                      borderLeft: "3px solid #37d39b",
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderTop: "3px solid #37d39b",
+                      borderRight: "3px solid #37d39b",
+                    }}
+                  />
+                </div>
+
+                {/* Center Crosshair Reticle */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 44,
+                    height: 44,
+                    border: "1px dashed rgba(55, 211, 155, 0.7)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: "#37d39b",
+                      boxShadow: "0 0 8px #37d39b",
+                    }}
+                  />
+                </div>
+
+                {/* Bottom Corner Brackets and Live Watermark */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "flex-end",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderBottom: "3px solid #37d39b",
+                      borderLeft: "3px solid #37d39b",
+                    }}
+                  />
+                  <div
+                    style={{
+                      background: "rgba(0, 0, 0, 0.65)",
+                      padding: "4px 10px",
+                      borderRadius: 6,
+                      fontSize: 11,
+                      fontFamily: "monospace",
+                      color: "#37d39b",
+                      border: "1px solid rgba(55, 211, 155, 0.3)",
+                    }}
+                  >
+                    MCC CIVIC SWACHHA AUDIT • REAL-TIME EVIDENCE
+                  </div>
+                  <div
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderBottom: "3px solid #37d39b",
+                      borderRight: "3px solid #37d39b",
+                    }}
+                  />
+                </div>
               </div>
             )}
 
-            {denied && (
+            {/* Standby / Initializing Overlay */}
+            {!live && !denied && (
               <div
                 style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "rgba(10, 16, 13, 0.96)",
+                  padding: 24,
                   textAlign: "center",
-                  padding: "24px 16px",
-                  background: "rgba(239, 68, 68, 0.08)",
-                  width: "100%",
+                  zIndex: 5,
                 }}
               >
-                <p style={{ margin: "0 0 6px", fontSize: 24 }}>🔒</p>
-                <strong style={{ color: "#ef4444", fontSize: 14 }}>Camera Access Denied or Unavailable</strong>
-                <p style={{ fontSize: 12.5, color: "var(--fg-3)", maxWidth: 360, margin: "6px auto 14px" }}>
-                  Your browser or operating system blocked webcam access, or no webcam was detected.
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: "50%",
+                    background: "rgba(55, 211, 155, 0.12)",
+                    border: "2px solid #37d39b",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 24,
+                    marginBottom: 14,
+                    animation: loading ? "pulse 1.5s infinite" : "none",
+                  }}
+                >
+                  📷
+                </div>
+                <strong style={{ fontSize: 15, color: "var(--fg)" }}>
+                  {loading ? "Connecting to Device Camera…" : "Camera Inactive"}
+                </strong>
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: "var(--fg-3)",
+                    maxWidth: 380,
+                    margin: "8px 0 16px",
+                  }}
+                >
+                  {loading
+                    ? "Requesting hardware permission from browser. If prompted, please click Allow."
+                    : "Click below to initialize your device webcam or launch the simulated live stream."}
+                </p>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+                  <button className="btn btn-primary" type="button" onClick={() => start()}>
+                    Start Camera
+                  </button>
+                  <button className="btn btn-ghost" type="button" onClick={() => startSimulation()}>
+                    ⚡ Launch Live Simulator
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Denied / Blocked Overlay */}
+            {denied && !live && (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "rgba(20, 12, 12, 0.97)",
+                  padding: 24,
+                  textAlign: "center",
+                  zIndex: 5,
+                }}
+              >
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: "50%",
+                    background: "rgba(239, 68, 68, 0.15)",
+                    border: "2px solid #ef4444",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 24,
+                    marginBottom: 12,
+                  }}
+                >
+                  🔒
+                </div>
+                <strong style={{ color: "#ef4444", fontSize: 15 }}>
+                  Camera Hardware Access Blocked or Not Found
+                </strong>
+                <p
+                  style={{
+                    fontSize: 12.5,
+                    color: "var(--fg-3)",
+                    maxWidth: 420,
+                    margin: "8px auto 16px",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {error ||
+                    "Browser or operating system blocked camera access, or no webcam was detected on this device. You can use the Live Simulator to capture live evidence."}
                 </p>
                 <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
                   <button className="btn btn-primary" type="button" onClick={() => start()}>
                     Retry Camera
                   </button>
                   <button
-                    className="btn btn-ghost"
+                    className="btn btn-gold"
                     type="button"
-                    onClick={() => setActiveTab("upload")}
+                    onClick={() => startSimulation()}
+                    style={{ fontWeight: 700 }}
                   >
-                    Use Photo Upload
+                    ⚡ Enable Live Simulator
                   </button>
                 </div>
               </div>
@@ -293,68 +593,48 @@ export function CameraCapture({ onCapture }) {
           </div>
 
           {error && !denied && (
-            <p style={{ color: "#fbbf24", fontSize: 12.5, marginTop: 8 }}>
-              ⚠️ {error} You can still take a snapshot or switch to File Upload.
+            <p
+              style={{
+                color: "#fbbf24",
+                fontSize: 12.5,
+                marginTop: 8,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <span>⚠️</span>
+              <span>{error}</span>
             </p>
           )}
 
-          <div className="row" style={{ marginTop: 14 }}>
+          {/* Primary Action Button */}
+          <div className="row" style={{ marginTop: 14, alignItems: "center" }}>
             <button
               className="btn btn-gold"
               type="button"
               onClick={handleLiveCapture}
               disabled={!live || capturing}
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 700, padding: "10px 22px", fontSize: 14 }}
             >
-              {capturing ? "Capturing…" : "📸 Capture Evidence"}
+              {capturing ? "Capturing Evidence…" : "📸 Capture Evidence Snapshot"}
             </button>
-            {denied && (
+
+            {!live && (
               <button
                 className="btn btn-ghost"
                 type="button"
-                onClick={() => setActiveTab("upload")}
+                onClick={() => startSimulation()}
+                style={{ color: "#c084fc" }}
               >
-                Switch to File Upload
+                ⚡ Start Live Simulator
               </button>
             )}
           </div>
         </div>
       )}
 
-      {activeTab === "upload" && (
-        <div
-          style={{
-            border: "2px dashed var(--line)",
-            borderRadius: 14,
-            padding: "32px 20px",
-            textAlign: "center",
-            background: "rgba(255,255,255,0.02)",
-          }}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            style={{ display: "none" }}
-            onChange={handleFileSelected}
-          />
-          <p style={{ fontSize: 32, margin: "0 0 10px" }}>📁</p>
-          <h4 style={{ margin: "0 0 6px" }}>Select or Take Photo from Device</h4>
-          <p style={{ fontSize: 12.5, color: "var(--fg-3)", maxWidth: 380, margin: "0 auto 16px" }}>
-            Upload evidence directly from your device photo library or file storage. The AI integrity
-            engine will review metadata and provenance.
-          </p>
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            Choose Image File
-          </button>
-        </div>
-      )}
-
+      {/* Sample Field Evidence Tab */}
       {activeTab === "samples" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <div className="note-box" style={{ margin: 0 }}>
