@@ -18,6 +18,7 @@ import { notifications } from "./controllers/report.controller.js";
 import { auth } from "./middleware/auth.js";
 import { uploadsDir } from "./integrations/storage.provider.js";
 import { configRoutes } from "./routes/config.routes.js";
+import swmRoutes from "./routes/swm.routes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -49,6 +50,7 @@ export function createApp() {
   app.use("/api/officer", officerRoutes);
   app.use("/api/admin", adminRoutes);
   app.use("/api/public", publicRoutes);
+  app.use("/api/swm", swmRoutes);
 
   const frontendDist = path.resolve(__dirname, "../../frontend/dist");
   app.use(express.static(frontendDist));

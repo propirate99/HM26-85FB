@@ -1,99 +1,145 @@
-# Mysuru CivicVerify
+# Mysuru CivicVerify & Swachha Grid Suite
 
-See it. Verify it. Resolve it.
+**See it. Verify it. Resolve it.**
 
-CivicVerify is a lightweight, evidence-first civic complaint platform for a Mysuru hackathon demo. A citizen submits location-bound evidence. The system checks whether the evidence is **relevant, consistent, duplicate, and trustworthy**, then routes **one verified civic issue** to the responsible officer.
+A unified municipal civic governance and solid waste management platform engineered for **Mysuru City Corporation (MCC)**. CivicVerify combines three core operational capabilities into a single consolidated codebase:
 
-CivicVerify does not publish your personal information. It verifies evidence and tracks resolution.
+1. **Evidence-First Civic Issue Verification (`/app`, `/officer`, `/admin`, `/public`)**:
+   - Location-bound evidence capture via live in-app camera and GPS accuracy verification.
+   - 7-signal verification scoring engine (Google Gemini 3.6 Flash vision + rule heuristics).
+   - Two-stage duplicate detection (spatial radius + token & Levenshtein similarity).
+   - Automated zonal officer routing, SLA countdowns, and before/after resolution repair validation.
+2. **MCC Swachha Grid — Ward Waste Operations (`/operations`)**:
+   - Comprehensive operational register and accumulation tracking across all **65 municipal wards** and **7 zonal offices**.
+   - Interactive Leaflet accumulation map with ward centroids, status classification (Critical, Strained, Stable), and vector routes to waste processing plants.
+   - Real-time logistics bottleneck identification and priority compactor deployment queues.
+3. **Mysuru Waste Logistics Scenario Simulator (`/simulator`)**:
+   - Deterministic 600 TPD logistics simulation modeling primary auto-tipper door-to-door collection and secondary compactor haulage.
+   - Interactive sliders for city generation (380–900 TPD), source segregation uplift, bin overflow tolerance, fleet counts, and fuel consumption.
+   - Real-time KPI telemetry: trips, fleet km, diesel liters, daily cost (₹), cost per tonne (₹/t), CO2 emissions, and processing efficiency score.
+   - Dynamic city choropleth map and one-click scenario CSV export.
 
-This is a **72-hour MVP** (browser PWA), not a production government system. Demo zones are **not** official MCC/jurisdiction boundaries.
+---
 
-## Demo promise
+## Unified Structure (`HM26-85FB/src`)
 
-> A citizen submits location-bound evidence. CivicVerify checks whether the evidence is relevant, consistent, duplicate, and trustworthy—then routes one verified civic issue to the responsible officer.
+```
+HM26-85FB/src/
+├── package.json                   # Root monorepo workspace ("frontend", "backend")
+├── docker-compose.yml
+├── docs/                          # Technical docs & architecture specifications
+├── data/                          # Unified raw dataset repository
+│   ├── wards.geojson              # 65 Mysuru ward boundaries polygon GeoJSON
+│   ├── facilities.geojson         # Treatment & recycling plants GeoJSON
+│   ├── swm.json                   # 65-ward daily accumulation & fleet time series
+│   ├── MCC_ward_waste_summary_2026-08-20_to_2026-09-18.csv
+│   └── mysuru-swm-scenario.csv
+├── tools/                         # Data processing and geometry generation
+│   ├── build_data.py
+│   └── gen_wards.py
+├── backend/                       # Express API + Embedded / Mongoose DB
+│   ├── data/                      # Backend persistent DB + SWM datasets
+│   │   ├── civicverify_db.json
+│   │   ├── swm.json
+│   │   ├── wards.geojson
+│   │   └── facilities.geojson
+│   └── src/
+│       ├── controllers/
+│       │   ├── swm.controller.js  # Endpoints for 65 wards, facilities, & aggregates
+│       │   └── ...
+│       ├── routes/
+│       │   ├── swm.routes.js      # /api/swm endpoints
+│       │   └── ...
+│       ├── services/
+│       │   ├── swm.service.js     # SWM data query & aggregation service
+│       │   └── ...
+│       └── ...
+└── frontend/                      # React 19 + Vite 6 PWA
+    └── src/
+        ├── assets/
+        │   ├── data/              # GeoJSON & JSON assets directly imported by Vite
+        │   │   ├── wards.geojson
+        │   │   ├── facilities.geojson
+        │   │   └── swm.json
+        │   └── favicon.svg
+        ├── components/
+        │   ├── SwachhaMap.jsx     # Leaflet map with centroid & choropleth modes
+        │   ├── WardTable.jsx      # Searchable & sortable 65-ward operations register
+        │   ├── BottlenecksCard.jsx# Haulage & capacity bottleneck analyzer
+        │   ├── PriorityList.jsx   # Ranked priority compactor deployment queue
+        │   ├── SimulatorControls.jsx # Fleet & generation scenario sliders
+        │   ├── SimulatorMetrics.jsx  # Real-time KPI summary (trips, diesel, cost, CO2)
+        │   ├── Navbar.jsx         # Unified navigation across all modules
+        │   └── ...
+        ├── pages/
+        │   ├── SwachhaGridPage.jsx# Ward Waste Operations Dashboard (/operations)
+        │   ├── SimulatorPage.jsx  # 600 TPD Logistics Scenario Simulator (/simulator)
+        │   ├── LandingPage.jsx    # Unified landing hub (/)
+        │   ├── AdminDashboard.jsx # Embedded SWM & simulator operational links (/admin)
+        │   ├── CitizenDashboard.jsx (/app)
+        │   ├── CreateIssuePage.jsx  (/app/report)
+        │   ├── OfficerDashboard.jsx (/officer)
+        │   └── PublicIssuesPage.jsx (/public)
+        ├── services/
+        │   ├── swmApi.js          # SWM data provider service
+        │   ├── simulatorEngine.js # Pure ES module simulation math engine
+        │   └── ...
+        ├── utils/
+        │   ├── geoUtils.js        # Haversine, road detour, & centroid helpers
+        │   └── ...
+        ├── styles/
+        │   ├── theme.css          # Royal Mysuru palette design tokens
+        │   └── swm.css            # Consolidated styles for maps, grid, & simulator
+        └── router/
+            └── AppRouter.jsx      # App routing table
+```
 
-Language we use (and do **not** overclaim):
+---
 
-- Verified with low risk
-- Likely relevant
-- Needs review
-- Suspicious evidence
-- Insufficient evidence
+## Quick Start
 
-We do **not** claim a complaint is “real” or that an image is definitely human-created. GPS can be denied or spoofed. AI-generated-image detection is probabilistic.
-
-## Quick start
-
+### 1. Install Dependencies
 ```bash
-# MongoDB (Docker)
-docker compose up -d
-
-# Install
+cd "HM26-85FB/src"
 npm install
+```
 
-# Copy env (never commit real secrets)
-cp .env.example .env
-cp .env.example frontend/.env
-# Then copy the same backend vars into backend/.env, or export them.
+### 2. Run Test Suite
+```bash
+# Automated tests for duplicate detection, RBAC, and verification scoring
+npm test -w backend
+```
 
-# Seed demo zones, officers, and issues
-npm run seed
-
-# Run API + PWA
+### 3. Start Development Servers
+```bash
+# Concurrently starts Express API (:5050) and Vite PWA (:5173)
 npm run dev
 ```
 
-- PWA: http://localhost:5173
-- API health: http://localhost:5000/api/health
+### 4. Build Production Bundle
+```bash
+npm run build -w frontend
+```
 
-### Demo accounts (when `DEMO_AUTH=true`)
+---
 
-| Role | Email |
-| --- | --- |
-| Citizen | `citizen@demo.civicverify` |
-| North zone officer | `north.officer@demo.civicverify` |
-| South zone officer | `south.officer@demo.civicverify` |
-| Main authority | `authority@demo.civicverify` |
+## Demo Personas & Roles
 
-Use **Demo login** on the login page. Google login works when `VITE_GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_ID` are set; the backend verifies the credential and never trusts role/zone from the browser.
+| Role | Email / Persona | Primary Access |
+| --- | --- | --- |
+| **Citizen** | `ravi.citizen@mysuru.demo` (Ravi Kumar) | Submit report with GPS & camera, track progress |
+| **North Zone Officer** | `ananya.officer@mysuru.gov.in` (Ananya Rao) | Zone 5 queue (`Sayyaji Rao Rd`), status updates |
+| **South Zone Officer** | `karthik.officer@mysuru.gov.in` (Karthik Swamy) | Zone 1/2 queue (`Vidyaranyapuram`), repair photos |
+| **Main Authority** | `commissioner@mysuru.gov.in` (MCC Commissioner) | Authority console, SLA escalation, SWM Grid, Simulator |
 
-## What the MVP includes
+---
 
-- Google (or demo) login for citizens and authorized officers
-- Mobile-friendly report stepper: problem → location → camera → review
-- In-app camera capture (gallery upload disabled on citizen reports)
-- Browser GPS + evidence metadata (coords, timestamp, capture method, evidence ID)
-- Multi-signal verification score + duplicate detection
-- Citizen **report** vs operational **civic issue**
-- Configurable demo zone routing
-- Officer queue, status workflow, audit timeline
-- Deadlines, escalation job, resolution evidence
-- Public issue feed with privacy protection
+## Key Routes
 
-## Scripts
-
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | API + Vite together |
-| `npm run build` | Production frontend build |
-| `npm run lint` | ESLint frontend + backend |
-| `npm run seed` | Demo data |
-
-## Docs
-
-- [Architecture](docs/architecture.md)
-- [API](docs/api.md)
-- [Database](docs/database.md)
-- [Verification](docs/verification.md)
-- [Duplicate detection](docs/duplicate-detection.md)
-- [Security](docs/security.md)
-- [Setup](docs/setup.md)
-- [Limitations](docs/limitations.md)
-- [Demo flow](docs/demo-flow.md)
-- [Testing](docs/testing.md)
-- [AI disclosure](ai.md)
-- [External resources](resource.md)
-
-## License
-
-Hackathon demo. Not affiliated with Mysuru City Corporation.
+- **`/`**: Unified landing hub showcasing all system modules.
+- **`/app` & `/app/report`**: Citizen evidence reporting flow.
+- **`/officer`**: Zonal queue and resolution workflow.
+- **`/admin`**: Authority escalation overview, audit logs, and operational telemetry.
+- **`/operations`**: MCC Swachha Grid 65-ward operations dashboard.
+- **`/simulator`**: 600 TPD solid waste logistics scenario simulator.
+- **`/public`**: Privacy-sanitized public complaint feed.

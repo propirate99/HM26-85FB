@@ -42,6 +42,18 @@ export function AdminDashboard() {
             <h3>{analytics.resolved}</h3>
             <p>Resolved</p>
           </div>
+          <div className="card" style={{ borderLeft: "3px solid var(--palace-gold, #c9a227)" }}>
+            <h3>65 Wards</h3>
+            <Link to="/operations" style={{ color: "var(--palace-gold, #c9a227)", fontWeight: 600 }}>
+              Launch Operations Grid →
+            </Link>
+          </div>
+          <div className="card" style={{ borderLeft: "3px solid #10b981" }}>
+            <h3>600 TPD</h3>
+            <Link to="/simulator" style={{ color: "#34d399", fontWeight: 600 }}>
+              Launch SWM Simulator →
+            </Link>
+          </div>
         </div>
       ) : null}
 

@@ -20,6 +20,8 @@ export function Navbar() {
           </Link>
           <div className="nav-links">
             <Link to="/public">Public Issues</Link>
+            <Link to="/operations">Operations Grid</Link>
+            <Link to="/simulator">SWM Simulator</Link>
             {user?.role === "CITIZEN" && (
               <>
                 <Link to="/app">Citizen Desk</Link>

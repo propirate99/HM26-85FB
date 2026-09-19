@@ -1,0 +1,85 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Vidyaranyapuram Compost Plant",
+    "kind": "compost",
+    "capacity_tpd": 200,
+    "note": "Location approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.6389,
+     12.2836
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Kesare Processing Plant",
+    "kind": "processing",
+    "capacity_tpd": 200,
+    "note": "Location approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.6845,
+     12.3305
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Rayanakere Processing Plant",
+    "kind": "processing",
+    "capacity_tpd": 150,
+    "note": "Location approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.5958,
+     12.2555
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Hootagalli ZWM Unit",
+    "kind": "zwm",
+    "capacity_tpd": 25,
+    "note": "Location approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.5747,
+     12.3391
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "name": "Sewage Farm Landfill (capping site)",
+    "kind": "landfill",
+    "capacity_tpd": 250,
+    "note": "Location approximate"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.63,
+     12.2755
+    ]
+   }
+  }
+ ]
+}

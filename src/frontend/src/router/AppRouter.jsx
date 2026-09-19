@@ -10,6 +10,8 @@ import { IssueDetailsPage } from "../pages/IssueDetailsPage.jsx";
 import { OfficerDashboard } from "../pages/OfficerDashboard.jsx";
 import { AdminDashboard } from "../pages/AdminDashboard.jsx";
 import { PublicIssuesPage } from "../pages/PublicIssuesPage.jsx";
+import { SwachhaGridPage } from "../pages/SwachhaGridPage.jsx";
+import { SimulatorPage } from "../pages/SimulatorPage.jsx";
 
 export function AppRouter() {
   return (
@@ -20,6 +22,8 @@ export function AppRouter() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/public" element={<PublicIssuesPage />} />
         <Route path="/public/:publicId" element={<IssueDetailsPage publicView />} />
+        <Route path="/operations" element={<SwachhaGridPage />} />
+        <Route path="/simulator" element={<SimulatorPage />} />
         <Route
           path="/app"
           element={
