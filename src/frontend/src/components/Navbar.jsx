@@ -5,12 +5,12 @@ import { BrandMark } from "./BrandMark.jsx";
 import { NotificationCenter } from "./NotificationCenter.jsx";
 
 export function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin, isOfficer, isCitizen } = useAuth();
   return (
     <header className="main-header">
       <QuickUserSwitcher />
       <nav className="nav" style={{ paddingLeft: "clamp(1rem,3vw,2rem)", paddingRight: "clamp(1rem,3vw,2rem)" }}>
-        <Link to={user ? "/app" : "/"} className="brand">
+        <Link to={user ? (isAdmin ? "/admin" : isOfficer ? "/officer" : "/app") : "/"} className="brand">
           <BrandMark />
           <span>
             Mysuru Swachha Portal
@@ -27,7 +27,7 @@ export function Navbar() {
           <NavLink to="/public" className={({ isActive }) => (isActive ? "on" : undefined)}>
             Public tracker
           </NavLink>
-          {user?.role === "CITIZEN" && (
+          {isCitizen && (
             <>
               <NavLink to="/app" className={({ isActive }) => (isActive ? "on" : undefined)}>
                 Citizen desk
@@ -40,12 +40,12 @@ export function Navbar() {
               </NavLink>
             </>
           )}
-          {user?.role === "ZONE_OFFICER" && (
+          {isOfficer && (
             <NavLink to="/officer" className={({ isActive }) => (isActive ? "on" : "nav-highlight")}>
               Complaint queue
             </NavLink>
           )}
-          {user?.role === "MAIN_AUTHORITY" && (
+          {isAdmin && (
             <NavLink to="/admin" className={({ isActive }) => (isActive ? "on" : "nav-highlight")}>
               Operations console
             </NavLink>
@@ -55,15 +55,21 @@ export function Navbar() {
               <NotificationCenter />
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Link
-                  to="/app/profile"
+                  to={isAdmin ? "/admin" : isOfficer ? "/officer" : "/app/profile"}
                   className="who"
-                  title="View Profile & Evidence Gallery"
+                  title="View Profile"
                   style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
                 >
-                  <div className="avatar">{(user.name || "U").slice(0, 1)}</div>
+                  <div className="avatar">
+                    {user.avatarUrl ? (
+                      <img src={user.avatarUrl} alt={user.name} style={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+                    ) : (
+                      (user.name || user.email || "U").slice(0, 1).toUpperCase()
+                    )}
+                  </div>
                   <div>
                     <b>{user.name || user.email}</b>
-                    <span>{user.role}</span>
+                    <span style={{ textTransform: "uppercase" }}>{user.role}</span>
                   </div>
                 </Link>
                 <button className="btn ghost" type="button" onClick={logout} style={{ flex: "none", padding: "4px 8px", fontSize: 11 }}>
@@ -72,6 +78,7 @@ export function Navbar() {
               </div>
             </div>
           ) : (
+
             <Link className="btn" to="/login">
               Sign in
             </Link>

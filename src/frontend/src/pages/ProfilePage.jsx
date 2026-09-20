@@ -17,8 +17,9 @@ export function ProfilePage() {
   const [editForm, setEditForm] = useState({
     name: user?.name || "",
     phone: user?.phone || "",
-    address: user?.address || "Jayalakshmipuram, Ward 42, Mysuru",
+    address: user?.address || user?.jurisdiction?.zone || "Mysuru City Jurisdiction",
   });
+
   const [savingProfile, setSavingProfile] = useState(false);
   const [profileMsg, setProfileMsg] = useState("");
 
@@ -61,9 +62,10 @@ export function ProfilePage() {
       setEditForm({
         name: user.name || "",
         phone: user.phone || "",
-        address: user.address || "Jayalakshmipuram, Ward 42, Mysuru",
+        address: user.address || user.jurisdiction?.zone || "Mysuru City Jurisdiction",
       });
     }
+
   }, [user]);
 
   async function handleSaveProfile(e) {
@@ -197,7 +199,8 @@ export function ProfilePage() {
               <div style={{ marginTop: 8, display: "flex", gap: 18, flexWrap: "wrap", color: "var(--fg-3)", fontSize: 13 }}>
                 <span>✉️ <strong>{user?.email}</strong></span>
                 {user?.phone && <span>📞 <strong>{user.phone}</strong></span>}
-                <span>📍 <strong>{user?.address || "Jayalakshmipuram, Ward 42, Mysuru"}</strong></span>
+                <span>📍 <strong>{user?.address || user?.jurisdiction?.zone || "Mysuru City Corporation"}</strong></span>
+
               </div>
             </div>
           </div>

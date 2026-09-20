@@ -168,9 +168,10 @@ class GrievanceStore {
 
   seed() {
     const people = [
-      ["Anitha R", "anitha.r@example.in", "Jayalakshmipuram"],
       ["Ravi Kumar", "ravi.citizen@mysuru.demo", "Saraswathipuram"],
+      ["Ananya Rao", "ananya.r@example.in", "Jayalakshmipuram"],
       ["Kiran Gowda", "kiran.g@example.in", "Hebbal"],
+
       ["Shabana M", "shabana.m@example.in", "Bannimantap A"],
       ["Prakash N", "prakash.n@example.in", "Kuvempunagar East"],
       ["Deepa S", "deepa.s@example.in", "Gokulam"],

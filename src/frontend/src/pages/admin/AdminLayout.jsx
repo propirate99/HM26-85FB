@@ -192,15 +192,72 @@ export function AdminLayout() {
               MYSURU CITY CORPORATION (MCC) COMMAND PORTAL
             </div>
             <div style={{ fontSize: "11px", color: "var(--fg-3)", display: "flex", gap: "12px" }}>
-              <span>ROLE: <strong style={{ color: "var(--accent)" }}>CENTRAL MAIN AUTHORITY</strong></span>
-              <span>ZONE: <strong>ALL JURISDICTIONS</strong></span>
+              <span>ROLE: <strong style={{ color: "var(--accent)" }}>{user?.role || "CENTRAL MAIN AUTHORITY"}</strong></span>
+              <span>ZONE: <strong>{user?.jurisdiction?.zone || "ALL JURISDICTIONS (HQ)"}</strong></span>
+              <span>DEPT: <strong>{user?.jurisdiction?.department || "CITY ADMINISTRATION"}</strong></span>
               <span>STATE: <span style={{ color: "var(--good)" }}>RESILIENT ZERO-DOWNTIME ACTIVE</span></span>
             </div>
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span style={{ fontSize: "12px", color: "var(--fg-2)" }}>{user?.name || "Administrator"}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          {/* Admin Identity Display */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "4px 12px",
+              background: "var(--surface)",
+              border: "1px solid var(--line)",
+              borderRadius: "8px",
+            }}
+          >
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                background: "linear-gradient(135deg, var(--accent) 0%, oklch(65% 0.15 165) 100%)",
+                color: "var(--accent-ink)",
+                fontWeight: 900,
+                fontSize: "14px",
+                display: "grid",
+                placeItems: "center",
+                flexShrink: 0,
+              }}
+            >
+              {user?.avatarUrl ? (
+                <img src={user.avatarUrl} alt={user.name} style={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+              ) : (
+                (user?.name || user?.email || "A").slice(0, 1).toUpperCase()
+              )}
+            </div>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ fontWeight: 700, fontSize: "13px", color: "var(--fg)" }}>
+                  {user?.name || "MCC Commissioner"}
+                </span>
+                <span
+                  style={{
+                    background: "oklch(28% 0.08 165)",
+                    color: "var(--accent)",
+                    padding: "1px 6px",
+                    borderRadius: "4px",
+                    fontSize: "10px",
+                    fontWeight: 800,
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {user?.role || "MAIN_AUTHORITY"}
+                </span>
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--fg-3)" }}>
+                {user?.email || "commissioner@mysuru.gov.in"}
+              </div>
+            </div>
+          </div>
+
           <button
             onClick={fetchAllData}
             style={{
@@ -215,20 +272,6 @@ export function AdminLayout() {
           >
             ↻ Refresh Matrix
           </button>
-          <Link
-            to="/app"
-            style={{
-              background: "var(--surface-2)",
-              border: "1px solid var(--line)",
-              color: "var(--fg)",
-              padding: "6px 12px",
-              borderRadius: "6px",
-              fontSize: "12px",
-              textDecoration: "none",
-            }}
-          >
-            Citizen Desk View
-          </Link>
           <button
             onClick={() => {
               logout();
@@ -249,6 +292,7 @@ export function AdminLayout() {
           </button>
         </div>
       </header>
+
 
       {/* Operations Navigation Tabs */}
       <nav

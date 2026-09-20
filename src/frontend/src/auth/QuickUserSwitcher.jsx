@@ -53,7 +53,7 @@ export function QuickUserSwitcher() {
     try {
       const data = await authApi.demo(persona.email);
       setUser(data.user);
-      navigate(persona.targetRoute);
+      navigate(persona.targetRoute, { state: { user: data.user, profile: data.user } });
     } catch (err) {
       console.error("Failed to switch demo persona:", err);
     } finally {

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../api/authApi.js";
 import { issueApi } from "../api/issueApi.js";
 import { useAuth } from "../auth/AuthProvider.jsx";
@@ -14,7 +14,18 @@ import {
 import { swmApi } from "../services/swmApi.js";
 
 export function CitizenDashboard() {
-  const { user, setUser } = useAuth();
+  const { user, setUser, isAdmin, isOfficer } = useAuth();
+  const navigate = useNavigate();
+
+  // Role auto-routing: redirect Admins to /admin and Officers to /officer
+  useEffect(() => {
+    if (isAdmin) {
+      navigate("/admin", { replace: true });
+    } else if (isOfficer) {
+      navigate("/officer", { replace: true });
+    }
+  }, [isAdmin, isOfficer, navigate]);
+
   const [reports, setReports] = useState([]);
   const [civicIssues, setCivicIssues] = useState([]);
   const [complaints, setComplaints] = useState([]);
@@ -26,7 +37,7 @@ export function CitizenDashboard() {
 
   // New complaint form state
   const [catId, setCatId] = useState("missed");
-  const [ward, setWard] = useState(user?.address?.split(",")?.[0] || "Jayalakshmipuram");
+  const [ward, setWard] = useState(user?.jurisdiction?.zone || user?.address?.split(",")?.[0] || "Jayalakshmipuram");
   const [addr, setAddr] = useState("");
   const [detail, setDetail] = useState("");
   const [notify, setNotify] = useState(true);
@@ -43,12 +54,10 @@ export function CitizenDashboard() {
     issueApi.listMine().then((d) => setCivicIssues(d.issues || [])).catch(() => {});
 
     const updateFromStore = () => {
-      const all = grievanceStore.getAll();
-      const userComplaints = user?.email ? grievanceStore.getByEmail(user.email) : all;
-      const listToUse = userComplaints.length ? userComplaints : all.slice(0, 12);
-      setComplaints(listToUse);
-      if (!selectedId && listToUse.length) {
-        setSelectedId(listToUse[0].id);
+      const userComplaints = user?.email ? grievanceStore.getByEmail(user.email) : [];
+      setComplaints(userComplaints);
+      if (userComplaints.length && !selectedId) {
+        setSelectedId(userComplaints[0].id);
       }
     };
 
@@ -56,6 +65,7 @@ export function CitizenDashboard() {
     const unsub = grievanceStore.subscribe(updateFromStore);
     return unsub;
   }, [user, selectedId]);
+
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -103,7 +113,7 @@ export function CitizenDashboard() {
     if (!detail.trim()) return;
 
     const created = grievanceStore.fileComplaint({
-      email: user?.email || "anitha.r@example.in",
+      email: user?.email || "citizen@mysuru.demo",
       name: user?.name || "Mysuru Citizen",
       ward,
       category: catId,
@@ -240,11 +250,12 @@ export function CitizenDashboard() {
               <span>Notification email</span>
               <input
                 type="email"
-                value={user?.email || "anitha.r@example.in"}
+                value={user?.email || ""}
                 readOnly
                 style={{ opacity: 0.85 }}
               />
             </label>
+
 
             <label className="chk full">
               <input

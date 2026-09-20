@@ -6,16 +6,19 @@ import { BrandMark } from "../components/BrandMark.jsx";
 import { swmApi } from "../services/swmApi.js";
 
 function homeFor(user) {
-  if (user?.role === "ZONE_OFFICER") return "/officer";
-  if (user?.role === "MAIN_AUTHORITY") return "/admin";
-  return "/app";
+  if (!user) return "/";
+  const role = String(user.role || "").toLowerCase();
+  if (role === "main_authority" || role === "admin") return "/admin";
+  if (role === "zone_officer" || role === "officer") return "/officer";
+  return "/dashboard";
 }
 
 const DEMO = {
-  civilian: { email: "anitha.r@example.in", name: "Anitha R" },
-  officer: { email: "swm.officer@mysuru.gov.in", name: "SWM Officer" },
+  civilian: { email: "ravi.citizen@mysuru.demo", name: "Ravi Kumar" },
+  officer: { email: "ananya.officer@mysuru.gov.in", name: "Ananya Rao" },
   admin: { email: "commissioner@mysuru.gov.in", name: "MCC Commissioner" },
 };
+
 
 export function LoginPage() {
   const { setUser } = useAuth();
@@ -40,7 +43,8 @@ export function LoginPage() {
     try {
       const data = await authApi.demo(targetEmail, targetName, targetAddress);
       setUser(data.user);
-      navigate(homeFor(data.user));
+      const targetPath = homeFor(data.user);
+      navigate(targetPath, { state: { user: data.user, profile: data.user } });
     } catch (err) {
       setError(err.message || "Sign in failed. Please try again.");
     } finally {
@@ -227,16 +231,17 @@ export function LoginPage() {
 
           <div className="demo">
             <span>Quick demo</span>
-            <button className="link" type="button" onClick={() => signIn(DEMO.civilian.email)}>
-              anitha.r@example.in
+            <button className="link" type="button" onClick={() => signIn(DEMO.civilian.email, DEMO.civilian.name)}>
+              ravi.citizen@mysuru.demo (Citizen)
             </button>
-            <button className="link" type="button" onClick={() => signIn(DEMO.officer.email)}>
-              swm.officer@mysuru.gov.in
+            <button className="link" type="button" onClick={() => signIn(DEMO.officer.email, DEMO.officer.name)}>
+              ananya.officer@mysuru.gov.in (Officer)
             </button>
-            <button className="link" type="button" onClick={() => signIn(DEMO.admin.email)}>
-              commissioner@mysuru.gov.in
+            <button className="link" type="button" onClick={() => signIn(DEMO.admin.email, DEMO.admin.name)}>
+              commissioner@mysuru.gov.in (Admin)
             </button>
           </div>
+
 
           <p className="legal">
             By continuing you agree that complaint details and photographs may be shared with the

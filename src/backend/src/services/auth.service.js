@@ -23,17 +23,28 @@ export function clearSession(res) {
 }
 
 export function publicUser(user) {
+  const normRole = String(user.role || "").toLowerCase();
+  const isAdmin = normRole === "main_authority" || normRole === "admin";
+  const defaultZone = isAdmin ? "All Zones (HQ)" : user.assignedZoneId ? "Assigned Zone" : "Mysuru Urban";
+
   return {
     id: user._id,
     email: user.email,
-    name: user.name,
-    avatarUrl: user.avatarUrl,
+    name: user.name || (isAdmin ? "MCC Commissioner" : user.email?.split("@")[0] || "User"),
+    avatarUrl: user.avatarUrl || "",
+    avatar: user.avatarUrl || "",
     role: user.role,
-    phone: user.phone,
-    address: user.address,
-    assignedZoneId: user.assignedZoneId,
+    phone: user.phone || "",
+    address: user.address || "",
+    assignedZoneId: user.assignedZoneId || null,
+    jurisdiction: user.jurisdiction || {
+      zone: defaultZone,
+      department: isAdmin ? "City Administration" : "Civic Operations",
+    },
+    reputationScore: user.reputationScore != null ? user.reputationScore : 100,
   };
 }
+
 
 export async function loginWithGoogle(credential) {
   const identity = await verifyGoogleCredential(credential);

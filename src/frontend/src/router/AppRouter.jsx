@@ -39,7 +39,24 @@ export function AppRouter() {
           }
         />
         <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <CitizenDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/app/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/profile"
           element={
             <ProtectedRoute>
               <ProfilePage />
@@ -55,7 +72,23 @@ export function AppRouter() {
           }
         />
         <Route
+          path="/dashboard/report"
+          element={
+            <ProtectedRoute>
+              <CreateIssuePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/app/issues/:issueId"
+          element={
+            <ProtectedRoute>
+              <IssueDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/issues/:issueId"
           element={
             <ProtectedRoute>
               <IssueDetailsPage />
