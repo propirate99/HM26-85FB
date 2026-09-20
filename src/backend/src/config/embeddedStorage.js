@@ -234,6 +234,7 @@ export class EmbeddedStorageEngine {
     const col = this.getCollection(colName);
     let sortObj = null;
     let limitNum = null;
+    let skipNum = 0;
     const populateQueue = [];
 
     const query = {
@@ -243,6 +244,10 @@ export class EmbeddedStorageEngine {
       },
       sort(criteria) {
         sortObj = criteria;
+        return query;
+      },
+      skip(n) {
+        skipNum = Math.max(0, Number(n) || 0);
         return query;
       },
       limit(n) {
@@ -292,9 +297,10 @@ export class EmbeddedStorageEngine {
           });
         }
 
-        // Limit
-        if (limitNum != null && limitNum > 0) {
-          results = results.slice(0, limitNum);
+        // Skip & Limit pagination
+        if (skipNum > 0 || (limitNum != null && limitNum > 0)) {
+          const end = limitNum != null && limitNum > 0 ? skipNum + limitNum : undefined;
+          results = results.slice(skipNum, end);
         }
 
         // Wrap as document instances
