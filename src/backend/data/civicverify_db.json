@@ -1044,6 +1044,43 @@
       "updatedAt": "2026-09-20T14:59:50.109Z",
       "deadline": "2026-09-21T14:59:50.109Z",
       "escalationAt": "2026-09-21T14:59:50.109Z"
+    },
+    {
+      "publicId": "CV-1039",
+      "categoryId": "6aaf8825000053d3",
+      "title": "Severe blocked drainage overflow flooding street",
+      "normalizedTitle": "severe blocked drainage overflow flooding street",
+      "description": "Severe blocked drainage overflow flooding street",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "approximateLocationLabel": "Near 12.295°N, 76.640°E (approximate)",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "PENDING",
+      "verificationScore": 0,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "supporters": [
+        "66e9a0000000000000000099"
+      ],
+      "supportCount": 1,
+      "_id": "6aaffb980000e28e",
+      "createdAt": "2026-09-20T15:28:24.785Z",
+      "updatedAt": "2026-09-20T15:28:24.790Z",
+      "deadline": "2026-09-21T15:28:24.790Z",
+      "escalationAt": "2026-09-21T15:28:24.790Z"
     }
   ],
   "Report": [
@@ -1982,6 +2019,50 @@
       "issueId": "6aaff4e600004f52",
       "duplicateDecision": "NEW_ISSUE",
       "reportStatus": "ATTACHED"
+    },
+    {
+      "reportId": "R-TEST-1789918104324",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aaf8825000053d3",
+        "createdAt": "2026-09-20T07:15:49.169Z",
+        "updatedAt": "2026-09-20T07:15:49.169Z"
+      },
+      "description": "Severe blocked drainage overflow flooding street",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "zoneMatchStatus": "MATCH",
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aaffb980000ba16",
+      "createdAt": "2026-09-20T15:28:24.324Z",
+      "updatedAt": "2026-09-20T15:28:24.793Z",
+      "issueId": "6aaffb980000e28e",
+      "duplicateDecision": "NEW_ISSUE",
+      "reportStatus": "ATTACHED"
     }
   ],
   "Evidence": [
@@ -2915,6 +2996,20 @@
       "_id": "6aaff4e6000035be",
       "createdAt": "2026-09-20T14:59:50.114Z",
       "updatedAt": "2026-09-20T14:59:50.114Z"
+    },
+    {
+      "issueId": "6aaffb980000e28e",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-TEST-1789918104324"
+      },
+      "_id": "6aaffb980000629a",
+      "createdAt": "2026-09-20T15:28:24.795Z",
+      "updatedAt": "2026-09-20T15:28:24.795Z"
     }
   ],
   "Notification": [
@@ -3934,6 +4029,72 @@
       "_id": "6aaff4e600007aff",
       "createdAt": "2026-09-20T14:59:50.123Z",
       "updatedAt": "2026-09-20T14:59:50.123Z"
+    },
+    {
+      "userId": "6aaf88250000ce82",
+      "title": "🚨 New Civic Complaint: CV-1039",
+      "body": "Citizen logged \"Severe blocked drainage overflow flooding street\" at Mysuru Urban · 12.2958°N, 76.6394°E. Photo evidence & GPS coordinates received. AI Verification: 0/100.",
+      "issueId": "6aaffb980000e28e",
+      "issuePublicId": "CV-1039",
+      "photoUrl": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "locationLabel": "Mysuru Urban · 12.2958°N, 76.6394°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaffb980000ad5e",
+      "createdAt": "2026-09-20T15:28:24.798Z",
+      "updatedAt": "2026-09-20T15:28:24.798Z"
+    },
+    {
+      "userId": "6aaf882500008ea8",
+      "title": "🚨 New Civic Complaint: CV-1039",
+      "body": "Citizen logged \"Severe blocked drainage overflow flooding street\" at Mysuru Urban · 12.2958°N, 76.6394°E. Photo evidence & GPS coordinates received. AI Verification: 0/100.",
+      "issueId": "6aaffb980000e28e",
+      "issuePublicId": "CV-1039",
+      "photoUrl": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "locationLabel": "Mysuru Urban · 12.2958°N, 76.6394°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaffb9800003f76",
+      "createdAt": "2026-09-20T15:28:24.800Z",
+      "updatedAt": "2026-09-20T15:28:24.800Z"
+    },
+    {
+      "userId": "66e9a0000000000000000099",
+      "title": "✅ Complaint Registered: CV-1039",
+      "body": "Your complaint \"Severe blocked drainage overflow flooding street\" has been registered at Mysuru Urban · 12.2958°N, 76.6394°E and sent to MCC. Evidence photo and GPS verification recorded.",
+      "issueId": "6aaffb980000e28e",
+      "issuePublicId": "CV-1039",
+      "photoUrl": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "locationLabel": "Mysuru Urban · 12.2958°N, 76.6394°E",
+      "category": "Garbage / illegal dumping",
+      "type": "COMPLAINT_REGISTERED",
+      "read": false,
+      "_id": "6aaffb98000007da",
+      "createdAt": "2026-09-20T15:28:24.802Z",
+      "updatedAt": "2026-09-20T15:28:24.802Z"
     }
   ],
   "SystemConfig": [
@@ -4365,6 +4526,30 @@
       "_id": "6aaff4e400005c8d",
       "createdAt": "2026-09-20T14:59:48.700Z",
       "updatedAt": "2026-09-20T14:59:48.700Z"
+    },
+    {
+      "citizenId": "650000000000000000000001",
+      "title": "Broken water main valve",
+      "category": "WATER",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.65,
+          12.31
+        ],
+        "address": "K.R. Circle, Mysuru",
+        "zone": "Central Zone"
+      },
+      "verificationMetrics": {
+        "gpsConfidence": 0.95,
+        "duplicateConfidence": 0.05,
+        "aiVisualScore": 90,
+        "compositeScore": 92
+      },
+      "status": "TRIAGED",
+      "_id": "6aaffb96000080a0",
+      "createdAt": "2026-09-20T15:28:22.980Z",
+      "updatedAt": "2026-09-20T15:28:22.980Z"
     }
   ],
   "Media": [
@@ -4569,6 +4754,22 @@
       "_id": "6aaff4e400009588",
       "createdAt": "2026-09-20T14:59:48.703Z",
       "updatedAt": "2026-09-20T14:59:48.705Z"
+    },
+    {
+      "complaintId": "650000000000000000000002",
+      "stage": "BEFORE_INCIDENT",
+      "fileUrl": "/uploads/evidence_sample.jpg",
+      "isPublicMasked": true,
+      "metadata": {
+        "deviceType": "mobile-pwa",
+        "exifGps": [
+          76.65,
+          12.31
+        ]
+      },
+      "_id": "6aaffb9600009b33",
+      "createdAt": "2026-09-20T15:28:22.984Z",
+      "updatedAt": "2026-09-20T15:28:22.985Z"
     }
   ],
   "Logistics": [
@@ -4774,6 +4975,25 @@
       "_id": "6aaff4e400006c52",
       "createdAt": "2026-09-20T14:59:48.706Z",
       "updatedAt": "2026-09-20T14:59:48.706Z"
+    },
+    {
+      "complaintId": "650000000000000000000003",
+      "assignedUnit": {
+        "vehicleId": "KA-09-SWM-01",
+        "crewCount": 4
+      },
+      "dispatchStatus": "EN_ROUTE",
+      "materialAllocations": [
+        {
+          "item": "Cold Mix Asphalt (50kg bags)",
+          "quantity": 5,
+          "unit": "bags"
+        }
+      ],
+      "eta": "2026-09-20T15:58:22.987Z",
+      "_id": "6aaffb960000378b",
+      "createdAt": "2026-09-20T15:28:22.987Z",
+      "updatedAt": "2026-09-20T15:28:22.987Z"
     }
   ],
   "Simulation": [
@@ -4990,6 +5210,25 @@
       "_id": "6aaff4e400008d99",
       "createdAt": "2026-09-20T14:59:48.707Z",
       "updatedAt": "2026-09-20T14:59:48.707Z"
+    },
+    {
+      "scenarioName": "Dasara Monsoon Test",
+      "category": "FLOOD_PREDICTION",
+      "parameters": {
+        "intensityFactor": 2.5,
+        "affectedZones": [
+          "Central Zone",
+          "South Zone"
+        ],
+        "durationHours": 6
+      },
+      "projectedImpact": {
+        "incidentVolumeEstimate": 145,
+        "crewShortageEstimate": 35
+      },
+      "_id": "6aaffb960000f1f3",
+      "createdAt": "2026-09-20T15:28:22.988Z",
+      "updatedAt": "2026-09-20T15:28:22.988Z"
     }
   ],
   "AuditLog": [
@@ -5296,6 +5535,23 @@
       "_id": "6aaff4e4000053b2",
       "createdAt": "2026-09-20T14:59:48.708Z",
       "updatedAt": "2026-09-20T14:59:48.708Z"
+    },
+    {
+      "entityId": "650000000000000000000004",
+      "actorId": "650000000000000000000005",
+      "action": "SCORE_OVERRIDDEN",
+      "diff": {
+        "before": {
+          "compositeScore": 75
+        },
+        "after": {
+          "compositeScore": 92
+        },
+        "reason": "Commissioner verified street camera"
+      },
+      "_id": "6aaffb9600002c39",
+      "createdAt": "2026-09-20T15:28:22.989Z",
+      "updatedAt": "2026-09-20T15:28:22.989Z"
     }
   ]
 }
