@@ -10,6 +10,11 @@ import { Report } from "../models/Report.js";
 import { Evidence } from "../models/Evidence.js";
 import { IssueEvent } from "../models/IssueEvent.js";
 import { SystemConfig } from "../models/SystemConfig.js";
+import { Complaint } from "../models/Complaint.js";
+import { Media } from "../models/Media.js";
+import { Logistics } from "../models/Logistics.js";
+import { Simulation } from "../models/Simulation.js";
+import { AuditLog } from "../models/AuditLog.js";
 import { env } from "../config/env.js";
 import { demoZones } from "./demoZones.js";
 import { demoAccounts } from "./demoUsers.js";
@@ -18,6 +23,7 @@ import { mapsProvider } from "../integrations/maps.provider.js";
 import { applySla } from "../services/sla.service.js";
 import { recordEvent } from "../services/audit.service.js";
 import { uploadsDir } from "../integrations/storage.provider.js";
+
 
 const categories = [
   {
@@ -89,6 +95,11 @@ async function run() {
     CivicIssue.deleteMany({ publicId: /^CV-10/ }),
     Report.deleteMany({ reportId: /^R-10/ }),
     Evidence.deleteMany({}),
+    Complaint.deleteMany({}),
+    Media.deleteMany({}),
+    Logistics.deleteMany({}),
+    Simulation.deleteMany({}),
+    AuditLog.deleteMany({}),
   ]);
   await IssueCategory.deleteMany({});
   await Report.syncIndexes();
@@ -116,12 +127,23 @@ async function run() {
       {
         ...a,
         assignedZoneId: a.zoneCode ? zoneDocs[a.zoneCode]?._id : null,
+        jurisdiction: {
+          zone: a.zoneCode === "NORTH" ? "North Zone" : a.zoneCode === "SOUTH" ? "South Zone" : "All Zones",
+          department:
+            a.role === "MAIN_AUTHORITY" || a.role === "admin"
+              ? "City Administration"
+              : a.role === "ZONE_OFFICER" || a.role === "officer"
+              ? "Sanitation & Civil"
+              : "Citizen Desk",
+        },
+        reputationScore: a.role === "CITIZEN" || a.role === "citizen" ? 95 : 100,
         isDemoData: true,
         isActive: true,
       },
       { upsert: true, new: true }
     );
   }
+
 
   await SystemConfig.findOneAndUpdate({ key: "slas" }, { value: env.sla }, { upsert: true });
 
@@ -313,9 +335,251 @@ async function run() {
     }
   }
 
+  // -------------------------------------------------------------
+  // Seed Standard Complaint, Media, Logistics, Simulation & AuditLog
+  // -------------------------------------------------------------
+  console.log("[Seed] Seeding standard Complaint & Media pipeline...");
+  const citizenUser = users["ravi.citizen@mysuru.demo"] || users["anitha.r@example.in"];
+  const anithaUser = users["anitha.r@example.in"] || citizenUser;
+  const northOfficer = users["ananya.officer@mysuru.gov.in"];
+  const southOfficer = users["karthik.officer@mysuru.gov.in"];
+  const adminUser = users["commissioner@mysuru.gov.in"];
+
+  const demoComplaints = [
+    {
+      title: "Severe deep crater pothole near Sayyaji Rao Road junction",
+      description: "Hazardous pothole causing two-wheeler skidding during peak traffic hours.",
+      category: "ROADS",
+      location: {
+        type: "Point",
+        coordinates: [76.6531, 12.3168],
+        address: "Sayyaji Rao Road, Near Bamboo Bazar, Bannimantap, Mysuru",
+        zone: "North Zone",
+      },
+      citizenId: citizenUser._id,
+      assignedOfficerId: northOfficer?._id || null,
+      status: "TRIAGED",
+      verificationMetrics: {
+        gpsConfidence: 0.94,
+        duplicateConfidence: 0.08,
+        aiVisualScore: 88,
+        compositeScore: 91,
+      },
+      slaDeadline: new Date(Date.now() + 24 * 3600 * 1000),
+      imageKey: "CV-1024-BEFORE",
+    },
+    {
+      title: "Overflowing commercial garbage dump blocking storm drain",
+      description: "Excess organic waste dumped overnight overflowing into pedestrian footpath.",
+      category: "WASTE",
+      location: {
+        type: "Point",
+        coordinates: [76.6515, 12.3082],
+        address: "Devaraja Market Western Entrance, Mysuru",
+        zone: "Central Zone",
+      },
+      citizenId: anithaUser._id,
+      assignedOfficerId: northOfficer?._id || null,
+      status: "ASSIGNED",
+      verificationMetrics: {
+        gpsConfidence: 0.92,
+        duplicateConfidence: 0.12,
+        aiVisualScore: 85,
+        compositeScore: 89,
+      },
+      slaDeadline: new Date(Date.now() + 12 * 3600 * 1000),
+      imageKey: "CV-1025-BEFORE",
+    },
+    {
+      title: "High-pressure municipal water main leakage flooding Saraswathipuram 8th Main",
+      description: "Clean potable water gushing from cracked underground joint onto roadway.",
+      category: "WATER",
+      location: {
+        type: "Point",
+        coordinates: [76.6342, 12.3051],
+        address: "8th Main, Saraswathipuram, Mysuru",
+        zone: "South Zone",
+      },
+      citizenId: citizenUser._id,
+      assignedOfficerId: southOfficer?._id || null,
+      status: "IN_PROGRESS",
+      verificationMetrics: {
+        gpsConfidence: 0.96,
+        duplicateConfidence: 0.05,
+        aiVisualScore: 92,
+        compositeScore: 94,
+      },
+      slaDeadline: new Date(Date.now() + 8 * 3600 * 1000),
+      imageKey: "CV-1027-BEFORE",
+    },
+    {
+      title: "Sodium vapor luminaire breakdown on Kuvempunagar 5th Cross",
+      description: "Complete dark stretch posing security hazard for pedestrians after 7 PM.",
+      category: "LIGHTING",
+      location: {
+        type: "Point",
+        coordinates: [76.6265, 12.2894],
+        address: "5th Cross, M-Block, Kuvempunagar, Mysuru",
+        zone: "South Zone",
+      },
+      citizenId: anithaUser._id,
+      assignedOfficerId: southOfficer?._id || null,
+      status: "RESOLVED",
+      verificationMetrics: {
+        gpsConfidence: 0.95,
+        duplicateConfidence: 0.02,
+        aiVisualScore: 96,
+        compositeScore: 95,
+      },
+      slaDeadline: new Date(Date.now() - 4 * 3600 * 1000),
+      imageKey: "CV-1026-BEFORE",
+      afterImageKey: "CV-1026-AFTER",
+    },
+  ];
+
+  const createdComplaints = [];
+  for (const c of demoComplaints) {
+    const comp = await Complaint.create({
+      citizenId: c.citizenId,
+      title: c.title,
+      description: c.description,
+      category: c.category,
+      location: c.location,
+      status: c.status,
+      verificationMetrics: c.verificationMetrics,
+      assignedOfficerId: c.assignedOfficerId,
+      slaDeadline: c.slaDeadline,
+    });
+    createdComplaints.push(comp);
+
+    // Media
+    if (images[c.imageKey]) {
+      await Media.create({
+        complaintId: comp._id,
+        stage: "BEFORE_INCIDENT",
+        fileUrl: images[c.imageKey],
+        thumbnailUrl: images[c.imageKey],
+        metadata: {
+          captureTimestamp: new Date(Date.now() - 36 * 3600 * 1000),
+          exifGps: c.location.coordinates,
+          deviceType: "mobile-pwa",
+        },
+        isPublicMasked: false,
+      });
+    }
+
+    if (c.afterImageKey && images[c.afterImageKey]) {
+      await Media.create({
+        complaintId: comp._id,
+        stage: "AFTER_RESOLUTION",
+        fileUrl: images[c.afterImageKey],
+        thumbnailUrl: images[c.afterImageKey],
+        metadata: {
+          captureTimestamp: new Date(Date.now() - 2 * 3600 * 1000),
+          exifGps: c.location.coordinates,
+          deviceType: "field-officer-cam",
+        },
+        isPublicMasked: false,
+      });
+    }
+  }
+
+  // Logistics
+  console.log("[Seed] Seeding Logistics units and dispatches...");
+  await Logistics.create({
+    complaintId: createdComplaints[0]._id,
+    assignedUnit: {
+      teamLeadId: northOfficer?._id || adminUser?._id,
+      vehicleId: "KA-09-ENG-02",
+      crewCount: 4,
+    },
+    dispatchStatus: "ON_SITE",
+    materialAllocations: [
+      { item: "Cold Mix Asphalt (50kg bags)", quantity: 6, unit: "bags" },
+      { item: "Bitumen Emulsion Tack Coat", quantity: 20, unit: "litres" },
+    ],
+    eta: new Date(Date.now() + 45 * 60 * 1000),
+  });
+
+  await Logistics.create({
+    complaintId: createdComplaints[1]._id,
+    assignedUnit: {
+      teamLeadId: northOfficer?._id || adminUser?._id,
+      vehicleId: "KA-09-SWM-01",
+      crewCount: 4,
+    },
+    dispatchStatus: "EN_ROUTE",
+    materialAllocations: [
+      { item: "Bleaching Powder & Lime (25kg bags)", quantity: 2, unit: "bags" },
+      { item: "Bio-Inoculant Waste Sprayer Liquid", quantity: 15, unit: "litres" },
+    ],
+    eta: new Date(Date.now() + 25 * 60 * 1000),
+  });
+
+  // Simulations
+  console.log("[Seed] Seeding Scenario Simulations...");
+  await Simulation.create({
+    scenarioName: "Dasara Tourist Surge & Traffic Spike",
+    category: "TRAFFIC_SPIKE",
+    parameters: {
+      intensityFactor: 2.0,
+      affectedZones: ["Central Zone", "North Zone"],
+      durationHours: 8,
+    },
+    projectedImpact: {
+      incidentVolumeEstimate: 130,
+      crewShortageEstimate: 38,
+    },
+    executedBy: adminUser?._id,
+    createdAt: new Date(Date.now() - 2 * 3600 * 1000),
+  });
+
+  await Simulation.create({
+    scenarioName: "Chamundi Foothills Monsoon Storm & Drain Inundation",
+    category: "FLOOD_PREDICTION",
+    parameters: {
+      intensityFactor: 2.4,
+      affectedZones: ["South Zone", "Central Zone"],
+      durationHours: 12,
+    },
+    projectedImpact: {
+      incidentVolumeEstimate: 162,
+      crewShortageEstimate: 49,
+    },
+    executedBy: adminUser?._id,
+    createdAt: new Date(Date.now() - 6 * 3600 * 1000),
+  });
+
+  // Audit Logs
+  console.log("[Seed] Seeding Audit Logs...");
+  await AuditLog.create({
+    entityId: createdComplaints[0]._id,
+    actorId: adminUser?._id,
+    action: "SCORE_OVERRIDDEN",
+    diff: {
+      before: { compositeScore: 78, status: "SUBMITTED" },
+      after: { compositeScore: 91, status: "TRIAGED" },
+      reason: "Verified by MCC Commissioner with high-resolution image analysis.",
+    },
+    createdAt: new Date(Date.now() - 10 * 3600 * 1000),
+  });
+
+  await AuditLog.create({
+    entityId: createdComplaints[1]._id,
+    actorId: adminUser?._id,
+    action: "DISPATCH_TRIGGERED",
+    diff: {
+      vehicleId: "KA-09-SWM-01",
+      crewCount: 4,
+      materialAllocations: "Bleaching powder & Bio-inoculant sprayer",
+    },
+    createdAt: new Date(Date.now() - 2 * 3600 * 1000),
+  });
+
   console.log("✅ Seeded Mysuru CivicVerify demo data successfully!");
   process.exit(0);
 }
+
 
 run().catch((err) => {
   console.error("❌ Seed failed:", err);

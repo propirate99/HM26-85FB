@@ -36,6 +36,11 @@ export class EmbeddedStorageEngine {
       IssueEvent: new Map(),
       Notification: new Map(),
       SystemConfig: new Map(),
+      Complaint: new Map(),
+      Media: new Map(),
+      Logistics: new Map(),
+      Simulation: new Map(),
+      AuditLog: new Map(),
     };
     this.saveTimeout = null;
     this.loadFromDisk();

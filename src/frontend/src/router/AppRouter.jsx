@@ -9,6 +9,7 @@ import { CreateIssuePage } from "../pages/CreateIssuePage.jsx";
 import { IssueDetailsPage } from "../pages/IssueDetailsPage.jsx";
 import { OfficerDashboard } from "../pages/OfficerDashboard.jsx";
 import { AdminDashboard } from "../pages/AdminDashboard.jsx";
+import { AdminLayout } from "../pages/admin/AdminLayout.jsx";
 import { PublicIssuesPage } from "../pages/PublicIssuesPage.jsx";
 import { SwachhaGridPage } from "../pages/SwachhaGridPage.jsx";
 import { SimulatorPage } from "../pages/SimulatorPage.jsx";
@@ -16,7 +17,8 @@ import { ProfilePage } from "../pages/ProfilePage.jsx";
 
 export function AppRouter() {
   const { pathname } = useLocation();
-  const hideNav = pathname === "/" || pathname === "/login";
+  const hideNav = pathname === "/" || pathname === "/login" || pathname.startsWith("/admin");
+
 
   return (
     <>
@@ -77,13 +79,22 @@ export function AppRouter() {
           }
         />
         <Route
-          path="/admin"
+          path="/admin/*"
           element={
-            <RoleRoute roles={["MAIN_AUTHORITY"]}>
-              <AdminDashboard />
+            <RoleRoute roles={["MAIN_AUTHORITY", "admin"]}>
+              <AdminLayout />
             </RoleRoute>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <RoleRoute roles={["MAIN_AUTHORITY", "admin"]}>
+              <AdminLayout />
+            </RoleRoute>
+          }
+        />
+
       </Routes>
     </>
   );

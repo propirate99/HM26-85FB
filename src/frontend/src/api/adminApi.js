@@ -16,5 +16,16 @@ export const adminApi = {
   review: (reportId, body) => api.post(`/admin/reviews/${reportId}/decision`, body),
   aiStatus: () => api.get("/admin/ai/status"),
   updateAiConfig: (body) => api.post("/admin/ai/config", body),
+  // RBAC Enterprise Operations
+  getTriage: () => api.get("/admin/triage"),
+  patchTriage: (id, body) => api.patch(`/admin/triage/${id}`, body),
+  getLogistics: () => api.get("/admin/logistics"),
+  dispatchLogistics: (body) => api.post("/admin/logistics/dispatch", body),
+  getSimulators: () => api.get("/admin/simulators"),
+  runSimulator: (body) => api.post("/admin/simulators/run", body),
+  getAuditLogs: () => api.get("/admin/audit-trail"),
+  getMedia: () => api.get("/admin/media"),
+  toggleMediaMask: (id) => api.patch(`/admin/media/${id}/mask`, {}),
 };
+
 
