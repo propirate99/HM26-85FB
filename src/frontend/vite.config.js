@@ -1,5 +1,22 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function getBackendTarget() {
+  if (process.env.VITE_PROXY_TARGET) return process.env.VITE_PROXY_TARGET;
+  try {
+    const portFile = path.resolve(__dirname, "../.active-port");
+    if (fs.existsSync(portFile)) {
+      const p = fs.readFileSync(portFile, "utf-8").trim();
+      if (p) return `http://localhost:${p}`;
+    }
+  } catch {}
+  return "http://localhost:5050";
+}
 
 function geojsonPlugin() {
   return {
@@ -20,8 +37,16 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/api": process.env.VITE_PROXY_TARGET || "http://localhost:5050",
-      "/uploads": process.env.VITE_PROXY_TARGET || "http://localhost:5050",
+      "/api": {
+        target: "http://localhost:5050",
+        changeOrigin: true,
+        router: () => getBackendTarget(),
+      },
+      "/uploads": {
+        target: "http://localhost:5050",
+        changeOrigin: true,
+        router: () => getBackendTarget(),
+      },
     },
   },
 });

@@ -1,13 +1,22 @@
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { env } from "./config/env.js";
 import { connectDatabase } from "./config/database.js";
 import { createApp } from "./app.js";
 import { startEscalationJob } from "./jobs/escalation.job.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const portFilePath = path.resolve(__dirname, "../../.active-port");
 
 const app = createApp();
 
 function startServer(portToTry) {
   const server = app.listen(portToTry, () => {
     console.log(`CivicVerify API listening on :${portToTry}`);
+    try {
+      fs.writeFileSync(portFilePath, String(portToTry), "utf-8");
+    } catch {}
   });
 
   server.on("error", (err) => {

@@ -21,7 +21,10 @@ export async function googleAuth(req, res, next) {
 
 export async function demoAuth(req, res, next) {
   try {
-    const user = await loginDemo(req.body?.email);
+    const user = await loginDemo(req.body?.email, {
+      name: req.body?.name,
+      address: req.body?.address,
+    });
     setSession(res, user);
     res.json({ user: publicUser(user) });
   } catch (err) {

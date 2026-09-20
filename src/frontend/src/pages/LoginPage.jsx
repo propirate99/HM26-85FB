@@ -34,15 +34,15 @@ export function LoginPage() {
     return (data?.wards || []).slice().sort((a, b) => a.ward - b.ward);
   }, []);
 
-  async function signIn(targetEmail) {
+  async function signIn(targetEmail, targetName, targetAddress) {
     setError("");
     setBusy(true);
     try {
-      const data = await authApi.demo(targetEmail);
+      const data = await authApi.demo(targetEmail, targetName, targetAddress);
       setUser(data.user);
       navigate(homeFor(data.user));
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Sign in failed. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -54,13 +54,16 @@ export function LoginPage() {
       setError("Use an MCC officer code such as MCC-SWM-204.");
       return;
     }
+    const entered = email.trim();
     const mapped =
-      role === "admin"
+      entered ||
+      (role === "admin"
         ? DEMO.admin.email
         : role === "officer"
           ? DEMO.officer.email
-          : DEMO.civilian.email;
-    signIn(mapped);
+          : DEMO.civilian.email);
+    const wardLabel = ward ? `Ward ${ward}, Mysuru` : undefined;
+    signIn(mapped, name.trim() || undefined, wardLabel);
   }
 
   const isOfficer = role !== "civilian";

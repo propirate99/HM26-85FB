@@ -108,6 +108,17 @@
       "isDemoData": true,
       "isActive": true,
       "_id": "6aadb05b00008248"
+    },
+    {
+      "email": "mysuru.citizen@example.in",
+      "name": "Mysuru Citizen",
+      "role": "CITIZEN",
+      "address": "Ward 12, Mysuru",
+      "isActive": true,
+      "isDemoData": true,
+      "_id": "6aaf6f6500002634",
+      "createdAt": "2026-09-20T05:30:13.325Z",
+      "updatedAt": "2026-09-20T05:30:13.325Z"
     }
   ],
   "Zone": [
@@ -1332,6 +1343,43 @@
       "updatedAt": "2026-09-19T20:45:06.393Z",
       "deadline": "2026-09-20T20:45:06.392Z",
       "escalationAt": "2026-09-20T20:45:06.392Z"
+    },
+    {
+      "publicId": "CV-1038",
+      "categoryId": "6aadb05b00007fc7",
+      "title": "Severe blocked drainage overflow flooding street",
+      "normalizedTitle": "severe blocked drainage overflow flooding street",
+      "description": "Severe blocked drainage overflow flooding street",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "approximateLocationLabel": "Near 12.295°N, 76.640°E (approximate)",
+      "priority": "HIGH",
+      "status": "NEEDS_REVIEW",
+      "verificationStatus": "PENDING",
+      "verificationScore": 0,
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "supporters": [
+        "66e9a0000000000000000099"
+      ],
+      "supportCount": 1,
+      "_id": "6aaf6f8300006173",
+      "createdAt": "2026-09-20T05:30:43.910Z",
+      "updatedAt": "2026-09-20T05:30:43.913Z",
+      "deadline": "2026-09-21T05:30:43.913Z",
+      "escalationAt": "2026-09-21T05:30:43.913Z"
     }
   ],
   "Report": [
@@ -2878,6 +2926,50 @@
         "durationMs": 0
       },
       "issueId": "6aaef4520000763b"
+    },
+    {
+      "reportId": "R-TEST-1789882243900",
+      "citizenId": "66e9a0000000000000000099",
+      "citizenSelectedCategoryId": {
+        "code": "GARBAGE",
+        "name": "Garbage / illegal dumping",
+        "duplicateRadiusMeters": 100,
+        "defaultPriority": "HIGH",
+        "keywords": [
+          "garbage",
+          "dump",
+          "waste",
+          "trash",
+          "litter"
+        ],
+        "_id": "6aadb05b00007fc7",
+        "createdAt": "2026-09-18T21:42:51.281Z",
+        "updatedAt": "2026-09-18T21:42:51.281Z"
+      },
+      "description": "Severe blocked drainage overflow flooding street",
+      "capturedLocation": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "zoneMatchStatus": "MATCH",
+      "aiTriage": {
+        "analyzed": true,
+        "provider": "mock",
+        "isFake": false,
+        "suggestedCategory": "DRAIN",
+        "confidence": 0.92,
+        "severity": "HIGH",
+        "duplicateScore": 0
+      },
+      "_id": "6aaf6f830000b571",
+      "createdAt": "2026-09-20T05:30:43.901Z",
+      "updatedAt": "2026-09-20T05:30:43.914Z",
+      "issueId": "6aaf6f8300006173",
+      "duplicateDecision": "NEW_ISSUE",
+      "reportStatus": "ATTACHED"
     }
   ],
   "Evidence": [
@@ -3838,6 +3930,20 @@
       "_id": "6aaef4520000cd7d",
       "createdAt": "2026-09-19T20:45:06.396Z",
       "updatedAt": "2026-09-19T20:45:06.396Z"
+    },
+    {
+      "issueId": "6aaf6f8300006173",
+      "actorId": "66e9a0000000000000000099",
+      "actorRole": "CITIZEN",
+      "eventType": "ISSUE_CREATED",
+      "toStatus": "NEEDS_REVIEW",
+      "message": "Civic issue opened from citizen report",
+      "metadata": {
+        "reportId": "R-TEST-1789882243900"
+      },
+      "_id": "6aaf6f830000eeb9",
+      "createdAt": "2026-09-20T05:30:43.916Z",
+      "updatedAt": "2026-09-20T05:30:43.916Z"
     }
   ],
   "Notification": [
@@ -4065,6 +4171,72 @@
       "_id": "6aaef45200001aea",
       "createdAt": "2026-09-19T20:45:06.404Z",
       "updatedAt": "2026-09-19T20:45:23.074Z"
+    },
+    {
+      "userId": "6aadb05b00005a19",
+      "title": "🚨 New Civic Complaint: CV-1038",
+      "body": "Citizen logged \"Severe blocked drainage overflow flooding street\" at Mysuru Urban · 12.2958°N, 76.6394°E. Photo evidence & GPS coordinates received. AI Verification: 0/100.",
+      "issueId": "6aaf6f8300006173",
+      "issuePublicId": "CV-1038",
+      "photoUrl": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "locationLabel": "Mysuru Urban · 12.2958°N, 76.6394°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaf6f830000b104",
+      "createdAt": "2026-09-20T05:30:43.917Z",
+      "updatedAt": "2026-09-20T05:30:43.917Z"
+    },
+    {
+      "userId": "6aadb05b00008248",
+      "title": "🚨 New Civic Complaint: CV-1038",
+      "body": "Citizen logged \"Severe blocked drainage overflow flooding street\" at Mysuru Urban · 12.2958°N, 76.6394°E. Photo evidence & GPS coordinates received. AI Verification: 0/100.",
+      "issueId": "6aaf6f8300006173",
+      "issuePublicId": "CV-1038",
+      "photoUrl": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "locationLabel": "Mysuru Urban · 12.2958°N, 76.6394°E",
+      "category": "Garbage / illegal dumping",
+      "type": "ADMIN_NEW_COMPLAINT",
+      "read": false,
+      "_id": "6aaf6f8300008191",
+      "createdAt": "2026-09-20T05:30:43.918Z",
+      "updatedAt": "2026-09-20T05:30:43.918Z"
+    },
+    {
+      "userId": "66e9a0000000000000000099",
+      "title": "✅ Complaint Registered: CV-1038",
+      "body": "Your complaint \"Severe blocked drainage overflow flooding street\" has been registered at Mysuru Urban · 12.2958°N, 76.6394°E and sent to MCC. Evidence photo and GPS verification recorded.",
+      "issueId": "6aaf6f8300006173",
+      "issuePublicId": "CV-1038",
+      "photoUrl": "",
+      "location": {
+        "type": "Point",
+        "coordinates": [
+          76.6394,
+          12.2958
+        ]
+      },
+      "locationLabel": "Mysuru Urban · 12.2958°N, 76.6394°E",
+      "category": "Garbage / illegal dumping",
+      "type": "COMPLAINT_REGISTERED",
+      "read": false,
+      "_id": "6aaf6f830000f555",
+      "createdAt": "2026-09-20T05:30:43.919Z",
+      "updatedAt": "2026-09-20T05:30:43.919Z"
     }
   ],
   "SystemConfig": [

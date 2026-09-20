@@ -55,17 +55,28 @@ export async function loginWithGoogle(credential) {
   return user;
 }
 
-export async function loginDemo(email) {
+export async function loginDemo(email, extraData = {}) {
   if (!env.demoAuth) {
     const err = new Error("Demo login is disabled");
     err.status = 403;
     throw err;
   }
-  const user = await User.findOne({ email: String(email).toLowerCase(), isActive: true });
-  if (!user) {
-    const err = new Error("Unknown demo account");
-    err.status = 401;
+  const normEmail = String(email || "").trim().toLowerCase();
+  if (!normEmail) {
+    const err = new Error("Email is required for demo login");
+    err.status = 400;
     throw err;
+  }
+  let user = await User.findOne({ email: normEmail, isActive: true });
+  if (!user) {
+    user = await User.create({
+      email: normEmail,
+      name: extraData.name || normEmail.split("@")[0],
+      role: "CITIZEN",
+      address: extraData.address || "Jayalakshmipuram, Ward 42, Mysuru",
+      isActive: true,
+      isDemoData: true,
+    });
   }
   return user;
 }
