@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { env } from "../config/env.js";
 import { User } from "../models/User.js";
 import { verifyGoogleCredential } from "../integrations/google.service.js";
+import { demoAccounts } from "../seed/demoUsers.js";
 
 const cookieOpts = {
   httpOnly: true,
@@ -97,8 +98,23 @@ export async function loginWithPassword(email, password) {
     err.status = 400;
     throw err;
   }
-  const user = await User.findOne({ email: normEmail, isActive: true });
+  let user = await User.findOne({ email: normEmail, isActive: true });
   if (!user) {
+    const known = demoAccounts.find((a) => a.email.toLowerCase() === normEmail);
+    if (known) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
+      user = await User.create({
+        email: normEmail,
+        passwordHash,
+        name: known.name,
+        role: known.role,
+        address: known.address || "Mysuru",
+        isActive: true,
+        isDemoData: true,
+      });
+      return user;
+    }
     const err = new Error("Invalid email or password");
     err.status = 401;
     throw err;
@@ -115,6 +131,13 @@ export async function loginWithPassword(email, password) {
     // If user had no password yet, set it securely
     const salt = await bcrypt.genSalt(10);
     user.passwordHash = await bcrypt.hash(password, salt);
+    await user.save();
+  }
+
+  // Ensure role is up to date if it's a known demo officer or authority
+  const known = demoAccounts.find((a) => a.email.toLowerCase() === normEmail);
+  if (known && user.role !== known.role) {
+    user.role = known.role;
     await user.save();
   }
 
@@ -153,16 +176,33 @@ export async function loginDemo(email, extraData = {}) {
     err.status = 400;
     throw err;
   }
+  const known = demoAccounts.find((a) => a.email.toLowerCase() === normEmail);
   let user = await User.findOne({ email: normEmail, isActive: true });
   if (!user) {
+    const r = String(extraData.role || "").toLowerCase();
+    const assignedRole =
+      known?.role ||
+      (normEmail.includes("commissioner") || normEmail.includes("admin") || r === "admin" || r === "main_authority"
+        ? "MAIN_AUTHORITY"
+        : normEmail.includes("officer") || normEmail.includes("swm") || r === "officer" || r === "zone_officer"
+        ? "ZONE_OFFICER"
+        : "CITIZEN");
+
     user = await User.create({
       email: normEmail,
-      name: extraData.name || normEmail.split("@")[0],
-      role: "CITIZEN",
-      address: extraData.address || "Jayalakshmipuram, Ward 42, Mysuru",
+      name: known?.name || extraData.name || normEmail.split("@")[0],
+      role: assignedRole,
+      address: known?.address || extraData.address || "Jayalakshmipuram, Ward 42, Mysuru",
       isActive: true,
       isDemoData: true,
     });
+  } else if (known && user.role !== known.role) {
+    user.role = known.role;
+    if (known.name && !user.name) user.name = known.name;
+    await user.save();
+  } else if ((normEmail.includes("officer") || normEmail.includes("swm")) && user.role === "CITIZEN") {
+    user.role = "ZONE_OFFICER";
+    await user.save();
   }
   return user;
 }

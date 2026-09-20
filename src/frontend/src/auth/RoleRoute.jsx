@@ -18,7 +18,8 @@ export function RoleRoute({ roles, children }) {
   const userNorm = normalizeRole(user.role);
   const allowed = roles.map(normalizeRole);
   if (!allowed.includes(userNorm) && !roles.includes(user.role)) {
-    return <Navigate to={userNorm === "admin" ? "/admin" : "/dashboard"} replace />;
+    const dest = userNorm === "admin" ? "/admin" : userNorm === "officer" ? "/officer" : "/dashboard";
+    return <Navigate to={dest} replace />;
   }
   return children;
 }

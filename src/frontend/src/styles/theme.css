@@ -13,7 +13,50 @@
   --space-8: 2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
+  --radius: 12px;
+  --radius-sm: 10px;
 
+  /* Light mode palette (Default) */
+  --bg: #f8fafc;
+  --bg-2: #f1f5f9;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --line: #e2e8f0;
+  --line-soft: #edf2f7;
+  --fg: #0f172a;
+  --fg-2: #334155;
+  --fg-3: #64748b;
+  --accent: #10b981;
+  --accent-ink: #064e3b;
+  --warn: #f59e0b;
+  --bad: #ef4444;
+  --good: #10b981;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+
+  --maroon: var(--accent);
+  --maroon-deep: var(--fg);
+  --maroon-light: var(--accent);
+  --gold: var(--accent);
+  --gold-soft: var(--accent);
+  --gold-pale: rgba(16, 185, 129, 0.12);
+  --cream: var(--bg);
+  --paper: var(--surface);
+  --paper-soft: var(--surface-2);
+  --ink: var(--fg);
+  --ink-light: var(--fg-2);
+  --muted: var(--fg-3);
+  --sage: var(--good);
+  --sage-light: rgba(16, 185, 129, 0.14);
+  --clay: var(--warn);
+  --palace-gold: var(--accent);
+
+  font-family: "Satoshi", "General Sans", ui-sans-serif, system-ui, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+/* Dark mode palette */
+html.dark {
   --bg: oklch(19% 0.018 250);
   --bg-2: oklch(23% 0.02 250);
   --surface: oklch(25.5% 0.022 252);
@@ -28,30 +71,9 @@
   --warn: oklch(80% 0.15 82);
   --bad: oklch(66% 0.19 24);
   --good: oklch(80% 0.16 150);
-  --radius: 12px;
-  --radius-sm: 10px;
   --shadow: 0 1px 0 oklch(100% 0 0 / 0.04) inset, 0 12px 32px oklch(0% 0 0 / 0.28);
-
-  --maroon: var(--accent);
-  --maroon-deep: var(--fg);
-  --maroon-light: var(--accent);
-  --gold: var(--accent);
-  --gold-soft: var(--accent);
   --gold-pale: oklch(78% 0.17 165 / 0.14);
-  --cream: var(--bg);
-  --paper: var(--surface);
-  --paper-soft: var(--surface-2);
-  --ink: var(--fg);
-  --ink-light: var(--fg-2);
-  --muted: var(--fg-3);
-  --sage: var(--good);
   --sage-light: oklch(80% 0.16 150 / 0.16);
-  --clay: var(--warn);
-  --palace-gold: var(--accent);
-
-  font-family: "Satoshi", "General Sans", ui-sans-serif, system-ui, sans-serif;
-  color: var(--fg);
-  background: var(--bg);
 }
 
 * { box-sizing: border-box; }
@@ -90,14 +112,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .page-h p { margin: 6px 0 0; color: var(--fg-3); font-size: var(--text-sm); max-width: 62ch; line-height: 1.55; }
 
 .quick-switcher-bar {
-  background: oklch(16% 0.018 250);
+  background: var(--surface-2);
   color: var(--fg-2);
   padding: 8px 16px;
   font-size: 13px;
-  border-bottom: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+html.dark .quick-switcher-bar {
+  background: oklch(16% 0.018 250);
+  border-bottom: 1px solid var(--line-soft);
 }
 .quick-switcher-content {
   max-width: 1500px;
@@ -161,8 +187,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
   position: sticky;
   top: 0;
   z-index: 40;
-  background: oklch(21% 0.02 250 / 0.92);
+  background: var(--surface);
   backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+html.dark .main-header {
+  background: oklch(21% 0.02 250 / 0.92);
   border-bottom: 1px solid var(--line-soft);
 }
 .main-header .shell { padding: 0 clamp(1rem, 3vw, 2rem); max-width: none; }
@@ -505,9 +535,10 @@ input:focus, select:focus, textarea:focus {
 .tbl-scroll, .table-wrap { overflow: auto; border: 1px solid var(--line-soft); border-radius: 10px; max-height: 560px; }
 table { width: 100%; border-collapse: collapse; font-size: var(--text-xs); }
 th { position: sticky; top: 0; background: var(--surface-2); text-align: left; font-weight: 700; color: var(--fg-2); padding: 10px 12px; border-bottom: 1px solid var(--line); }
-td { padding: 10px 12px; border-bottom: 1px solid var(--line-soft); color: var(--fg-2); }
-tbody tr:hover { background: oklch(28% 0.022 252); }
-tbody tr.sel { background: oklch(30% 0.035 168); }
+tbody tr:hover { background: var(--surface-2); }
+tbody tr.sel { background: oklch(78% 0.17 165 / 0.12); }
+html.dark tbody tr:hover { background: oklch(28% 0.022 252); }
+html.dark tbody tr.sel { background: oklch(30% 0.035 168); }
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 td.good { color: var(--good); }
 td.bad { color: var(--bad); }

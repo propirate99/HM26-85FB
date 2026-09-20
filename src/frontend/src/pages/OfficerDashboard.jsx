@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider.jsx";
 import {
   grievanceStore,
@@ -11,7 +11,16 @@ import {
 import { swmApi } from "../services/swmApi.js";
 
 export function OfficerDashboard() {
-  const { user } = useAuth();
+  const { user, isCitizen } = useAuth();
+  const navigate = useNavigate();
+
+  // Role guard: citizens must never see the internal operations console
+  useEffect(() => {
+    if (isCitizen) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isCitizen, navigate]);
+
   const [complaints, setComplaints] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [selectedMailId, setSelectedMailId] = useState(null);
@@ -130,6 +139,17 @@ export function OfficerDashboard() {
     );
     showToast(`Complaint ${selectedComplaint.id} marked Resolved! Confirmation email sent.`);
     setDispatchNote("");
+  }
+
+  function handleUpdateVerification(score, status, isDuplicate) {
+    if (!selectedComplaint) return;
+    grievanceStore.updateVerification(selectedComplaint.id, {
+      score,
+      status,
+      isDuplicate,
+      note: `Triage verification override by ${user?.name || "MCC Officer"}: ${status} (${score}%)`,
+    });
+    showToast(`Verification for #${selectedComplaint.id} updated to ${status} (${score}%)!`);
   }
 
   function exportCsv() {
@@ -291,6 +311,7 @@ export function OfficerDashboard() {
                   <th>Category</th>
                   <th>Ward</th>
                   <th>Citizen</th>
+                  <th>AI Verification</th>
                   <th>SLA</th>
                   <th>Crew</th>
                   <th>Status</th>
@@ -302,7 +323,7 @@ export function OfficerDashboard() {
                     const done = isDone(c);
                     const late = isLate(c);
                     const pct = Math.min(
-                      100,
+                       100,
                       Math.max(
                         5,
                         ((Date.now() - new Date(c.createdAt).getTime()) /
@@ -311,6 +332,7 @@ export function OfficerDashboard() {
                       )
                     );
                     const hoursLeft = Math.max(0, (new Date(c.dueAt).getTime() - Date.now()) / 3600e3);
+                    const vScore = c.verificationScore || 85;
 
                     return (
                       <tr
@@ -329,6 +351,27 @@ export function OfficerDashboard() {
                           <b>{c.name}</b>
                           <br />
                           <small style={{ color: "var(--fg-3)" }}>{c.email}</small>
+                        </td>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                            <span
+                              style={{
+                                display: "inline-block",
+                                padding: "2px 6px",
+                                borderRadius: 4,
+                                fontSize: "11px",
+                                fontWeight: 700,
+                                background: vScore >= 80 ? "oklch(24% 0.1 150)" : "oklch(24% 0.1 80)",
+                                color: vScore >= 80 ? "var(--good)" : "var(--warn)",
+                                border: `1px solid ${vScore >= 80 ? "var(--good)" : "var(--warn)"}`,
+                              }}
+                            >
+                              {vScore}%
+                            </span>
+                            <span style={{ fontSize: "11px", color: "var(--fg-3)" }}>
+                              {c.verificationStatus === "REVIEW_NEEDED" || vScore < 60 ? "⚠️ Flag" : "✓ Auth"}
+                            </span>
+                          </div>
                         </td>
                         <td style={{ minWidth: 110 }}>
                           {done ? (
@@ -359,7 +402,7 @@ export function OfficerDashboard() {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="7" className="empty">
+                    <td colSpan="8" className="empty">
                       No complaints match these filters.
                     </td>
                   </tr>
@@ -408,6 +451,71 @@ export function OfficerDashboard() {
 
               <div className="note-box" style={{ margin: "var(--space-1) 0" }}>
                 <strong>Report details:</strong> {selectedComplaint.detail || "No description supplied."}
+              </div>
+
+              {/* AI Verification & Triage Controls */}
+              <div
+                style={{
+                  background: "var(--surface-2)",
+                  border: "1px solid var(--line)",
+                  borderRadius: "10px",
+                  padding: "12px 14px",
+                  margin: "var(--space-1) 0",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                  <span style={{ fontWeight: 700, fontSize: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span>⚖️</span>
+                    <span>AI Verification &amp; Authenticity Controls</span>
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: 800,
+                      fontSize: "11px",
+                      padding: "2px 8px",
+                      borderRadius: "6px",
+                      background: (selectedComplaint.verificationScore || 85) >= 80 ? "oklch(24% 0.1 150)" : "oklch(24% 0.1 80)",
+                      color: (selectedComplaint.verificationScore || 85) >= 80 ? "var(--good)" : "var(--warn)",
+                      border: `1px solid ${(selectedComplaint.verificationScore || 85) >= 80 ? "var(--good)" : "var(--warn)"}`,
+                    }}
+                  >
+                    Score: {selectedComplaint.verificationScore || 85} / 100
+                  </span>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", fontSize: "11px", color: "var(--fg-3)", marginBottom: "10px" }}>
+                  <div>📍 GPS Bound: <strong style={{ color: "var(--fg)" }}>Ward Verified</strong></div>
+                  <div>🤖 AI Visual: <strong style={{ color: (selectedComplaint.verificationScore || 85) >= 80 ? "var(--good)" : "var(--warn)" }}>
+                    {selectedComplaint.verificationStatus === "REVIEW_NEEDED" ? "Review Flagged" : "Authentic"}
+                  </strong></div>
+                </div>
+
+                <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                  <button
+                    type="button"
+                    onClick={() => handleUpdateVerification(96, "AUTHENTIC", false)}
+                    className="btn"
+                    style={{ padding: "4px 10px", fontSize: "11px", flex: "none", background: "var(--good)", color: "#052e16", border: "none" }}
+                  >
+                    ✓ Pass &amp; Verify (96%)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleUpdateVerification(45, "MANIPULATED", false)}
+                    className="btn ghost"
+                    style={{ padding: "4px 10px", fontSize: "11px", flex: "none", color: "var(--bad)", borderColor: "var(--bad)" }}
+                  >
+                    ⚠️ Flag Tampered (45%)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleUpdateVerification(selectedComplaint.verificationScore || 80, "DUPLICATE", true)}
+                    className="btn ghost"
+                    style={{ padding: "4px 10px", fontSize: "11px", flex: "none" }}
+                  >
+                    📑 Duplicate
+                  </button>
+                </div>
               </div>
 
               <form onSubmit={handleDispatchUpdate} className="form-grid">

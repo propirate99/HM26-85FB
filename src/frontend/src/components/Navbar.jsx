@@ -3,6 +3,7 @@ import { useAuth } from "../auth/AuthProvider.jsx";
 import { QuickUserSwitcher } from "../auth/QuickUserSwitcher.jsx";
 import { BrandMark } from "./BrandMark.jsx";
 import { NotificationCenter } from "./NotificationCenter.jsx";
+import { ThemeToggle } from "./ThemeToggle.jsx";
 
 export function Navbar() {
   const { user, logout, isAdmin, isOfficer, isCitizen } = useAuth();
@@ -50,6 +51,7 @@ export function Navbar() {
               Operations console
             </NavLink>
           )}
+          <ThemeToggle />
           {user ? (
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <NotificationCenter />
@@ -78,7 +80,6 @@ export function Navbar() {
               </div>
             </div>
           ) : (
-
             <Link className="btn" to="/login">
               Sign in
             </Link>

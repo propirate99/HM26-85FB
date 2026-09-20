@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider.jsx";
 import { adminApi } from "../../api/adminApi.js";
 import { complaintsApi } from "../../api/client.js";
+import { ThemeToggle } from "../../components/ThemeToggle.jsx";
 
 export function AdminLayout() {
   const { user, logout } = useAuth();
@@ -272,6 +273,7 @@ export function AdminLayout() {
             </div>
           </div>
 
+          <ThemeToggle />
           <button
             onClick={fetchAllData}
             style={{

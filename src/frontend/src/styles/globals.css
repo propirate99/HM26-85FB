@@ -1,6 +1,10 @@
 @import "./theme.css";
 @import "leaflet/dist/leaflet.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .empty {
   text-align: center;
   padding: 40px 16px;

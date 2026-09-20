@@ -212,6 +212,10 @@ class GrievanceStore {
         notifyEmail: true,
         crew: null,
         status: "Registered",
+        verificationScore: 75 + Math.floor(rnd() * 24),
+        verificationStatus: rnd() > 0.1 ? "AUTHENTIC" : "REVIEW_NEEDED",
+        isManipulated: false,
+        gpsAccuracy: "4.2 m",
         log: [
           {
             at: created.toISOString(),
@@ -313,6 +317,21 @@ class GrievanceStore {
     if (status === "Resolved" || status === "Closed") c.resolvedAt = now();
     c.log.push({ at: now(), status, note: note || "" });
     this.queueMail(c, status, note);
+    this.save();
+    return c;
+  }
+
+  updateVerification(id, { score, status, isDuplicate, note }) {
+    const c = this.complaints.find((x) => x.id === id);
+    if (!c) return null;
+    if (score !== undefined) c.verificationScore = Number(score);
+    if (status) c.verificationStatus = status;
+    if (isDuplicate !== undefined) c.isDuplicate = Boolean(isDuplicate);
+    c.log.push({
+      at: now(),
+      status: c.status,
+      note: note || `Verification updated: Score ${c.verificationScore || 85}%, Status: ${c.verificationStatus || "VERIFIED"}${c.isDuplicate ? " (Duplicate Flagged)" : ""}`,
+    });
     this.save();
     return c;
   }
