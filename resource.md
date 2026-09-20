@@ -20,26 +20,25 @@ HOW TO FILL THIS FILE
 
 | Field | Value |
 |---|---|
-| Team ID (from dashboard) | `<HM1-XXXX>` |
-| Team Name | `<team name>` |
-| College(s) | `<college name(s)>` |
-| Team Leader | `<name>` · `<email>` · `<phone>` |
-| Repository | `<https://github.com/org-or-user/repo>` |
+| Team ID (from dashboard) | `HM26-85FB` |
+| Team Name | `CivicVerify` (`CivicLens`) |
+| College(s) | `Visvesvaraya Technological University` |
+| Team Leader | `Punith J` · `punithjayachandran@gmail.com` |
+| Repository | `https://github.com/propirate99/HM26-85FB` |
 
 | # | Member | Program & Year | GitHub Handle | Primary Role |
 |---|---|---|---|---|
-| 1 | `<name>` (Lead) | `<B.E. CSE, 3rd yr>` | `@<handle>` | `<backend / ML / frontend / ...>` |
-| 2 | `<name>` | `<...>` | `@<handle>` | `<...>` |
-| 3 | `<name>` | `<...>` | `@<handle>` | `<...>` |
-| 4 | `<name>` | `<...>` | `@<handle>` | `<...>` |
+| 1 | Punith J (Lead) | B.Tech CSE | `@punithjayachandran` | Full-Stack Architecture, React PWA, Cloud Integrations |
+| 2 | Gangadhar | B.Tech CSE | `@gangadhar` | Backend Services, Gemini Vision AI Triage, Auth Security |
+| 3 | Rudravinayak Gurannavar | B.Tech CSE | `@rudravinayak` | Geospatial GIS, 65-Ward Mapping, 600 TPD SWM Simulator |
 
 ---
 
 ## 2. What We Built (one-liner)
 
-**Sub-problem:** `<Routing | Follow-through | Visibility | Verification | Detection without reporting | Segregation drift | Hotspot pattern-finding | Field worker feedback loop | Own: ____>`
+**Sub-problem:** `Verification & Routing`
 
-**In one sentence:** `<e.g. "An offline-first reporting app that auto-routes complaints to MCC, town panchayat or gram panchayat using ward boundaries and issue type, with a confidence score for boundary cases.">`
+**In one sentence:** `An evidence-first civic defect intake platform that verifies physical sensor provenance, auto-detects digital manipulation via Gemini 3.6 Flash, deduplicates spatial clusters, and routes verified municipal work orders across Mysuru's 65 MCC wards.`
 
 ---
 
