@@ -314,10 +314,10 @@ function tryReadImageBase64(imagePathOrUrl) {
 }
 
 export class GeminiAIProvider extends MockAIProvider {
-  constructor({ apiKey, apiKeyBackup, model = "gemini-2.5-flash" }) {
+  constructor({ apiKey, apiKeyBackup, model = "gemini-3.6-flash" }) {
     super();
     this.keys = [apiKey, apiKeyBackup].filter(Boolean);
-    this.model = model || "gemini-2.5-flash";
+    this.model = model || "gemini-3.6-flash";
     this.baseUrl = "https://generativelanguage.googleapis.com/v1beta/models";
   }
 
@@ -349,8 +349,8 @@ export class GeminiAIProvider extends MockAIProvider {
       });
     }
 
-    const candidateModels = [this.model, "gemini-2.5-flash", "gemini-1.5-flash"].filter(
-      (m, idx, arr) => arr.indexOf(m) === idx
+    const candidateModels = [this.model, "gemini-3.6-flash"].filter(
+      (m, idx, arr) => m && arr.indexOf(m) === idx
     );
 
     let lastError = null;

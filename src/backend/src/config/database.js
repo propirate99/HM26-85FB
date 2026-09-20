@@ -19,8 +19,8 @@ let activeEngine = null;
 export async function connectDatabase() {
   mongoose.set("strictQuery", true);
 
-  if (env.standaloneDemo === "true") {
-    console.log("[Database] Standalone demo forced. Initializing Embedded JSON Storage Engine...");
+  if (env.standaloneDemo === "true" || env.mongodbUri.includes("xxxx")) {
+    console.log("[Database] Standalone mode or placeholder MONGODB_URI ('xxxx') detected. Initializing Zero-Config Embedded JSON Storage Engine...");
     activeEngine = new EmbeddedStorageEngine();
     patchMongooseForEmbedded(mongoose, activeEngine);
     return { isEmbedded: true, engine: activeEngine };

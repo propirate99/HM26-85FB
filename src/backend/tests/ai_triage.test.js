@@ -49,7 +49,7 @@ test("AI Complaint Management & Triage Suite", async (t) => {
   });
 
   await t.test("GeminiAIProvider graceful circuit breaker with missing key", async () => {
-    const gemini = new GeminiAIProvider({ apiKey: "", model: "gemini-2.5-flash" });
+    const gemini = new GeminiAIProvider({ apiKey: "", model: "gemini-3.6-flash" });
     const check = await gemini.testConnection();
     assert.equal(check.ok, false);
 

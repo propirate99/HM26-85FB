@@ -12,6 +12,7 @@
     "dev:api": "npm run dev -w backend",
     "dev:web": "npm run dev -w frontend",
     "build": "npm run build -w frontend",
+    "test": "npm test -w backend",
     "lint": "npm run lint -w frontend && npm run lint -w backend",
     "seed": "npm run seed -w backend",
     "start": "npm run start -w backend"

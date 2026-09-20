@@ -3,28 +3,46 @@
 const EARTH_RADIUS_KM = 6371.0;
 export const ROAD_DETOUR_FACTOR = 1.34;
 
+function extractLatLon(val) {
+  if (!val) return [0, 0];
+  if (Array.isArray(val)) {
+    // If first element is > 40 and second is <= 40, it is GeoJSON format [longitude, latitude]
+    if (Math.abs(val[0]) > 40 && Math.abs(val[1]) <= 40) {
+      return [Number(val[1]), Number(val[0])];
+    }
+    // Otherwise Leaflet format [latitude, longitude]
+    return [Number(val[0]), Number(val[1])];
+  }
+  if (typeof val === "object") {
+    const lat = val.lat ?? val.latitude ?? 0;
+    const lon = val.lng ?? val.lon ?? val.longitude ?? 0;
+    return [Number(lat), Number(lon)];
+  }
+  return [Number(val) || 0, 0];
+}
+
 /**
- * Calculate Haversine distance between two [longitude, latitude] or (lat, lng) pairs.
- * @param {Array<number>|number} a - [lng, lat] or lat1
- * @param {Array<number>|number} b - [lng, lat] or lng1
- * @param {number} [c] - lat2 if using scalar coordinates
- * @param {number} [d] - lng2 if using scalar coordinates
+ * Calculate Haversine distance between two coordinates.
+ * Accepts:
+ * - (a, b) where a, b are [lng, lat], [lat, lng], or { lat, lng } / { latitude, longitude } objects
+ * - (lat1, lon1, lat2, lon2) scalar numbers
  * @returns {number} distance in kilometers
  */
 export function haversine(a, b, c, d) {
   let lat1, lon1, lat2, lon2;
 
-  if (Array.isArray(a) && Array.isArray(b)) {
-    // Array format: [longitude, latitude]
-    lon1 = a[0];
-    lat1 = a[1];
-    lon2 = b[0];
-    lat2 = b[1];
+  if (c !== undefined && d !== undefined) {
+    lat1 = Number(a) || 0;
+    lon1 = Number(b) || 0;
+    lat2 = Number(c) || 0;
+    lon2 = Number(d) || 0;
   } else {
-    lat1 = a;
-    lon1 = b;
-    lat2 = c;
-    lon2 = d;
+    [lat1, lon1] = extractLatLon(a);
+    [lat2, lon2] = extractLatLon(b);
+  }
+
+  if (lat1 === lat2 && lon1 === lon2) {
+    return 0;
   }
 
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -36,7 +54,9 @@ export function haversine(a, b, c, d) {
     Math.sin(dLat / 2) ** 2 +
     Math.cos(la1) * Math.cos(la2) * Math.sin(dLon / 2) ** 2;
 
-  return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(h));
+  // Clamp h between 0 and 1 to prevent floating-point precision NaN in Math.asin
+  const safeH = Math.min(1, Math.max(0, h));
+  return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(safeH));
 }
 
 /**
@@ -44,22 +64,28 @@ export function haversine(a, b, c, d) {
  * Detour factor calibrated for Mysuru's urban road topology.
  */
 export function roadKm(crowFlyKm) {
-  return Number((crowFlyKm * ROAD_DETOUR_FACTOR + 0.5).toFixed(1));
+  const km = Number(crowFlyKm);
+  if (!km || isNaN(km) || km <= 0) return 0;
+  return Number((km * ROAD_DETOUR_FACTOR + 0.5).toFixed(1));
 }
 
 /**
  * Helper to clamp a number between low and high boundaries.
  */
 export function clamp(v, lo, hi) {
-  return Math.max(lo, Math.min(hi, v));
+  const num = Number(v) || 0;
+  return Math.max(lo, Math.min(hi, num));
 }
 
 /**
  * Format number in Indian numbering format with specified decimal digits.
  */
 export function formatInr(n, digits = 1) {
-  return Number(n || 0).toLocaleString("en-IN", {
+  const num = Number(n);
+  if (isNaN(num)) return "0";
+  return num.toLocaleString("en-IN", {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
   });
 }
+

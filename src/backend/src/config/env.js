@@ -8,7 +8,7 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 function clean(val) {
   if (!val) return "";
-  return String(val).trim().replace(/^<|>$/g, "").trim();
+  return String(val).trim().replace(/<([^>]+)>/g, "$1").replace(/^<|>$/g, "").trim();
 }
 
 function parseCloudinaryUrl(urlStr) {
