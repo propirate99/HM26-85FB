@@ -60,9 +60,9 @@ HOW TO FILL THIS FILE
 
 | # | Artifact | Google Drive Link | File Name | SHA-256 (first 16 chars) |
 |---|---|---|---|---|
-| 1 | [Pitch + Code Walkthrough Video](./resource-templates/video-guide.md) (≤ 10 min, MP4) | `<https://drive.google.com/file/d/.../view>` | `<TeamID>_video.mp4` | `<a1b2c3d4e5f60718>` |
-| 2 | [Decision Log](./resource-templates/decision-log-template.md) (1 page, PDF) | `<https://drive.google.com/file/d/.../view>` | `<TeamID>_decision-log.pdf` | `<...>` |
-| 3 | [Presentation](./resource-templates/presentation-template.md) (≤ 10 slides, PDF) | `<https://drive.google.com/file/d/.../view>` | `<TeamID>_presentation.pdf` | `<...>` |
+| 1 | [Pitch + Code Walkthrough Video](./resource-templates/video-guide.md) (≤ 10 min, MP4) | `<>` | `<TeamID>_video.mp4` | `<a1b2c3d4e5f60718>` |
+| 2 | [Decision Log](./resource-templates/decision-log-template.md) (1 page, PDF) | `<https://drive.google.com/file/d/1smINgUnq49Kr4U-k1YT6rTXUBazvCEEZ/view?usp=drive_link>` | `<TeamID>_decision-log.pdf` | `<...>` |
+| 3 | [Presentation](./resource-templates/presentation-template.md) (≤ 10 slides, PDF) | `<https://drive.google.com/file/d/1I2igPtXp4OrKXLbpuhITm9K4rDZ8oy4e/view?usp=drive_link>` | `<TeamID>_presentation.pdf` | `<...>` |
 
 <!--
 Get the hash:
