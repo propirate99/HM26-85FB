@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HM26-85FB Decision Log</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 11mm 15mm 11mm 15mm;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.38;
+    color: #111827;
+    background: #fff;
+  }
+  header {
+    border-bottom: 2px solid #0f766e;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .title-group h1 {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #0f766e;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+  .title-group .sub {
+    font-size: 9pt;
+    color: #4b5563;
+    font-weight: 600;
+  }
+  .meta {
+    font-size: 8.5pt;
+    color: #374151;
+    text-align: right;
+    line-height: 1.3;
+  }
+  .meta strong {
+    color: #111827;
+  }
+  h2 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 8px;
+    margin-bottom: 3px;
+    border-left: 3px solid #0f766e;
+    padding-left: 6px;
+    line-height: 1.2;
+  }
+  p {
+    margin-bottom: 5px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+  strong {
+    color: #0f172a;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0 6px 0;
+    font-size: 8.8pt;
+    line-height: 1.25;
+  }
+  th, td {
+    border: 1px solid #d1d5db;
+    padding: 3.5px 6px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background-color: #f0fdfa;
+    color: #0f766e;
+    font-weight: 700;
+  }
+  tr:nth-child(even) td {
+    background-color: #f9fafb;
+  }
+  .closing-note {
+    font-weight: 600;
+    color: #0f766e;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px dashed #cbd5e1;
+    font-size: 9.3pt;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title-group">
+    <h1>Civic Governance Decision Log</h1>
+    <div class="sub">HackMysuru 1.0 · Solid Waste &amp; Civic Verification</div>
+  </div>
+  <div class="meta">
+    <div><strong>Team:</strong> CivicVerify (<code>HM26-85FB</code>)</div>
+    <div><strong>Sub-problem:</strong> Verification &amp; Routing</div>
+    <div><strong>Date:</strong> 20 Sept 2026</div>
+  </div>
+</header>
+
+<h2>Q1. What approach did we take, and what did we reject?</h2>
+<p><strong>Our approach:</strong> Trust Score = A weighted 7-signal composite blending location-bound camera capture, hardware GPS accuracy (≤25m), spatial duplicate proximity, and Gemini vision triage, routing scores &lt;40 to rejection, 40–70 to zonal review, and &gt;70 to priority dispatch.</p>
+<p>Citizens capture incidents strictly through an in-app live camera with tamper-resistant GPS coordinates, horizontal accuracy, and device timestamps. Our backend executes a two-stage deduplication filter (50m spatial radius and Levenshtein title matching), pairs it with a Gemini vision model to verify category and hazard severity, and factors in reporter trust reputation. Low-confidence submissions or boundary discrepancies automatically route to the ward sanitary inspector's review queue rather than being dropped.</p>
+<p><strong>Alternative we considered and rejected:</strong> Mandatory OTP phone authentication and Aadhaar e-KYC before submitting any complaint.</p>
+<p>This seemed attractive initially because it guaranteed identity accountability, eliminated automated bot spam, and provided clean audit trails for municipal ward officers.</p>
+
+<h2>Q2. Why did we reject it? The trade-off</h2>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Dimension</th>
+      <th style="width: 37.5%;">Our approach (Evidence Scoring)</th>
+      <th style="width: 37.5%;">Rejected alternative (Mandatory OTP / KYC)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Citizen Adoption</strong></td>
+      <td>Instant filing in &lt;30s without account hurdles</td>
+      <td>High drop-off (&gt;60%) from SMS latency &amp; privacy fears</td>
+    </tr>
+    <tr>
+      <td><strong>Offline / 4G Reliability</strong></td>
+      <td>Local queue stores evidence; syncs when online</td>
+      <td>Fails in low-connectivity ward edges without SMS</td>
+    </tr>
+    <tr>
+      <td><strong>Build Effort in 72h</strong></td>
+      <td>Focused on spatial indexing, vision, &amp; RBAC</td>
+      <td>Heavy SMS gateway integration &amp; fallback handling</td>
+    </tr>
+    <tr>
+      <td><strong>Spam / Sybil Resistance</strong></td>
+      <td>Sensor proofs (live camera + GPS + dedup radius)</td>
+      <td>Strong cryptographic identity verification</td>
+    </tr>
+  </tbody>
+</table>
+<p>Reporting friction and offline reliability at the MCC–panchayat boundary decided our choice; requiring phone verification locks out daily-wage workers, migrants, and citizens in low-signal pockets. The cost we knowingly accepted is that bad actors with real phones can submit false reports that land in our 40–70 human-review band, consuming officer triage bandwidth.</p>
+
+<h2>Q3. What breaks at the scale of all of Mysuru?</h2>
+<p>Mysuru comprises 65 municipal wards and surrounding peri-urban gram panchayats, generating 600+ tonnes of solid waste daily, surging to 800+ TPD with 3,500+ daily grievances during the 10-day Dasara festival.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">What breaks first</th>
+      <th style="width: 37.5%;">Why (with a rough number)</th>
+      <th style="width: 37.5%;">How we'd fix it</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Spatial Duplicate Check</strong></td>
+      <td>Checking 15,000+ open Dasara items via O(N) distance loops degrades insert throughput (&gt;2.4s)</td>
+      <td>Migrate to MongoDB 2dsphere index with geohash-7 cell bucketing (&lt;50m bounds)</td>
+    </tr>
+    <tr>
+      <td><strong>Zonal Review Queue</strong></td>
+      <td>3,500 reports/day floods 7 zonal officers with ~700 manual audits/day</td>
+      <td>Auto-cluster contiguous micro-hotspots so officers verify an entire block at once</td>
+    </tr>
+    <tr>
+      <td><strong>Vision Model Latency</strong></td>
+      <td>Burst uploads of 5MB camera photos saturate vision API rate limits</td>
+      <td>Client-side canvas compression (max 1024px) with asynchronous BullMQ queues</td>
+    </tr>
+  </tbody>
+</table>
+<p class="closing-note">The single change we would make first is replacing brute-force spatial scans with geohash indexing, because insert latency directly stalls offline client sync queues across all 65 wards.</p>
+
+</body>
+</html>
