@@ -1,6 +1,8 @@
 import {
   loginWithGoogle,
   loginDemo,
+  registerUser,
+  loginWithPassword,
   setSession,
   clearSession,
   publicUser,
@@ -8,6 +10,26 @@ import {
 import { Report } from "../models/Report.js";
 import { Evidence } from "../models/Evidence.js";
 import { CivicIssue } from "../models/CivicIssue.js";
+
+export async function register(req, res, next) {
+  try {
+    const user = await registerUser(req.body);
+    const token = setSession(res, user);
+    res.status(201).json({ user: publicUser(user), token });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function login(req, res, next) {
+  try {
+    const user = await loginWithPassword(req.body?.email, req.body?.password);
+    const token = setSession(res, user);
+    res.json({ user: publicUser(user), token });
+  } catch (err) {
+    next(err);
+  }
+}
 
 export async function googleAuth(req, res, next) {
   try {
@@ -25,8 +47,8 @@ export async function demoAuth(req, res, next) {
       name: req.body?.name,
       address: req.body?.address,
     });
-    setSession(res, user);
-    res.json({ user: publicUser(user) });
+    const token = setSession(res, user);
+    res.json({ user: publicUser(user), token });
   } catch (err) {
     next(err);
   }

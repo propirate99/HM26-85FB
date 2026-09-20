@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider.jsx";
 import { adminApi } from "../../api/adminApi.js";
+import { complaintsApi } from "../../api/client.js";
 
 export function AdminLayout() {
   const { user, logout } = useAuth();
@@ -102,6 +103,19 @@ export function AdminLayout() {
       fetchAllData();
     } catch (err) {
       setError(err.message || "Failed to save triage override");
+    }
+  };
+
+  const handleQuickResolve = async (comp) => {
+    try {
+      await complaintsApi.updateStatus(comp._id, {
+        status: "RESOLVED",
+        resolutionNote: "Direct verification closure by MCC City Administration.",
+      });
+      showSuccess(`Complaint #${comp._id.slice(-6)} marked as RESOLVED! Notification email sent.`);
+      fetchAllData();
+    } catch (err) {
+      setError(err.message || "Failed to resolve complaint");
     }
   };
 
@@ -435,19 +449,19 @@ export function AdminLayout() {
               <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
                 <thead>
                   <tr style={{ background: "var(--surface-2)", borderBottom: "1px solid var(--line)", color: "var(--fg-2)" }}>
-                    <th style={{ padding: "12px 16px" }}>ID / Title</th>
-                    <th style={{ padding: "12px 16px" }}>Category & Zone</th>
-                    <th style={{ padding: "12px 16px" }}>Verification Score</th>
-                    <th style={{ padding: "12px 16px" }}>Metrics Breakdown</th>
+                    <th style={{ padding: "12px 16px", width: "70px" }}>Evidence</th>
+                    <th style={{ padding: "12px 16px" }}>ID / Location</th>
+                    <th style={{ padding: "12px 16px" }}>Category & Ward</th>
+                    <th style={{ padding: "12px 16px" }}>AI Verification</th>
+                    <th style={{ padding: "12px 16px" }}>Metrics</th>
                     <th style={{ padding: "12px 16px" }}>Status</th>
-                    <th style={{ padding: "12px 16px" }}>Officer Assigned</th>
-                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Triage Action</th>
+                    <th style={{ padding: "12px 16px", textAlign: "right" }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {triageData.complaints?.map((comp) => {
-                    const score = comp.verificationMetrics?.compositeScore || 70;
-                    const isHighRisk = score < 60;
+                    const score = comp.aiConfidenceScore || comp.verificationMetrics?.compositeScore || 70;
+                    const isHighRisk = score < 60 || comp.isManipulated;
                     const isDup = comp.verificationMetrics?.duplicateConfidence > 0.5 || comp.duplicateReferenceId;
 
                     return (
@@ -458,30 +472,76 @@ export function AdminLayout() {
                           transition: "background 0.15s",
                         }}
                       >
+                        {/* Evidence Photo Thumbnail */}
+                        <td style={{ padding: "10px 16px" }}>
+                          {comp.photoUrl ? (
+                            <a href={comp.photoUrl} target="_blank" rel="noopener noreferrer" title="View full evidence image">
+                              <img
+                                src={comp.photoUrl}
+                                alt="Complaint Evidence"
+                                style={{
+                                  width: "52px",
+                                  height: "52px",
+                                  objectFit: "cover",
+                                  borderRadius: "8px",
+                                  border: "1px solid var(--line)",
+                                  display: "block",
+                                }}
+                              />
+                            </a>
+                          ) : (
+                            <div
+                              style={{
+                                width: "52px",
+                                height: "52px",
+                                borderRadius: "8px",
+                                background: "var(--surface-2)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "18px",
+                                color: "var(--fg-3)",
+                                border: "1px dashed var(--line)",
+                              }}
+                            >
+                              📷
+                            </div>
+                          )}
+                        </td>
+
+                        {/* Title & Address */}
                         <td style={{ padding: "12px 16px" }}>
                           <div style={{ fontWeight: 600, color: "var(--fg)" }}>{comp.title}</div>
-                          <div style={{ fontSize: "11px", color: "var(--fg-3)" }}>
+                          <div style={{ fontSize: "12px", color: "var(--fg-2)", marginTop: "2px" }}>
+                            📍 {comp.googleAddress || comp.location?.address || "Mysuru Jurisdiction"}
+                          </div>
+                          <div style={{ fontSize: "11px", color: "var(--fg-3)", marginTop: "2px" }}>
                             #{comp._id.slice(-8)} • {new Date(comp.createdAt).toLocaleDateString()}
                           </div>
                         </td>
+
+                        {/* Category & Ward */}
                         <td style={{ padding: "12px 16px" }}>
-                          <span
-                            style={{
-                              background: "oklch(28% 0.05 165)",
-                              color: "var(--accent)",
-                              padding: "2px 8px",
-                              borderRadius: "4px",
-                              fontSize: "11px",
-                              fontWeight: 700,
-                              marginRight: "6px",
-                            }}
-                          >
-                            {comp.category}
-                          </span>
-                          <span style={{ fontSize: "12px", color: "var(--fg-2)" }}>
-                            {comp.location?.zone || "Central"}
-                          </span>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span
+                              style={{
+                                background: "oklch(28% 0.05 165)",
+                                color: "var(--accent)",
+                                padding: "2px 8px",
+                                borderRadius: "4px",
+                                fontSize: "11px",
+                                fontWeight: 700,
+                              }}
+                            >
+                              {comp.category}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: "12px", color: "var(--fg-2)", marginTop: "4px" }}>
+                            {comp.wardName ? `${comp.wardName} (W${comp.wardNumber || "N/A"})` : comp.location?.zone || "Central"}
+                          </div>
                         </td>
+
+                        {/* AI Verification Score & Tamper Check */}
                         <td style={{ padding: "12px 16px" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                             <div
@@ -501,18 +561,27 @@ export function AdminLayout() {
                             >
                               {score}
                             </div>
-                            <span style={{ fontSize: "11px", color: "var(--fg-3)" }}>/ 100</span>
+                            <div>
+                              <div style={{ fontSize: "11px", fontWeight: 700, color: comp.isManipulated ? "var(--bad)" : "var(--good)" }}>
+                                {comp.isManipulated ? "⚠️ Manipulated" : "✓ Authentic"}
+                              </div>
+                              <div style={{ fontSize: "10px", color: "var(--fg-3)" }}>Gemini AI</div>
+                            </div>
                           </div>
                         </td>
+
+                        {/* Metrics Breakdown */}
                         <td style={{ padding: "12px 16px" }}>
                           <div style={{ fontSize: "11px", display: "flex", flexDirection: "column", gap: "2px" }}>
-                            <span>GPS Acc: <strong>{Math.round((comp.verificationMetrics?.gpsConfidence || 0.9) * 100)}%</strong></span>
+                            <span>GPS Acc: <strong>{Math.round((comp.verificationMetrics?.gpsConfidence || 0.96) * 100)}%</strong></span>
                             <span>AI Visual: <strong>{comp.verificationMetrics?.aiVisualScore || score}%</strong></span>
                             <span style={{ color: isDup ? "var(--warn)" : "var(--fg-3)" }}>
                               Dup Prob: <strong>{Math.round((comp.verificationMetrics?.duplicateConfidence || 0) * 100)}%</strong>
                             </span>
                           </div>
                         </td>
+
+                        {/* Status Badge */}
                         <td style={{ padding: "12px 16px" }}>
                           <span
                             style={{
@@ -539,25 +608,48 @@ export function AdminLayout() {
                             {comp.status}
                           </span>
                         </td>
-                        <td style={{ padding: "12px 16px", fontSize: "12px" }}>
-                          {comp.assignedOfficerId?.name || <span style={{ color: "var(--fg-3)" }}>Unassigned</span>}
-                        </td>
+
+                        {/* Actions: 1-Click Resolve & Review Modal */}
                         <td style={{ padding: "12px 16px", textAlign: "right" }}>
-                          <button
-                            onClick={() => handleOpenTriageModal(comp)}
-                            style={{
-                              background: "var(--accent)",
-                              color: "var(--accent-ink)",
-                              border: "none",
-                              padding: "6px 14px",
-                              borderRadius: "6px",
-                              fontSize: "12px",
-                              fontWeight: 700,
-                              cursor: "pointer",
-                            }}
-                          >
-                            Review & Override
-                          </button>
+                          <div style={{ display: "flex", justifyContent: "flex-end", gap: "6px" }}>
+                            {comp.status !== "RESOLVED" && (
+                              <button
+                                onClick={() => handleQuickResolve(comp)}
+                                title="Resolve complaint and trigger live citizen email"
+                                style={{
+                                  background: "var(--good)",
+                                  color: "#052e16",
+                                  border: "none",
+                                  padding: "6px 10px",
+                                  borderRadius: "6px",
+                                  fontSize: "12px",
+                                  fontWeight: 700,
+                                  cursor: "pointer",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "4px",
+                                }}
+                              >
+                                <span>✓</span>
+                                <span>Resolve</span>
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleOpenTriageModal(comp)}
+                              style={{
+                                background: "var(--accent)",
+                                color: "var(--accent-ink)",
+                                border: "none",
+                                padding: "6px 12px",
+                                borderRadius: "6px",
+                                fontSize: "12px",
+                                fontWeight: 700,
+                                cursor: "pointer",
+                              }}
+                            >
+                              Override
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );

@@ -12,6 +12,7 @@ import "../models/Evidence.js";
 import "../models/IssueEvent.js";
 import "../models/Notification.js";
 import "../models/SystemConfig.js";
+import "../models/Complaint.js";
 
 let activeEngine = null;
 

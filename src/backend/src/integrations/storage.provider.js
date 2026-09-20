@@ -1,10 +1,26 @@
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { v2 as cloudinary } from "cloudinary";
 import { env } from "../config/env.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const uploadsDir = path.resolve(__dirname, "../../uploads");
+
+let cloudinaryConfigured = false;
+function ensureCloudinaryConfig() {
+  if (cloudinaryConfigured) return true;
+  if (env.cloudinary.cloudName && env.cloudinary.apiKey && env.cloudinary.apiSecret) {
+    cloudinary.config({
+      cloud_name: env.cloudinary.cloudName,
+      api_key: env.cloudinary.apiKey,
+      api_secret: env.cloudinary.apiSecret,
+    });
+    cloudinaryConfigured = true;
+    return true;
+  }
+  return false;
+}
 
 class LocalStorageProvider {
   async save({ buffer, mimeType, key }) {
@@ -20,25 +36,46 @@ class LocalStorageProvider {
 }
 
 class CloudinaryStorageProvider {
+  constructor() {
+    this.fallback = new LocalStorageProvider();
+  }
+
   async save({ buffer, mimeType, key }) {
-    const form = new FormData();
-    const blob = new Blob([buffer], { type: mimeType });
-    form.append("file", blob, key);
-    form.append("upload_preset", "civicverify");
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${env.cloudinary.cloudName}/image/upload`,
-      { method: "POST", body: form }
-    );
-    if (!res.ok) {
-      throw new Error("Cloudinary upload failed");
+    if (!ensureCloudinaryConfig()) {
+      console.warn("[Storage] Cloudinary credentials missing, falling back to local storage");
+      return this.fallback.save({ buffer, mimeType, key });
     }
-    const json = await res.json();
-    return { storageKey: json.public_id, publicUrl: json.secure_url };
+
+    try {
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: "civicverify/complaints",
+            public_id: key,
+            resource_type: "image",
+            overwrite: true,
+          },
+          (error, res) => {
+            if (error) return reject(error);
+            resolve(res);
+          }
+        );
+        uploadStream.end(buffer);
+      });
+
+      return {
+        storageKey: result.public_id,
+        publicUrl: result.secure_url,
+      };
+    } catch (err) {
+      console.warn(`[Storage] Cloudinary upload failed (${err.message}), falling back to local storage`);
+      return this.fallback.save({ buffer, mimeType, key });
+    }
   }
 }
 
 export function getStorageProvider() {
-  if (env.storageProvider === "cloudinary" && env.cloudinary.cloudName) {
+  if (env.cloudinaryUrl || env.cloudinary.cloudName) {
     return new CloudinaryStorageProvider();
   }
   return new LocalStorageProvider();

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 import { env } from "../config/env.js";
 import { User } from "../models/User.js";
 import { verifyGoogleCredential } from "../integrations/google.service.js";
@@ -11,11 +12,18 @@ const cookieOpts = {
   path: "/",
 };
 
+export function createToken(user) {
+  return jwt.sign(
+    { sub: String(user._id), role: user.role, email: user.email },
+    env.jwtSecret,
+    { expiresIn: "7d" }
+  );
+}
+
 export function setSession(res, user) {
-  const token = jwt.sign({ sub: String(user._id), role: user.role }, env.jwtSecret, {
-    expiresIn: "7d",
-  });
+  const token = createToken(user);
   res.cookie("cv_session", token, cookieOpts);
+  return token;
 }
 
 export function clearSession(res) {
@@ -45,6 +53,73 @@ export function publicUser(user) {
   };
 }
 
+export async function registerUser({ email, password, name, phone, address, role }) {
+  const normEmail = String(email || "").trim().toLowerCase();
+  if (!normEmail || !password) {
+    const err = new Error("Email and password are required");
+    err.status = 400;
+    throw err;
+  }
+  const existing = await User.findOne({ email: normEmail });
+  if (existing) {
+    const err = new Error("An account with this email already exists");
+    err.status = 409;
+    throw err;
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  const passwordHash = await bcrypt.hash(password, salt);
+
+  const r = String(role || "").toLowerCase();
+  const assignedRole = r === "admin" || r === "main_authority"
+    ? "MAIN_AUTHORITY"
+    : r === "officer" || r === "zone_officer"
+    ? "ZONE_OFFICER"
+    : "CITIZEN";
+
+  const user = await User.create({
+    email: normEmail,
+    passwordHash,
+    name: name || normEmail.split("@")[0],
+    phone: phone || "",
+    address: address || "",
+    role: assignedRole,
+    isActive: true,
+  });
+
+  return user;
+}
+
+export async function loginWithPassword(email, password) {
+  const normEmail = String(email || "").trim().toLowerCase();
+  if (!normEmail || !password) {
+    const err = new Error("Email and password are required");
+    err.status = 400;
+    throw err;
+  }
+  const user = await User.findOne({ email: normEmail, isActive: true });
+  if (!user) {
+    const err = new Error("Invalid email or password");
+    err.status = 401;
+    throw err;
+  }
+
+  if (user.passwordHash) {
+    const valid = await bcrypt.compare(password, user.passwordHash);
+    if (!valid) {
+      const err = new Error("Invalid email or password");
+      err.status = 401;
+      throw err;
+    }
+  } else {
+    // If user had no password yet, set it securely
+    const salt = await bcrypt.genSalt(10);
+    user.passwordHash = await bcrypt.hash(password, salt);
+    await user.save();
+  }
+
+  return user;
+}
 
 export async function loginWithGoogle(credential) {
   const identity = await verifyGoogleCredential(credential);

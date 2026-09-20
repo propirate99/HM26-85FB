@@ -25,6 +25,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [role, setRole] = useState("civilian");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [ward, setWard] = useState("");
   const [code, setCode] = useState("");
@@ -52,8 +53,9 @@ export function LoginPage() {
     }
   }
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault();
+    setError("");
     if (role === "admin" && code && !/^MCC-/i.test(code)) {
       setError("Use an MCC officer code such as MCC-SWM-204.");
       return;
@@ -67,7 +69,22 @@ export function LoginPage() {
           ? DEMO.officer.email
           : DEMO.civilian.email);
     const wardLabel = ward ? `Ward ${ward}, Mysuru` : undefined;
-    signIn(mapped, name.trim() || undefined, wardLabel);
+
+    if (password) {
+      setBusy(true);
+      try {
+        const data = await authApi.login(mapped, password);
+        setUser(data.user);
+        const targetPath = homeFor(data.user);
+        navigate(targetPath, { state: { user: data.user, profile: data.user } });
+      } catch (err) {
+        setError(err.message || "Invalid email or password");
+      } finally {
+        setBusy(false);
+      }
+    } else {
+      signIn(mapped, name.trim() || undefined, wardLabel);
+    }
   }
 
   const isOfficer = role !== "civilian";
@@ -178,6 +195,16 @@ export function LoginPage() {
                 placeholder="you@example.in"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
+            <label className="f">
+              <span>Password (optional for demo)</span>
+              <input
+                type="password"
+                autoComplete="current-password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </label>
             <label className="f">
